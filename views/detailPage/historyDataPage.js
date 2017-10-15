@@ -9,7 +9,8 @@ import {
     View,
     Image,
     WebView,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import cfn from '../../tools/commonFun'
@@ -123,6 +124,13 @@ export default class articleDetailPage extends Component {
         return codeView;
     }
     _keyExtractor = (item, index) => item.period;
+
+    reLoad() {
+        if(this.state.loadState == this.error) {
+            this.getHistoryData(this.dateToTimestamp(this.state.date))
+        }
+    }
+
     render() {
        return(
         <View style={styles.container}>
@@ -141,8 +149,8 @@ export default class articleDetailPage extends Component {
             </View>}
             {this.state.data.length == 0 ?
                 <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={()=>this.getHistoryData(this.dateToTimestamp(this.state.date))}
+                    activeOpacity={1}
+                    onPress={()=> this.reLoad()}
                     style={{top:cfn.deviceWidth()/2}}>
                     <Text>{this.state.loadState}</Text>
                 </TouchableOpacity> :
