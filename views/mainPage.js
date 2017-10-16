@@ -9,6 +9,7 @@ import {
 import {TabNavigator} from "react-navigation";
 
 import HomePage from './homePage';
+import TuiJianPage from './tuijianPage';
 import OrderPage from './orderPage';
 import MinePage from './minePage';
 import cfn from '../tools/commonFun'
@@ -26,8 +27,22 @@ const mainPage = TabNavigator({
     Home: {
         screen: HomePage,
         navigationOptions: {
-            title: '购彩攻略',
-            tabBarLabel: '购彩攻略',
+            title: '北京赛车',
+            tabBarLabel: '北京赛车',
+            tabBarIcon: ({ tintColor }) => (
+                <Image
+                    source={require('../imgs/home_icon.png')}
+                    style={[styles.icon,{tintColor: tintColor} ]}
+                />
+            ),
+            header:null,
+        }
+    },
+    Tuijian: {
+        screen: TuiJianPage,
+        navigationOptions: {
+            title: '专家推荐',
+            tabBarLabel: '专家推荐',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/home_icon.png')}
@@ -40,8 +55,8 @@ const mainPage = TabNavigator({
     Order: {
         screen: OrderPage,
         navigationOptions: {
-            title: '开奖大厅',
-            tabBarLabel: '开奖大厅',
+            title: '其它彩种',
+            tabBarLabel: '其它彩种',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/order_icon.png')}

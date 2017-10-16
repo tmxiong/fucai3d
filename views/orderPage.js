@@ -1,5 +1,6 @@
-// 开奖大厅
-
+/**
+ * Created by timxiong on 2017/9/6.
+ */
 import React, {Component} from 'react';
 import {
     AppRegistry,
@@ -7,146 +8,130 @@ import {
     Text,
     View,
     Image,
-    Button,
+    WebView,
     FlatList,
     TouchableOpacity
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
-import cqssc from '../imgs/lotteryIcons/cqssc_icon.png';
-import lotterys from '../config/lotterys';
 import cfn from '../tools/commonFun'
-import NavBar from '../component/NavBar'
-import SearchModal from '../component/searchModal';
-export default class OrderPage extends Component {
+import NavBar from '../component/NavBar';
+import fetchp from '../tools/fetch-polyfill';
+import urls from '../config/urls';
+import config from '../config/config';
+import lotterys from '../config/lotterys';
+export default class articleDetailPage extends Component {
+    static navigationOptions = {header: null};
 
     constructor(props) {
         super(props);
+
         this.state={
-            visible:false
+            data:'',
+            isError:false,
+            isLoading: false,
         }
     }
+    static defaultProps = {
 
-    goToDetail(route,params) {
-        this.props.navigation.navigate(route,params)
+    };
+
+    componentDidMount() {
+        this.getData();
     }
 
-    _keyExtractor = (item, index) => item.id;
-
-    //列表的头部
-    ListHeaderComponent() {
-
+    getData() {
+        let ids = '';
+        for(let i = 0; i < lotterys.length; i ++) {
+            ids += lotterys[i].id;
+            ids += '|';
+        }
+        //console.log(ids);
+        fetchp(urls.getNewestLotteryCode(ids),{timeout:5*1000})
+            .then((res)=>res.json())
+            .then((json)=>console.log(json))
     }
 
-    //列表的每一行
-    renderItem({item,index}) {
-        let width = (index+1)%2;
+    goBack() {
+        this.props.navigation.goBack();
+    }
 
-        return (
+    goToDetail(route, params) {
+        this.props.navigation.navigate(route, params)
+    }
+
+    _keyExtractor=(item, index) => item.id;
+
+    renderItem({item, index}) {
+        return(
             <TouchableOpacity
-                key={index}
+                style={styles.item_container}
                 activeOpacity={0.8}
-                onPress={()=>this.goToDetail('SingleKaijiang',{
-                    id:item.id,
-                    icon:item.icon,
-                    title:item.name,
-                    jieshao:item.jieshao,
-                })}
-                style={styles.itemContainer}>
-                <Image source={item.icon} style={styles.icon}/>
-                <Text style={[styles.text, styles.title_text]}>{item.name}</Text>
-                <Text style={[styles.text, styles.des_text]}>{item.des}</Text>
-                <View style={[styles.right_border,{width:width}]}/>
+                onPress={()=>this.goToDetail('jieshaoDetail',{title:item.name,jieshao:item.jieshao})}>
+                <Text style={styles.cz_name}>{item.name}</Text>
+                <Image
+                    style={styles.icon_r}
+                    source={require('../imgs/more_r_icon.png')}/>
             </TouchableOpacity>
         )
-
-
-    }
-    //绘制列表的分割线
-    renderItemSeparator(){
-
-    }
-
-    //点击列表点击每一行
-    clickItem(item,index) {
-        alert(index)
-    }
-
-    rightFn() {
-        this.setModalVisible(true);
-    }
-
-    setModalVisible(visible) {
-        this.setState({
-            visible:visible
-        })
     }
 
     render() {
-        return (
+        return(
             <View style={styles.container}>
                 <NavBar
-                    middleText="开奖大厅"
-                    rightIcon={require('../imgs/search_icon.png')}
-                    rightFn={this.rightFn.bind(this)}
-                    leftIcon={null}
-                    leftFn={this.props.navigation.goBack()}
+                    middleText='玩法介绍'
+                    leftFn={()=>this.goBack()}
                 />
-                <SearchModal
-                    visible={this.state.visible}
-                    closeModal={this.setModalVisible.bind(this,false)}
-                />
+
                 <FlatList
-                    style={styles.flatListStyle}
                     data={lotterys}
+                    style={styles.flatListStyle}
                     renderItem={this.renderItem.bind(this)}
                     keyExtractor={this._keyExtractor}
-                    numColumns={2}
                 />
-            </View>
-        );
+
+            </View>)
     }
 }
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        backgroundColor:'#fff'
-    },
-    flatListStyle: {
+        justifyContent:'flex-start',
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
+        backgroundColor:'#fff',
+        alignItems:'center'
     },
-    itemContainer: {
-        width: cfn.deviceWidth() / 2,
-        height: cfn.picHeight(120),
-        justifyContent: 'center',
-        borderBottomColor: '#ddd',
-        borderBottomWidth: 1,
+    flatListStyle: {
+        width: cfn.deviceWidth(),
+        backgroundColor:'#fff',
+        zIndex:9,
+    },
+    item_container: {
+        width:cfn.deviceWidth()-cfn.picWidth(40) ,
+        flexDirection:'row',
+        height:cfn.picHeight(100),
+        alignItems:'center',
+        borderBottomColor:'#eee',
+        borderBottomWidth:1,
+        alignSelf:'center'
     },
     icon: {
-        width: cfn.picWidth(80),
-        height: cfn.picWidth(80),
+        width:cfn.picWidth(50),
+        height:cfn.picWidth(50),
+        resizeMode:'contain',
+        marginLeft:cfn.picWidth(20)
+    },
+    icon_r: {
+        width: cfn.picWidth(50),
+        height: cfn.picHeight(50),
+        resizeMode: 'contain',
         position: 'absolute',
-        left: cfn.picWidth(30)
+        right: cfn.picWidth(20)
     },
-    text: {
-        backgroundColor: 'transparent',
-        marginLeft: cfn.picWidth(130)
+    cz_name: {
+        fontSize:10,
+        color:'#333',
+        marginLeft:cfn.picWidth(20)
     },
-    title_text: {
-        color: '#444'
-    },
-    des_text: {
-        fontSize: 10,
-        marginTop: cfn.picHeight(10),
-        color: '#666'
-    },
-    right_border: {
-        width: 1,
-        height: cfn.picHeight(80),
-        backgroundColor: '#ddd',
-        position: 'absolute',
-        right: 0
-    }
 });

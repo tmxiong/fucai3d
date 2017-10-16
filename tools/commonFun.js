@@ -45,8 +45,8 @@ module.exports = {
     },
 
     getPK10Color(num) {
-        var colors = ['#FFFF01','#2094FE','#747474','#FEC43C','#83E9EB',
-            '#3E16FF','#E3E3E3','#EB1D1D','#E00000','#01C901'
+        var colors = ['#2E82C2','#787B84','#E5E027','#DB952C','#0B256E',
+            '#4ACD53','#9E1C9B','#82CCE0','#EAE8EC','#BD2E27'
         ];
         return colors[num - 1];
     }

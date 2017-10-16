@@ -16,6 +16,7 @@ import {
     Animated,
     ScrollView,
     Platform,
+    Alert
 } from 'react-native';
 import cfn from '../tools/commonFun';
 import Loading from '../component/loading'
@@ -31,9 +32,15 @@ import Notice from '../component/Notice';
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
+
+        this.loading = '正在加载...';
+        this.error = '加载错误，点击重试';
+        this.noData = '暂无数据';
+
         this.state = {
             data: null,
             isLoading: false,
+            loadState: this.loading,
             isError: false,
             isRefreshing: false,
             isAuto: true,  // true 为首次加载或自动加载 false 为下拉刷新
@@ -51,8 +58,8 @@ export default class HomePage extends Component {
     componentDidMount() {
         // true 为首次加载或自动加载
         // false 为下拉刷新
-        //this.getData();
-        //this.getHistoryData(0);
+        this.getData();
+        this.getHistoryData(0);
     }
 
     componentWillUnmount() {
@@ -62,7 +69,7 @@ export default class HomePage extends Component {
     getData() {
         let url = urls.getAwardData();
 
-        fetchp(url, {timeout: 10 * 1000})
+        fetchp(url, {timeout: 5 * 1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
             .catch((error)=>this.setError(error))
@@ -115,6 +122,7 @@ export default class HomePage extends Component {
             }
         }
     }
+
     startRace(receNum) {
 
         this._raceRef._setRace('zhunBei',receNum);
@@ -154,10 +162,14 @@ export default class HomePage extends Component {
     }
 
     setError(error) {
-       setTimeout(()=>{
-            this.getData();
-       },2*1000);
-        console.log(error);
+        this.setState({
+            isRefreshing:false
+        });
+        Alert.alert('提示：','加载错误，请下拉刷新重试',
+            [
+                {text: '确定', onPress: ()=> {}},
+            ]);
+        //console.log(error);
     }
 
 
@@ -179,9 +191,31 @@ export default class HomePage extends Component {
         fetchp(urls.getHistoryData(timestamp),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setHistoryData(data))
+            .catch((error)=>this.setError_1(error))
     }
+
+    setError_1(error) {
+        this.setState({
+            loadState: this.error,
+            items:null,
+        })
+    }
+
+    reLoad() {
+        this.setState({
+            loadState: this.loading,
+        });
+        this.getHistoryData(0);
+    }
+
     setHistoryData(data) {
         //console.log(data)
+        if(data.items.length == 0) {
+            this.setState({
+                loadState:this.noData,
+            });
+            return;
+        }
         let items = [
             <View
                 key={'head'}
@@ -289,7 +323,13 @@ export default class HomePage extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.historyBody}>
-                        {this.state.items == null ? <Text>正在加载...</Text> : this.state.items}
+                        {this.state.items == null ?
+                            <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={()=>this.reLoad()}
+                            >
+                            <Text>{this.state.loadState}</Text>
+                            </TouchableOpacity> : this.state.items}
                     </View>
                 </ScrollView>
                 <View style={{height:cfn.picHeight(100)}}/>
@@ -337,7 +377,7 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth(),
         borderBottomColor:'#eee',
         borderBottomWidth:1,
-        height:cfn.picHeight(60),
+        height:cfn.picHeight(80),
         backgroundColor:'#fff'
     },
     historyHead: {
@@ -386,7 +426,7 @@ const styles = StyleSheet.create({
         fontSize:13
     },
     codeStyle_1: {
-        color:'#222',
+        color:'#fff',
         fontSize:12
     },
 

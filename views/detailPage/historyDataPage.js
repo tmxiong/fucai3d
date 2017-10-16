@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth(),
         borderBottomColor:'#eee',
         borderBottomWidth:1,
-        height:cfn.picHeight(60),
+        height:cfn.picHeight(80),
         backgroundColor:'#fff'
     },
     // 开奖记录
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     historyBody: {
         alignItems:'center',
         justifyContent:'center',
-        minHeight:cfn.picHeight(300)
+        height:cfn.deviceHeight()
     },
     codesContainer_1: {
         flexDirection: 'row',
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
         fontSize:13
     },
     codeStyle_1: {
-        color:'#222',
+        color:'#fff',
         fontSize:12
     },
 });

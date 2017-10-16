@@ -4,7 +4,10 @@ exports.getAwardData = function () {
 exports.getHistoryData = function (timestamp) {
     return 'https://mo.1394x.com/pk10/History?version=3000&timestamp='+timestamp
 };
-
+// 专家推荐
+exports.getTuijianData = function () {
+  return 'https://mo.1394x.com/pk10/BetGame?version=3000'
+};
 
 
 
