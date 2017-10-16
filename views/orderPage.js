@@ -48,7 +48,19 @@ export default class articleDetailPage extends Component {
         //console.log(ids);
         fetchp(urls.getNewestLotteryCode(ids),{timeout:5*1000})
             .then((res)=>res.json())
-            .then((json)=>console.log(json))
+            .then((json)=>this.setData(json))
+    }
+
+    setData(data) {
+        data = data.showapi_res_body.result;
+        for(let i = 0; i < data.length; i++) {}
+        for(let j = 0; j < lotterys.length; j++) {
+            if(data[i].code == lotterys[j].id) {
+                data.name = lotterys[j].name;
+                break;
+            }
+        }
+        console.log(data);
     }
 
     goBack() {
