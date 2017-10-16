@@ -204,6 +204,8 @@ export default class MinePage extends Component {
                     data={this.state.data}
                     renderItem={this.renderItem.bind(this)}
                     keyExtractor={this._keyExtractor}
+                    legacyImplementation={true} // listView 实现方式
+                    //getItemLayout={(data, index) => ( {length: cfn.picHeight(80), offset: cfn.picHeight(80) * index, index} )}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.isRefreshing}

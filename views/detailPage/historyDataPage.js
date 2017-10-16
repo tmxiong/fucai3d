@@ -159,6 +159,10 @@ export default class articleDetailPage extends Component {
                 data={this.state.data}
                 renderItem={this.renderItem.bind(this)}
                 keyExtractor={this._keyExtractor}
+                refreshing={true}
+                initialNumToRender={40}
+                legacyImplementation={true} // listView 实现方式
+                getItemLayout={(data, index) => ( {length: cfn.picHeight(80), offset: cfn.picHeight(80) * index, index} )}
             />}
             <View style={{position:'absolute', top:0,
                 right:0,height:cfn.picHeight(200),width:cfn.picWidth(200),

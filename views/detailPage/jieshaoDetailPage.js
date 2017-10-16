@@ -66,6 +66,7 @@ export default class articleDetailPage extends Component {
                     style={styles.webView}
                     source={{uri: urls.getJieshao(this.jieshao)}}
                     scalesPageToFit={false}
+                    startInLoadingState={true}
                     injectedJavaScript={'document.getElementsByTagName("html")[0].style.background="#fff";'+
                     'var ele = document.getElementsByClassName("dlTit");'+
                         'var fistChild = ele[ele.length-1].children[0];'+

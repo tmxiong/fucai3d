@@ -39,10 +39,10 @@ export default class HomePage extends Component {
 
         this.state = {
             data: null,
-            isLoading: false,
+            isLoading: true,
             loadState: this.loading,
             isError: false,
-            isRefreshing: false,
+            isRefreshing: true,
             isAuto: true,  // true 为首次加载或自动加载 false 为下拉刷新
             raceState:'yiJing',
             raceNum:[5, 6, 4, 9, 10, 3, 8, 7, 1, 2],
