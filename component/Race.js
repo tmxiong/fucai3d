@@ -6,9 +6,9 @@ import {
     Platform,
     UIManager,
     LayoutAnimation,
-    View
+    View,
+    TouchableOpacity
 } from 'react-native';
-
 
 import road from '../imgs/race/road.png';
 import scenery from '../imgs/race/scenery.png';
@@ -312,6 +312,17 @@ class Race extends PureComponent {
 
                 {/*排名*/}
                 <Image source={rankingBg} style={[RaceStyle.rankingBg,{opacity: this.state.showRank ? 1 : 0}]}>
+                    <TouchableOpacity
+                        onPress={()=>this.setRace("zhengZai",this.kaiJiangNum)}
+                        activeOpacity={0.7}
+                        style={{position:'absolute',alignSelf:'center',zIndex:9,
+                            left:commonFun.deviceWidth()/2-commonFun.picWidth(60)}}
+                    >
+                        <Image
+                            style={{width:commonFun.picWidth(120),
+                                height:commonFun.picWidth(120),resizeMode:'contain'}}
+                            source={require('../imgs/race/play_btn.png')}/>
+                    </TouchableOpacity>
                     <View>
                         {this.state.leftRankViews}
                     </View>

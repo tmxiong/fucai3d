@@ -27,7 +27,6 @@ import CountDown from '../component/countDown';
 import Race from '../component/Race';
 import fetchp from '../tools/fetch-polyfill';
 import NavBar from '../component/NavBar'
-import Notice from '../component/Notice';
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -123,12 +122,13 @@ export default class HomePage extends Component {
         }
     }
 
-    startRace(receNum) {
+    startRace(raceNum) {
 
-        this._raceRef._setRace('zhunBei',receNum);
-        setTimeout(()=>{
-            this._raceRef._setRace('zhengZai',receNum);
-        },2*1000);
+        this._raceRef._setRace('yiJing',raceNum);
+        // this._raceRef._setRace('zhunBei',raceNum);
+        // setTimeout(()=>{
+        //     this._raceRef._setRace('zhengZai',raceNum);
+        // },2*1000);
     }
     clearDaojishi() {
         if(this.timer) {

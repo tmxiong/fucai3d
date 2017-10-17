@@ -45,7 +45,7 @@ const mainPage = TabNavigator({
             tabBarLabel: '专家推荐',
             tabBarIcon: ({ tintColor }) => (
                 <Image
-                    source={require('../imgs/home_icon.png')}
+                    source={require('../imgs/tuijian_icon.png')}
                     style={[styles.icon,{tintColor: tintColor} ]}
                 />
             ),
@@ -59,7 +59,7 @@ const mainPage = TabNavigator({
             tabBarLabel: '其它彩种',
             tabBarIcon: ({ tintColor }) => (
                 <Image
-                    source={require('../imgs/order_icon.png')}
+                    source={require('../imgs/caipiao_icon.png')}
                     style={[styles.icon,{tintColor: tintColor} ]}
                 />
             ),

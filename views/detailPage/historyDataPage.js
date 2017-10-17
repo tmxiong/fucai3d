@@ -132,71 +132,71 @@ export default class articleDetailPage extends Component {
     }
 
     render() {
-       return(
-        <View style={styles.container}>
-            <NavBar
-            middleText="开奖记录"
-            leftFn={()=>this.goBack()}
-            />
-            {this.state.data.length == 0 ? null : <View
-                key={'head'}
-                style={styles.itemContainer}>
-                <Text style={[styles.qishu,{color:'#071244'}]}>期数</Text>
-                <Text style={[styles.shijian,{color:'#071244'}]}>时间</Text>
-                <View style={styles.codesContainer_1}>
-                    <Text style={[styles.kaijiangjieguo,{color:'#071244'}]}>开奖结果</Text>
+        return(
+            <View style={styles.container}>
+                <NavBar
+                    middleText="开奖记录"
+                    leftFn={()=>this.goBack()}
+                />
+                {this.state.data.length == 0 ? null : <View
+                    key={'head'}
+                    style={styles.itemContainer}>
+                    <Text style={[styles.qishu,{color:'#071244'}]}>期数</Text>
+                    <Text style={[styles.shijian,{color:'#071244'}]}>时间</Text>
+                    <View style={styles.codesContainer_1}>
+                        <Text style={[styles.kaijiangjieguo,{color:'#071244'}]}>开奖结果</Text>
+                    </View>
+                </View>}
+                {this.state.data.length == 0 ?
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={()=> this.reLoad()}
+                        style={{top:cfn.deviceWidth()/2}}>
+                        <Text>{this.state.loadState}</Text>
+                    </TouchableOpacity> :
+                    <FlatList
+                        //style={styles.flatListStyle}
+                        data={this.state.data}
+                        renderItem={this.renderItem.bind(this)}
+                        keyExtractor={this._keyExtractor}
+                        refreshing={true}
+                        initialNumToRender={40}
+                        legacyImplementation={true} // listView 实现方式
+                        getItemLayout={(data, index) => ( {length: cfn.picHeight(80), offset: cfn.picHeight(80) * index, index} )}
+                    />}
+                <View style={{position:'absolute', top:0,
+                    right:0,height:cfn.picHeight(200),width:cfn.picWidth(200),
+                    alignItems:'center',justifyContent:'center'}}>
+                    <DatePicker date={this.state.date}
+                                customStyles={{
+                                    dateInput:{
+                                        //marginRight:cfn.picWidth(100),
+                                        borderColor:'transparent',
+                                        height:cfn.picHeight(200)
+                                    },
+                                    dateText: {
+                                        color:'#fff',
+                                        fontSize:15
+                                    }
+                                }}
+                                mode='date' showIcon={false}
+                                androidMode='spinner'
+                                format='YYYY-MM-DD' confirmBtnText='确定'
+                                cancelBtnText='取消'
+                                onDateChange={(date)=>this.setDate(date)}/>
                 </View>
-            </View>}
-            {this.state.data.length == 0 ?
-                <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={()=> this.reLoad()}
-                    style={{top:cfn.deviceWidth()/2}}>
-                    <Text>{this.state.loadState}</Text>
-                </TouchableOpacity> :
-                <FlatList
-                //style={styles.flatListStyle}
-                data={this.state.data}
-                renderItem={this.renderItem.bind(this)}
-                keyExtractor={this._keyExtractor}
-                refreshing={true}
-                initialNumToRender={40}
-                legacyImplementation={true} // listView 实现方式
-                getItemLayout={(data, index) => ( {length: cfn.picHeight(80), offset: cfn.picHeight(80) * index, index} )}
-            />}
-            <View style={{position:'absolute', top:0,
-                right:0,height:cfn.picHeight(200),width:cfn.picWidth(200),
-                alignItems:'center',justifyContent:'center'}}>
-                <DatePicker date={this.state.date}
-                            customStyles={{
-                                dateInput:{
-                                    //marginRight:cfn.picWidth(100),
-                                    borderColor:'transparent',
-                                    height:cfn.picHeight(200)
-                                },
-                                dateText: {
-                                    color:'#fff',
-                                    fontSize:15
-                                }
-                            }}
-                            mode='date' showIcon={false}
-                            androidMode='spinner'
-                            format='YYYY-MM-DD' confirmBtnText='确定'
-                            cancelBtnText='取消'
-                            onDateChange={(date)=>this.setDate(date)}/>
-            </View>
 
-        </View>)
+            </View>)
     }
 }
 
 const styles = StyleSheet.create({
-   container: {
-       justifyContent:'flex-start',
-       width:cfn.deviceWidth(),
-       height:cfn.deviceHeight(),
-       alignItems:'center'
-   },
+    container: {
+        justifyContent:'flex-start',
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+        alignItems:'center'
+    },
     itemContainer: {
         flexDirection:'row',
         alignItems:'center',

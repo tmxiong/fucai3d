@@ -32,6 +32,12 @@ export default class articleDetailPage extends Component {
             isLoading: true,
             isRefreshing: true,
             loadState:this.loading,
+        };
+
+        this.ids = '';
+        for(let i = 0; i < lotterys.length; i++) {
+            this.ids += lotterys[i].id;
+            this.ids += '|';
         }
     }
     static defaultProps = {
@@ -39,11 +45,6 @@ export default class articleDetailPage extends Component {
     };
 
     componentDidMount() {
-        this.ids = '';
-        for(let i = 0; i < lotterys.length; i++) {
-            this.ids += lotterys[i].id;
-            this.ids += '|';
-        }
         this.getData();
     }
 
@@ -179,13 +180,14 @@ export default class articleDetailPage extends Component {
                 <NavBar
                     middleText='其它彩种'
                     leftFn={()=>this.goBack()}
+                    leftIcon={null}
                 />
 
                 {this.state.data.length == 0 ?
                     <TouchableOpacity
                     activeOpacity={1}
                     onPress={()=> this.reLoad()}
-                    style={{top:cfn.deviceWidth()/2}}>
+                    style={{position:'absolute',zIndex:9,top:cfn.deviceHeight()/2}}>
                     <Text>{this.state.loadState}</Text>
                 </TouchableOpacity> :
                     <FlatList
@@ -214,13 +216,13 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
-        backgroundColor:'#fff',
+        //backgroundColor:'#fff',
         alignItems:'center'
     },
     flatListStyle: {
         width: cfn.deviceWidth(),
+        zIndex:2,
         backgroundColor:'#fff',
-        zIndex:9,
     },
     item_container: {
         width:cfn.deviceWidth()-cfn.picWidth(40) ,
@@ -229,7 +231,8 @@ const styles = StyleSheet.create({
         borderBottomColor:'#eee',
         borderBottomWidth:1,
         alignSelf:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor:'#fff',
     },
     codeContainer: {
         flexDirection:'row',

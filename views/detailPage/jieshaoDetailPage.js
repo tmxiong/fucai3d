@@ -44,16 +44,6 @@ export default class articleDetailPage extends Component {
         this.props.navigation.goBack();
     }
 
-    aaa() {
-        var ele = document.getElementsByClassName("dlTit");
-        var fistChild = ele[ele.length-1].children[0];
-        var secondChild = ele[ele.length-1].children[1];
-        if(fistChild.innerText == "如何领奖：") {
-            fistChild.innerText = "温馨提示：";
-            secondChild.innerText = config.sourceName + "祝您中大奖！"
-        }
-    }
-
     render() {
         return(
             <View style={styles.container}>

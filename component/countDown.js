@@ -30,7 +30,8 @@ export default class countDown extends PureComponent {
                 ref={(ref)=>this.countDownRef = ref}
                 value={''}
                 editable={false}
-                style={{padding:0,height:20,width:100}}
+                underlineColorAndroid={'transparent'}
+                style={{padding:0,height:20,width:90,backgroundColor:'transparent'}}
             />)
     }
 }
