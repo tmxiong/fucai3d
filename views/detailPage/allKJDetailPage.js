@@ -18,7 +18,6 @@ import NavBar from '../../component/NavBar'
 import Loading from '../../component/loading'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
-import config from '../../config/config'
 export default class kjDetailPage extends Component {
 
     static navigationOptions = {header: null};
@@ -159,8 +158,7 @@ const styles = StyleSheet.create({
 
     },
     flatListStyle: {
-        height:cfn.deviceHeight(),
-        width:cfn.deviceWidth()
+
     },
     item_container: {
         width: cfn.deviceWidth(),
@@ -187,8 +185,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     icon: {
-        width: cfn.picWidth(80),
-        height: cfn.picWidth(80),
+        width: cfn.picWidth(100),
+        height: cfn.picWidth(100),
         resizeMode: 'contain',
     },
     border_right: {
@@ -204,7 +202,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     issue_text: {
-        color: '#888',
+        color: '#000',
         fontSize: 12
     },
     date_text: {
@@ -224,20 +222,24 @@ const styles = StyleSheet.create({
     },
     codeText: {
         color:'#fff',
-        fontSize:12,
+        fontSize:18,
         ///fontWeight:'bold',
         backgroundColor:'transparent'
     },
-
+    codeText_10: {
+        color:'#fff',
+        fontSize:11,
+        backgroundColor:'transparent'
+    },
     code: {
-        width: cfn.picWidth(50),
-        height: cfn.picWidth(50),
-        borderRadius: cfn.picWidth(25),
+        width: cfn.picWidth(60),
+        height: cfn.picWidth(60),
+        borderRadius: cfn.picWidth(30),
         //backgroundColor: '#f89',
         alignItems: 'center',
         //borderWidth:1,
         //borderColor:'#b22222',
-        backgroundColor:config.baseColor,
+        backgroundColor:'#eb3f2f',
         justifyContent: 'center',
         marginRight: cfn.picWidth(20),
     },
@@ -245,27 +247,24 @@ const styles = StyleSheet.create({
         width: cfn.picWidth(50),
         height: cfn.picWidth(50),
         borderRadius: cfn.picWidth(25),
-        backgroundColor: config.baseColor,
+        backgroundColor: '#eb3f2f',
         alignItems: 'center',
         //borderWidth:1,
         //borderColor:'#b22222',
         justifyContent: 'center',
         marginRight: cfn.picWidth(7),
     },
-    codeText_10: {
-        color:'#fff',
-        fontSize:11,
-        backgroundColor:'transparent'
-    },
     code_10: {
-        width: cfn.picWidth(40),
-        height: cfn.picWidth(40),
-        borderRadius: cfn.picWidth(20),
-        backgroundColor: config.baseColor,
+        width: cfn.picWidth(50),
+        height: cfn.picWidth(50),
+        borderRadius: cfn.picWidth(25),
+        backgroundColor: '#eb3f2f',
         alignItems: 'center',
+        //borderWidth:1,
+        //borderColor:'#b22222',
         justifyContent: 'center',
         marginRight: cfn.picWidth(7),
-        marginTop:cfn.picHeight(15)
+        marginTop:cfn.picHeight(5)
     }
 
 });

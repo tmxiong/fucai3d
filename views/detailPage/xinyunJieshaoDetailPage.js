@@ -23,8 +23,8 @@ export default class articleDetailPage extends Component {
 
     constructor(props) {
         super(props);
-        this.title = props.navigation.state.params.title;
-        this.jieshao = props.navigation.state.params.jieshao;
+        this.name = props.navigation.state.params.name;
+        this.type = props.navigation.state.params.type;
 
         this.state={
             data:'',
@@ -45,35 +45,25 @@ export default class articleDetailPage extends Component {
     }
 
     aaa() {
-        var ele = document.getElementsByClassName("dlTit");
-        var fistChild = ele[ele.length-1].children[0];
-        var secondChild = ele[ele.length-1].children[1];
-        if(fistChild.innerText == "如何领奖：") {
-            fistChild.innerText = "温馨提示：";
-            secondChild.innerText = config.sourceName + "祝您中大奖！"
-        }
+        document.getElementsByClassName("am-fix-top")[0].style.display="none";
+        document.getElementsByClassName("bgff")[0].style.paddingTop=0;
+
     }
 
     render() {
         return(
             <View style={styles.container}>
                 <NavBar
-                    middleText={this.title}
+                    middleText={this.name}
                     leftFn={()=>this.goBack()}
                 />
 
                 <WebView
                     style={styles.webView}
-                    source={{uri: urls.getJieshao(this.jieshao)}}
+                    source={{uri: urls.getXingyunJieshao(this.type)}}
                     scalesPageToFit={false}
                     startInLoadingState={true}
-                    injectedJavaScript={'document.getElementsByTagName("html")[0].style.background="#fff";'+
-                    'var ele = document.getElementsByClassName("dlTit");'+
-                        'var fistChild = ele[ele.length-1].children[0];'+
-                        'var secondChild = ele[ele.length-1].children[1];'+
-                        'if(fistChild.innerText == "如何领奖：") {'+
-                        'fistChild.innerText = "温馨提示：";'+
-                        'secondChild.innerText = "【'+ config.sourceName +'】祝您中大奖！"}'}
+                    injectedJavaScript={'document.getElementsByClassName("am-fix-top")[0].style.display="none";document.getElementsByClassName("bgff")[0].style.paddingTop=0;'}
                 />
 
             </View>)

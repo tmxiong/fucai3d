@@ -20,7 +20,7 @@ export default class countDown extends PureComponent {
 
     startCountDown(time) {
         this.countDownRef.setNativeProps({
-            text: time
+            text: time.toString()
         });
     }
 
@@ -31,7 +31,7 @@ export default class countDown extends PureComponent {
                 value={''}
                 editable={false}
                 underlineColorAndroid={'transparent'}
-                style={{padding:0,height:20,width:90,backgroundColor:'transparent'}}
+                style={{padding:0,height:20,width:100}}
             />)
     }
 }

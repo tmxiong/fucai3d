@@ -94,17 +94,17 @@ export default class articleDetailPage extends Component {
         let codes = [];
         let code= {
             width:cfn.picWidth(50),
-                height:cfn.picWidth(50),
-                borderRadius:cfn.picWidth(25),
-                backgroundColor:'#f22',
-                alignItems:'center',
-                justifyContent:'center',
-                marginRight:cfn.picWidth(10),
-                marginTop:cfn.picWidth(10)
+            height:cfn.picWidth(50),
+            borderRadius:cfn.picWidth(25),
+            backgroundColor:config.baseColor,
+            alignItems:'center',
+            justifyContent:'center',
+            marginRight:cfn.picWidth(10),
+            marginTop:cfn.picWidth(10)
         };
         let codeText = {
             color:'#fff',
-                fontSize:12
+            fontSize:12
         };
 
         if(data.length > 5) {
@@ -146,7 +146,7 @@ export default class articleDetailPage extends Component {
                 <View style={{flexDirection:'row'}}>
                     <Text style={styles.cz_name}>{item.name}</Text>
                     <Text
-                        style={{marginLeft:cfn.picWidth(20),color:'#999'}}>{item.expect}期</Text>
+                        style={{marginLeft:cfn.picWidth(20),color:'#999'}}>第{item.expect}期</Text>
                 </View>
                 <View style={styles.codeContainer}>
                     {this.renderCode(codes)}
@@ -178,35 +178,33 @@ export default class articleDetailPage extends Component {
         return(
             <View style={styles.container}>
                 <NavBar
-                    middleText='其它彩种'
+                    middleText='更多彩种'
                     leftFn={()=>this.goBack()}
-                    leftIcon={null}
                 />
 
                 {this.state.data.length == 0 ?
                     <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={()=> this.reLoad()}
-                    style={{position:'absolute',zIndex:9,top:cfn.deviceHeight()/2}}>
-                    <Text>{this.state.loadState}</Text>
-                </TouchableOpacity> :
+                        activeOpacity={1}
+                        onPress={()=> this.reLoad()}
+                        style={{position:'absolute',zIndex:9,top:cfn.deviceHeight()/2}}>
+                        <Text>{this.state.loadState}</Text>
+                    </TouchableOpacity> :
                     <FlatList
-                    data={this.state.data}
-                    style={styles.flatListStyle}
-                    renderItem={this.renderItem.bind(this)}
-                    keyExtractor={this._keyExtractor}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.isRefreshing}
-                            onRefresh={this._onRefresh.bind(this)}
-                            tintColor="#000"
-                            title="正在加载···"
-                            titleColor="#000"
-                            colors={['#000']}
-                            progressBackgroundColor="#fff"
-                        />}
-                />}
-                <View style={{height:cfn.picHeight(100)}}/>
+                        data={this.state.data}
+                        style={styles.flatListStyle}
+                        renderItem={this.renderItem.bind(this)}
+                        keyExtractor={this._keyExtractor}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.isRefreshing}
+                                onRefresh={this._onRefresh.bind(this)}
+                                tintColor="#000"
+                                title="正在加载···"
+                                titleColor="#000"
+                                colors={['#000']}
+                                progressBackgroundColor="#fff"
+                            />}
+                    />}
             </View>)
     }
 }
@@ -256,6 +254,6 @@ const styles = StyleSheet.create({
     },
     cz_name: {
         fontSize:14,
-        color:'#333',
+        color:'#777',
     },
 });
