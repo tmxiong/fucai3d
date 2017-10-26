@@ -15,6 +15,9 @@ import JieshaoDetailPage from './views/detailPage/jieshaoDetailPage'
 import XingyunJieshaoPage from './views/detailPage/xinyunJieshaoDetailPage'
 import GongluePage from './views/detailPage/gongluePage';
 import GonglueDetailPage from './views/detailPage/gonglueDetailPage';
+
+import TestPage from './views/TestPage';
+
 const routers = StackNavigator({
     launch: {screen: launchPage},
     Draw: {screen: DrawPage, navigationOptions: { header:null,}},
@@ -37,6 +40,8 @@ const routers = StackNavigator({
     // 彩票网站web页面
     CPWebView: {screen:CPWebViewPage},
     // 专家预测
-    Yuce: {screen: YucePage, navigationOptions: { header:null,}}
+    Yuce: {screen: YucePage, navigationOptions: { header:null,}},
+
+    Test: {screen: TestPage, navigationOptions: { header:null,}}
 });
 module.exports = routers;
