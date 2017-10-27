@@ -2,7 +2,7 @@
  * Created by xiongtm on 2017/9/6.
  */
 var appid = {
-    def:666888
+    def:2817798
 };
 module.exports = {
 
@@ -17,5 +17,5 @@ module.exports = {
         require('../imgs/welcome/welcome_2.png'),
         require('../imgs/welcome/welcome_3.png'),
     ],
-    jumpUrl:'https://appid-apk.zz-app.com/frontApi/getAboutUs?appid='+appid.def
+    jumpUrl:'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.def
 };

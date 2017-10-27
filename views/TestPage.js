@@ -7,7 +7,30 @@ import{
     Linking,
 } from 'react-native';
 var RNFS = require('react-native-fs');
+import { NativeModules } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay'
+import ContDown from '../component/countDown'
 export default class TestPage extends Component {
+
+    static defaultProps={
+
+    };
+    constructor(props){
+        super(props);
+        this.state={
+            isLoading:false,
+            result:0,
+        };
+        this.countDown =
+        this.fromUrl = 'http://update.juw37xqo3x.com/apk/cp256.apk';
+        this.appName = this.fromUrl.split('/');
+        // 文件名；
+        this.appName = "/" + this.appName[this.appName.length - 1];
+        // 文件路径-> /data/app包名／
+        this.downloadDest = RNFS.ExternalDirectoryPath + this.appName;
+        // 下载ID；
+        this.jobId = 1;
+    }
 
     componentDidMount() {
 
@@ -42,31 +65,38 @@ export default class TestPage extends Component {
     DownLoadFile() {
 
         // 文件
-        const downloadDest = RNFS.ExternalStorageDirectoryPath + "/cp256.apk";
-        const formUrl = 'http://update.juw37xqo3x.com/apk/cp256.apk';
+        const downloadDest = this.downloadDest;
+        const fromUrl = this.fromUrl;
 
         const options = {
-            fromUrl: formUrl,
+            fromUrl: fromUrl,
             toFile: downloadDest,
             background: true,
+            progressDivider:1,// 下载步数 若设置为0，下载会变慢！！！
             begin: (res) => {
+                this.setState({isLoading:true});
                 console.log('begin', res);
                 console.log('contentLength:', res.contentLength / 1024 / 1024, 'M');
             },
             progress: (res) => {
+                this.jobId = res.jobId;
+                //console.log(res.bytesWritten);
+                let result = Math.floor((res.bytesWritten / res.contentLength)*100) + "%";
 
-                let pro = res.bytesWritten / res.contentLength;
-
-                // this.setState({
-                //     progressNum: pro,
-                // });
-                console.log(pro);
+                this.setState({
+                    result: result,
+                });
+                //console.log(pro);
             }
         };
 
         try {
             const ret = RNFS.downloadFile(options);
             ret.promise.then(res => {
+                this.setState({
+                   isLoading:false,
+                });
+                this.openApk();
                 console.log('success', res);
 
                 console.log('file://' + downloadDest)
@@ -79,25 +109,15 @@ export default class TestPage extends Component {
             console.log(error);
         }
     }
-    readFile() {
-        const path = RNFS.ExternalStorageDirectoryPath + "/cp256.apk";
 
-        return RNFS.readFile(path)
-            .then((result) => {
-                console.log(result);
-
-                // this.setState({
-                //     readTxtResult: result,
-                // })
-            })
-            .catch((err) => {
-                console.log(err.message);
-
-            });
+    cancelDownDload(jobId) {
+        RNFS.stopDownload(this.jobId);
     }
+
+
     openApk() {
-        const path = RNFS.ExternalStorageDirectoryPath + "/cp256.apk";
-        Linking.openURL('apk:'+path);
+
+        NativeModules.InstallApk.install(this.downloadDest);
     }
     render() {
         return(
@@ -109,14 +129,14 @@ export default class TestPage extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{width:150,height:50}}
-                    onPress={()=>this.readFile()}>
-                    <Text style={{fontSize:20}}>readFile</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{width:150,height:50}}
                     onPress={()=>this.openApk()}>
                     <Text style={{fontSize:20}}>OpenApk</Text>
                 </TouchableOpacity>
+                <Spinner visible={this.state.isLoading}
+                         textContent={"正在下载"+this.state.result}
+                         overlayColor="rgba(0,0,0,0.2)"
+                         color="rgb(217,29,54)"
+                         textStyle={{color: '#000',fontSize:15}} />
             </View>
         )
     }
