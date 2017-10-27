@@ -115,8 +115,8 @@ export default class tipsDetailPage extends Component {
             background: true,
             progressDivider:1,// 下载步数 若设置为0，下载会变慢！！！
             begin: (res) => {
-                console.log('begin', res);
-                console.log('contentLength:', res.contentLength / 1024 / 1024, 'M');
+                //console.log('begin', res);
+                //console.log('contentLength:', res.contentLength / 1024 / 1024, 'M');
             },
             progress: (res) => {
                 this.jobId = res.jobId;
@@ -184,9 +184,6 @@ export default class tipsDetailPage extends Component {
                 Alert.alert("错误：","下载失败，请检查后重试！")
             },8*1000);
 
-            if(result == 100) {
-                clearTimeout(this.timer);
-            }
         }
 
 
