@@ -10,31 +10,27 @@ import {
     View,
     Image,
     Button,
-    TouchableOpacity,
-    Modal,
-    ActivityIndicator,
-    StatusBar
+    TouchableOpacity
 } from 'react-native';
 import {NavigationActions} from 'react-navigation'
-
 import cfn from '../tools/commonFun'
-import CountDown from './countDown'
 export default class loadingModal extends PureComponent {
     static navigationOptions = {header: null};
 
     static defaultProps={
-
+        reload:()=>{},
+        isLoading: true,
+        isError: false
     };
 
     constructor(props) {
         super(props);
-
+        this.loading = '正在拼命加载...';
+        this.error = '加载失败，点击重试';
         this.state = {
-            animating: true,
-            modalVisible:true,
-        };
-
-        //this._startCountDown = this.countDown;
+            isLoading: false,
+            isError: false
+        }
     }
 
     componentWillReceiveProps(props) {
@@ -46,52 +42,34 @@ export default class loadingModal extends PureComponent {
         //}
     }
 
-
+    reload() {
+        if(this.state.isError) {
+            this.props.reload();
+        }
+    }
 
     render() {
+        let text = this.loading;
+        if(!this.state.isLoading && !this.state.isError) {
+            return null;
+        } else if(this.state.isError) {
+            text = this.error;
+        }
 
         return (
-            <Modal
-                animationType={"fade"}
-                transparent={true}
-                visible={this.props.modalVisible}
-                onRequestClose={() => {}}
-            >
-                <StatusBar hidden={false}  translucent= {true} backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'light-content'}/>
-                <View style={styles.container}>
-                    <View style={styles.content}>
-                        <ActivityIndicator
-                            animating={this.state.animating}
-                            style={{height: cfn.picHeight(100),marginBottom:cfn.picHeight(20), alignItems:'center',justifyContent:'center'}}
-                            color="#000"
-                            size="large"
-                        />
-                        <CountDown
-                            ref={ref=>this.countDown = ref}
-                            textStyle={{textAlign:'center'}}
-                        />
-                    </View>
-
-                </View>
-
-            </Modal>
-        )
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={()=>this.reload()}
+                style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                    alignSelf:'center',
+                    top: cfn.deviceHeight() / 2,
+                    justifyContent: 'center',
+                    height:cfn.picHeight(80),
+                    zIndex:2
+                }}>
+                <Text style={{color:'#888',fontSize:14,backgroundColor:'transparent'}}>{text}</Text>
+            </TouchableOpacity>)
     }
 }
-const styles = StyleSheet.create({
-    container: {
-        width:cfn.deviceWidth(),
-        height:cfn.deviceHeight(),
-        backgroundColor:'rgba(0,0,0,0.5)',
-        alignItems:'center',
-        justifyContent:"center"
-    },
-    content: {
-        width:cfn.deviceWidth()/3*2,
-        height:cfn.deviceHeight()/4,
-        backgroundColor:'#fff',
-        borderRadius:cfn.picWidth(20),
-        alignItems:'center',
-        justifyContent:"center"
-    }
-});
