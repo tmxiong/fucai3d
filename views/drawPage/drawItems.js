@@ -106,6 +106,12 @@ export default class drawItems extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.8}
+                        onPress={()=> this.goToPage('Welcome',{showWebView:false,url:'http://c.m.163.com'})}
+                        style={styles.itemContainer}>
+                        <Text style={styles.itemText}>欢迎页</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.8}
                         onPress={()=> this.cleanCache()}
                         style={styles.itemContainer}>
                         <Text style={styles.itemText}>{this.state.cacheState}</Text>

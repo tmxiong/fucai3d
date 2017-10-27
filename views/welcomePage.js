@@ -37,7 +37,7 @@ export default class loadingModal extends Component {
         //onBackAndroid.bindHardwareBackPress();
     }
     goToPage() {
-        let route = this.showWebView ? 'CPWebView' : 'Main';
+        let route = this.showWebView ? 'CPWebView' : 'Draw';
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
