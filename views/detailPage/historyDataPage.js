@@ -20,7 +20,7 @@ import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar';
 const {getArticleDetail} = require('../../config/urls');
 import config from '../../config/config';
-import Loading from '../../component/loading'
+import Loading from '../../component/loadingModal'
 import fetchp from '../../tools/fetch-polyfill';
 import DatePicker from 'react-native-datepicker'
 import urls from '../../config/urls'

@@ -15,7 +15,7 @@ import {
     NetInfo
 } from 'react-native';
 import cfn from '../tools/commonFun';
-import Loading from '../component/loading'
+import Loading from '../component/loadingModal'
 var RNFS = require('react-native-fs');
 import { NativeModules } from 'react-native';
 export default class tipsDetailPage extends Component {

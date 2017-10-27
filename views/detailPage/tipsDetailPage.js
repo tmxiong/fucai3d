@@ -20,7 +20,7 @@ import urls from '../../config/urls';
 import config from '../../config/config'
 import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar';
-import Loading from '../../component/loading'
+import Loading from '../../component/loadingModal'
 import options from '../../imgs/options_icon.png'
 import OptionModal from '../../component/optionModal';
 import Global from '../../global/global';

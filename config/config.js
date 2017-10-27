@@ -2,12 +2,12 @@
  * Created by xiongtm on 2017/9/6.
  */
 var appid = {
-    def:2817798
+    def:28177988
 };
 module.exports = {
 
-    sourceName: 'PC蛋蛋28',
-    appName: 'PC蛋蛋28',
+    sourceName: 'PC蛋蛋28(测试版)',
+    appName: 'PC蛋蛋28(测试版)',
     baseColor:'#f76d49',
     copyright:['Copyright © 2014-2017 256彩票.All Rights Reserved', '256彩票 版权所有'],
     myCheck: 'http://aite.ngrok.cc',
