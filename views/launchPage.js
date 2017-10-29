@@ -24,7 +24,7 @@ import {
     Platform
 } from 'react-native';
 
-import JPushModule from 'jpush-react-native';
+//import JPushModule from 'jpush-react-native';
 
 
 import {NavigationActions} from 'react-navigation'
@@ -51,18 +51,14 @@ export default class loadingModal extends Component {
 
     componentDidMount() {
         if(Platform.OS == 'ios') {
-            JPushModule.setBadge(0, (badgeNumber) => {
+            //JPushModule.setBadge(0, (badgeNumber) => {
                 //console.log(badgeNumber);
-            });
+            //});
         } else {
             //setTimeout(()=>{
-                SplashScreen.hide();//关闭启动屏幕
+                //SplashScreen.hide();//关闭启动屏幕
             //},1000);
         }
-
-
-
-
 
         this.initStorage();
         this.myCheck();
@@ -71,24 +67,6 @@ export default class loadingModal extends Component {
         //this.goToPage('Draw');
         //this.goToPage('Test')
     }
-
-    // 识别两种网页类型
-    // getHtml(callback) {
-    //     fetchp(this.url,{timeout:10*1000})
-    //         .then((res)=>res.text())
-    //         .then((data)=>this.setType(data,callback))
-    //         .catch((error) => {})
-    // }
-    // setType(data) {
-    //     //this.setState({html:data});
-    //     if(data.match('gengxin')) {
-    //         this.type = 'download';
-    //     }
-    //     console.log(this.url);
-    //     console.log(data);
-    //     console.log(this.type);
-    // }
-
     // 判断是否显示欢迎页
     checkIsFirstOpen() {
         this.startTime = new Date().getTime();
@@ -124,7 +102,7 @@ export default class loadingModal extends Component {
 
             /////////测试
             // todo
-            //jsonData.isshowwap = '1';
+            // jsonData.isshowwap = '2';
 
             if(!this.show) {
                 this.goToPage('Draw');
@@ -138,7 +116,7 @@ export default class loadingModal extends Component {
                         this.goToPage('Welcome',{showWebView:true,url:jsonData.wapurl})
                     } else {
 
-                        this.goToPage('CPWebView',{url:jsonData.wapurl});
+                        this.goToPage('Draw',{showWebView:true,url:jsonData.wapurl});
                     }
 
 
@@ -149,7 +127,7 @@ export default class loadingModal extends Component {
                     if(this.showWelcome) {
                         this.goToPage('Welcome',{showWebView:false,url:''})
                     } else {
-                        this.goToPage('Draw');
+                        this.goToPage('Draw',{showWebView:false,url:''});
                     }
                 }
 

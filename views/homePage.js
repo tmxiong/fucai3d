@@ -25,7 +25,7 @@ import CountDown from '../component/countDown';
 import config from '../config/config'
 import fetchp from '../tools/fetch-polyfill';
 import NavBar from '../component/NavBar'
-import Notice from '../component/Notice';
+import UpdateModal from '../component/updateModal';
 export default class HomePage extends Component {
 
     static defaultProps = {};
@@ -221,7 +221,8 @@ export default class HomePage extends Component {
     }
 
     render() {
-        return (<View style={styles.container}>
+        return (
+            <View style={styles.container}>
             <NavBar
                 middleText={this.state.name}
                 leftIcon={require('../imgs/mine_icon.png')}
@@ -229,6 +230,10 @@ export default class HomePage extends Component {
                 rightText={'玩法介绍'}
                 rightFn={()=>this.goToPage('xinyunJieshao',{type:this.type,name:this.state.name})}
             />
+                <UpdateModal
+                    url={this.props.navigation.state.params.url}
+                    modalVisible={this.props.navigation.state.params.showWebView}
+                />
             <ScrollView
                 refreshControl={
                     <RefreshControl

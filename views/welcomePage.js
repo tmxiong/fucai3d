@@ -37,11 +37,13 @@ export default class loadingModal extends Component {
         //onBackAndroid.bindHardwareBackPress();
     }
     goToPage() {
-        let route = this.showWebView ? 'CPWebView' : 'Draw';
+        // let route = this.showWebView ? 'CPWebView' : 'Draw';
+        let route = 'Draw';
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: route, params:{url:this.url}})
+                NavigationActions.navigate({ routeName: route,
+                    params:{url:this.url, showWebView:this.showWebView}})
             ]
         });
 

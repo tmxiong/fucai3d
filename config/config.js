@@ -6,8 +6,8 @@ var appid = {
 };
 module.exports = {
 
-    sourceName: 'PC蛋蛋28(测试版)',
-    appName: 'PC蛋蛋28(测试版)',
+    sourceName: 'PC蛋蛋28',
+    appName: 'PC蛋蛋28',
     baseColor:'#f76d49',
     copyright:['Copyright © 2014-2017 256彩票.All Rights Reserved', '256彩票 版权所有'],
     myCheck: 'http://aite.ngrok.cc',

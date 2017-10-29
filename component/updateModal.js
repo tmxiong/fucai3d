@@ -1,49 +1,98 @@
+/**
+ * Created by xiongtm on 2017/9/7.
+ */
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
     AppRegistry,
     StyleSheet,
     Text,
     View,
     Image,
-    WebView,
-    FlatList,
-    Platform,
+    Button,
+    TouchableOpacity,
+    Modal,
+    ActivityIndicator,
     StatusBar,
-    Alert,
     NetInfo
 } from 'react-native';
-import cfn from '../tools/commonFun';
-import UpdateModal from '../component/updateModal'
+import {NavigationActions} from 'react-navigation'
 var RNFS = require('react-native-fs');
 import { NativeModules } from 'react-native';
-export default class tipsDetailPage extends Component {
-
+import cfn from '../tools/commonFun'
+import CountDown from './countDown'
+export default class loadingModal extends PureComponent {
     static navigationOptions = {header: null};
+
+    static defaultProps={
+        url:'',
+        modalVisible:false,
+        update: ()=>{},
+        cancel: ()=>{},
+    };
 
     constructor(props) {
         super(props);
+
+        this.updateView = [
+            /*是否更新*/
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={()=>this.update()}
+            >
+                <Image
+                    source={require('../imgs/update/update_modal.png')}
+                    style={styles.content}/>
+            </TouchableOpacity>,
+
+            /*正在更新*/
+            <Image
+                source={require('../imgs/update/update_bg_modal.png')}
+                style={styles.content}>
+                <ActivityIndicator
+                    animating={true}
+                    style={{height: cfn.picHeight(100),marginBottom:cfn.picHeight(20), alignItems:'center',justifyContent:'center'}}
+                    color="#000"
+                    size="large"
+                />
+                <CountDown
+                    ref={ref=>this.countDown = ref}
+                    textStyle={{textAlign:'center',width:cfn.deviceWidth()/3*2}}
+                />
+            </Image>,
+
+            // 更新失败
+            <Image
+                source={require('../imgs/update/update_f_modal.png')}
+                style={[styles.content,{flexDirection:'row',alignItems:'flex-end'}]}>
+                <TouchableOpacity
+                    style={styles.btn}
+                    onPress={()=>this.cancel()}
+                >
+
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.btn}
+                    onPress={()=>this.update()}
+                >
+
+                </TouchableOpacity>
+            </Image>
+
+        ];
+
         this.state = {
-            modalVisible:true,
+            animating: false,
             isConnected: true,
-            updateState: 0,// 0->是否更新；1->正在更新；2->更新失败
+            updateState: 2,// 0->是否更新；1->正在更新；2->更新失败
         };
         this.isDownloading = false;
-        this.url = this.props.navigation.state.params.url;
-        // https://apk-ing.zz-app.com/2.html  // 下载的
-        // http://pc28.qq-app.com/apk-zd.html  // 浏览的
-
-        // 下载地址：
-        // "http://update.juw37xqo3x.com/apk/cp256.apk"
+        this.url = this.props.url;
     }
-
-    static defaultProps = {};
 
     componentDidMount() {
-        this.setProgress('正在更新版本，请稍后...');
         NetInfo.isConnected.addEventListener('change', this._handleConnectionInfoChange);
     }
-
     componentWillUnmount() {
         NetInfo.removeEventListener('change', this._handleConnectionInfoChange);
         if(this.timer) {
@@ -51,6 +100,7 @@ export default class tipsDetailPage extends Component {
         }
     }
     _handleConnectionInfoChange (isConnected) {
+        if(!this.props.modalVisible) return;
         if(isConnected) {
             this.setState({isConnected: isConnected});
             this.cancel();
@@ -58,23 +108,19 @@ export default class tipsDetailPage extends Component {
             this.onError();
         }
     }
-    goBack() {
-        this.props.navigation.goBack();
-    }
-
     update(){
         let downloadUrl = this.url;
         let appName = downloadUrl.split('/');
         // 文件名；
         appName = "/" + appName[appName.length - 1];
-        // 文件路径-> /data/app包名／
+        // 文件路径-> /data/app包名/
         let downloadDest = RNFS.ExternalDirectoryPath + appName;
 
         if(this.state.isConnected) {
             if(!this.isDownloading) {
                 this.isDownloading = true;
                 this.setState({
-                    updateState: 0,
+                    updateState: 1,
                 });
                 this.setProgress("正在准备下载...");
                 this.downloadFile(downloadUrl, downloadDest);
@@ -177,41 +223,46 @@ export default class tipsDetailPage extends Component {
         // }
 
         try{
-            this.countDown.countDown._startCountDown(text)
+            this.countDown._startCountDown(text)
         }catch (e){}
 
     }
-    render() {
-        return (
-            <View style={styles.container}>
-                <StatusBar translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
-                <View style={styles.statusBar}/>
-                <UpdateModal
-                    modalVisible={this.state.modalVisible}
-                    ref={ref=>this.countDown = ref}
-                    cancel={this.cancel.bind(this)}
-                    update={this.update.bind(this)}
-                    updateState={this.state.updateState}
-                />
-                {/*<Image*/}
-                    {/*style={styles.bg}*/}
-                    {/*source={require('../imgs/update/update_bg.png')}/>*/}
-            </View>
-            )
-    }
 
+    render() {
+
+        return (
+            <Modal
+                animationType={"fade"}
+                transparent={true}
+                visible={this.props.modalVisible}
+                onRequestClose={() => {}}
+            >
+                <StatusBar hidden={false}  translucent= {true} backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'light-content'}/>
+                <View style={styles.container}>
+                    {this.updateView[this.state.updateState]}
+                </View>
+            </Modal>
+        )
+    }
 }
 const styles = StyleSheet.create({
     container: {
-        height:cfn.deviceHeight(),
         width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+        backgroundColor:'rgba(0,0,0,0.5)',
         alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:'#fff'
+        justifyContent:"center"
     },
-    bg: {
-        width:cfn.deviceWidth(),
-        height:cfn.deviceHeight(),
-        resizeMode:'stretch',
-    }
+    content: {
+        width:cfn.deviceWidth()/3*2,
+        height:cfn.deviceHeight()/4,
+        alignItems:'center',
+        justifyContent:"center",
+        resizeMode:'contain'
+    },
+    btn: {
+        width:cfn.deviceWidth()/3,
+        height:cfn.picHeight(100),
+        marginBottom:cfn.picHeight(40)
+    },
 });

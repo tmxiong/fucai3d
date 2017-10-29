@@ -93,7 +93,7 @@ export default class MinePage extends Component {
                         <Text style={{marginTop: cfn.picHeight(20), color: '#888'}}>{config.appName}</Text>
                         {/*<Text style={{marginTop: cfn.picHeight(20), color: '#888'}}>内核版本 {config.coreVersion}</Text>*/}
                         <TouchableOpacity
-                            onPress={()=>this.goToDetail('Welcome',{showWebView:false,url:'http://c.m.163.com'})}
+                            onPress={()=>this.goToDetail('Welcome',{showWebView:false,url:''})}
                             activeOpacity={0.8}
                             style={[styles.item_container, {marginTop: cfn.picWidth(30)}]}>
                             <Text style={styles.item_text}>我的欢迎页</Text>

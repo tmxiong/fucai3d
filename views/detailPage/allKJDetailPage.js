@@ -15,7 +15,7 @@ import {
 import {NavigationActions} from 'react-navigation'
 import cfn from '../../tools/commonFun';
 import NavBar from '../../component/NavBar'
-import Loading from '../../component/loadingModal'
+import Loading from '../../component/updateModal'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
 export default class kjDetailPage extends Component {
