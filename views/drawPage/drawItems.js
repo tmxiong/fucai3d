@@ -65,7 +65,7 @@ export default class drawItems extends Component {
                             width:cfn.deviceWidth()/2,alignItems:'center',justifyContent:'center'}}>
                         <Image
                             style={styles.appIcon}
-                            source={require('../../imgs/appIcon/cp_icon.png')}/>
+                            source={require('../../imgs/appIcon/ic_launcher.png')}/>
                         <Text style={{marginTop:cfn.picHeight(30),color:'#fff'}}>{config.sourceName}</Text>
                     </View>
                     <View style={{width:cfn.deviceWidth()/2,flexDirection:'row',
@@ -106,7 +106,7 @@ export default class drawItems extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={()=> this.goToPage('Welcome',{showWebView:false,url:'http://c.m.163.com'})}
+                        onPress={()=> this.goToPage('Welcome',{showWebView:false,url:''})}
                         style={styles.itemContainer}>
                         <Text style={styles.itemText}>欢迎页</Text>
                     </TouchableOpacity>

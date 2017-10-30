@@ -89,7 +89,7 @@ export default class MinePage extends Component {
                     <View style={styles.container}>
                         <Image
                             style={styles.icon}
-                            source={require('../imgs/appIcon/cp_icon.png')}/>
+                            source={require('../imgs/appIcon/ic_launcher.png')}/>
                         <Text style={{marginTop: cfn.picHeight(20), color: '#888'}}>{config.appName}</Text>
                         {/*<Text style={{marginTop: cfn.picHeight(20), color: '#888'}}>内核版本 {config.coreVersion}</Text>*/}
                         <TouchableOpacity

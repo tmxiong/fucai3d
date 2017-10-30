@@ -83,18 +83,18 @@ export default class loadingModal extends PureComponent {
 
         this.state = {
             animating: false,
-            isConnected: true,
             updateState: 2,// 0->是否更新；1->正在更新；2->更新失败
         };
+        this.isConnected = true;
         this.isDownloading = false;
         this.url = this.props.url;
     }
 
     componentDidMount() {
-        NetInfo.isConnected.addEventListener('change', this._handleConnectionInfoChange);
+        NetInfo.isConnected.addEventListener('change', this._handleConnectionInfoChange.bind(this));
     }
     componentWillUnmount() {
-        NetInfo.removeEventListener('change', this._handleConnectionInfoChange);
+        NetInfo.removeEventListener('change', this._handleConnectionInfoChange.bind(this));
         if(this.timer) {
             clearTimeout(this.timer);
         }
@@ -102,7 +102,7 @@ export default class loadingModal extends PureComponent {
     _handleConnectionInfoChange (isConnected) {
         if(!this.props.modalVisible) return;
         if(isConnected) {
-            this.setState({isConnected: isConnected});
+            this.isConnected = isConnected;
             this.cancel();
         } else {
             this.onError();
@@ -110,24 +110,30 @@ export default class loadingModal extends PureComponent {
     }
     update(){
         let downloadUrl = this.url;
-        let appName = downloadUrl.split('/');
-        // 文件名；
-        appName = "/" + appName[appName.length - 1];
-        // 文件路径-> /data/app包名/
-        let downloadDest = RNFS.ExternalDirectoryPath + appName;
+        if(downloadUrl.match(/\.apk/)) {
+            let appName = downloadUrl.split('/');
+            // 文件名；
+            appName = "/" + appName[appName.length - 1];
+            // 文件路径-> /data/app包名/
+            let downloadDest = RNFS.ExternalDirectoryPath + appName;
 
-        if(this.state.isConnected) {
-            if(!this.isDownloading) {
-                this.isDownloading = true;
-                this.setState({
-                    updateState: 1,
-                });
-                this.setProgress("正在准备下载...");
-                this.downloadFile(downloadUrl, downloadDest);
+            if(this.isConnected) {
+                if(!this.isDownloading) {
+                    this.isDownloading = true;
+                    this.setState({
+                        updateState: 1,
+                    });
+                    this.setProgress("正在准备下载...");
+                    this.downloadFile(downloadUrl, downloadDest);
+                }
+            } else {
+                this.onError();
             }
         } else {
-            this.onError();
+            alert('下载网址有误！')
         }
+
+
     }
 
     cancel() {
@@ -197,6 +203,7 @@ export default class loadingModal extends PureComponent {
     }
 
     cancelDownDload(jobId) {
+        this.isDownloading = false;
         RNFS.stopDownload(jobId);
     }
 
@@ -237,7 +244,7 @@ export default class loadingModal extends PureComponent {
                 visible={this.props.modalVisible}
                 onRequestClose={() => {}}
             >
-                <StatusBar hidden={false}  translucent= {true} backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'light-content'}/>
+                <StatusBar hidden={false}  translucent= {true} backgroundColor={'rgba(0,0,0,0.7)'} barStyle={'light-content'}/>
                 <View style={styles.container}>
                     {this.updateView[this.state.updateState]}
                 </View>
@@ -249,13 +256,13 @@ const styles = StyleSheet.create({
     container: {
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
-        backgroundColor:'rgba(0,0,0,0.5)',
+        backgroundColor:'rgba(0,0,0,0.7)',
         alignItems:'center',
         justifyContent:"center"
     },
     content: {
-        width:cfn.deviceWidth()/3*2,
-        height:cfn.deviceHeight()/4,
+        width:cfn.deviceWidth()/4*3,
+        height:cfn.deviceHeight()/3,
         alignItems:'center',
         justifyContent:"center",
         resizeMode:'contain'

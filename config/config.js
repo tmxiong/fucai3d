@@ -2,14 +2,14 @@
  * Created by xiongtm on 2017/9/6.
  */
 var appid = {
-    def:28177988
+    def:28177988,
+    sx: 2834699
 };
 module.exports = {
 
-    sourceName: 'PC蛋蛋28',
-    appName: 'PC蛋蛋28',
+    sourceName: '幸运28宝典软件',
+    appName: '幸运28宝典软件',
     baseColor:'#f76d49',
-    copyright:['Copyright © 2014-2017 256彩票.All Rights Reserved', '256彩票 版权所有'],
     myCheck: 'http://aite.ngrok.cc',
     launchImg:require('../imgs/launch/launch.png'),
     welcomeImg:[
