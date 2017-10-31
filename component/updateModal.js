@@ -101,8 +101,8 @@ export default class loadingModal extends PureComponent {
     }
     _handleConnectionInfoChange (isConnected) {
         if(!this.props.modalVisible) return;
+        this.isConnected = isConnected;
         if(isConnected) {
-            this.isConnected = isConnected;
             this.cancel();
         } else {
             this.onError();
