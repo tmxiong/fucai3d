@@ -2,6 +2,12 @@ let timeStamp = function () {
     return new Date().getTime();
 };
 let secret = 'eb7f104bd5c44f5fb6862b3b9a4b31af';
+exports.getKuai3 = function (type, date) {
+    // type: k3js
+    // date: d=1为50期   d=2为100期  d=0为今天  d=-1为昨天  d=-2为前天
+    return 'http://chart.ydniu.com/GetAppCheckUpdate.aspx?n='+ type +'&t=fbzs&d='+ date +'&s=74B34E0A5F5A0C69E25CBC09EE33F6AC'
+};
+
 
 exports.get28 = function (type, page) {
     // type :

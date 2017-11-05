@@ -2,7 +2,7 @@
  * Created by xiongtm on 2017/9/6.
  */
 var appid = {
-    def:28177988
+    def:28177990
 };
 module.exports = {
 
