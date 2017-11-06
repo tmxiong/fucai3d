@@ -136,13 +136,13 @@ export default class HomePage extends Component {
                 <View style={styles.caizhong}>
                     <Text style={{marginLeft:cfn.picWidth(10),fontSize:12,color:config.baseColor}}>已选：</Text>
                     <Text style={{fontSize:18,fontWeight:'bold'}}>江苏快3</Text>
-
-                    <View style={{flexDirection:'row',position:'absolute',bottom:cfn.picHeight(10),right:5}}>
-                        <Text style={{marginLeft:cfn.picWidth(20),fontSize:12}}>第</Text>
-                        <Text style={{color:config.baseColor,fontSize:12}}>{this.state.currentIssue}</Text>
-                        <Text style={{fontSize:12}}>期</Text>
-                    </View>
-
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={()=>this.goToPage('History')}
+                        style={{position:'absolute',right:cfn.picWidth(20),bottom:cfn.picHeight(10)}}
+                    >
+                        <Text>历史开奖号码>></Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.issueContainer}>
                     <TouchableOpacity
@@ -150,52 +150,85 @@ export default class HomePage extends Component {
                         activeOpacity={0.8}
                         onPress={()=>this.goToPage('DrawerOpen')}>
                         <Image
-                            style={{width:cfn.picWidth(150),height:cfn.picWidth(150)}}
+                            style={{width:cfn.picWidth(160),height:cfn.picWidth(160)}}
                             source={require('../imgs/caizhong_btn.png')}/>
                     </TouchableOpacity>
                     <View style={styles.colLine}/>
                     <Image source={require('../imgs/home/menu_bg_5.png')} style={styles.codesContainer}>
+                        <View style={{flexDirection:'row',}}>
+                            {/*<Text style={{fontSize:12,color:'#eee',marginBottom:cfn.picHeight(10)}}>第 </Text>*/}
+                            <Text style={{color:'#eee',fontSize:12}}>{this.state.currentIssue}</Text>
+                            <Text style={{fontSize:12,color:'#eee',marginBottom:cfn.picHeight(30)}}> 期开奖号码：</Text>
+                            <Text style={{color:config.baseColor,fontSize:12}}>{this.state.currentCode.toString()}</Text>
+                        </View>
                         <View style={{flexDirection: 'row'}}>
                             <Image source={this.state.currentCodeImg[0]} style={styles.codeImg}/>
                             <Image source={this.state.currentCodeImg[1]} style={styles.codeImg}/>
                             <Image source={this.state.currentCodeImg[2]} style={styles.codeImg}/>
                         </View>
-                        <View style={{flexDirection: 'row',marginTop:cfn.picHeight(20)}}>
+                        <View style={{flexDirection: 'row',marginTop:cfn.picHeight(10)}}>
 
-                            <Text style={{color:'#fff'}}>开奖号码：</Text>
-                            <Text style={{color:config.baseColor}}>{this.state.currentCode.toString()}</Text>
+
                         </View>
                     </Image>
                 </View>
 
                 <View style={styles.menuContainer}>
                     <View style={styles.menuTitle}>
-                        <Text style={{color:'#000'}}>更多工具 </Text>
-                        <Text style={{color:'#ccc'}}> More Tools</Text>
+                        <Text style={{color:'#000'}}>快3工具 </Text>
+                        <Text style={{color:'#ccc'}}> Kuai3 Tools</Text>
                     </View>
-                    <Image
-                        source={require('../imgs/home/menu_bg_1.png')}
-                        style={styles.menuItem}>
-                        <View style={styles.menuIcon}/>
-                        <View>
-                            <Text style={styles.menuText}>开奖号码</Text>
-                        </View>
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={()=>this.goToPage('History')}
+                    >
+                        <Image
+                            source={require('../imgs/home/menu_bg_1.png')}
+                            style={styles.menuItem}>
+                            <View style={styles.menuIcon}/>
+                            <View>
+                                <Text style={styles.menuText}>历史开奖号码</Text>
+                                <Text style={styles.menuSubText}>昨天/前天/50期/100期</Text>
+                            </View>
+                            <Text style={styles.look}>我要查看</Text>
+                        </Image>
+                    </TouchableOpacity>
 
-                    </Image>
-                    <Image
-                        source={require('../imgs/home/menu_bg_2.png')}
-                        style={styles.menuItem}>
-                        <Text style={styles.menuText}>开奖号码</Text>
-                    </Image>
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={()=>this.goToPage('Trend')}
+                    >
+                        <Image
+                            source={require('../imgs/home/menu_bg_2.png')}
+                            style={styles.menuItem}>
+                            <View style={styles.menuIcon}/>
+                            <View>
+                                <Text style={styles.menuText}>快3走势图</Text>
+                                <Text style={styles.menuSubText}>走势规律一目了然</Text>
+                            </View>
+                            <Text style={styles.look}>我要查看</Text>
+                        </Image>
+                    </TouchableOpacity>
+
                     <Image
                         source={require('../imgs/home/menu_bg_3.png')}
                         style={styles.menuItem}>
-                        <Text style={styles.menuText}>开奖号码</Text>
+                        <View style={styles.menuIcon}/>
+                        <View>
+                            <Text style={styles.menuText}>秘籍攻略</Text>
+                            <Text style={styles.menuSubText}>来吧，助你一臂之力</Text>
+                        </View>
+                        <Text style={styles.look}>我要查看</Text>
                     </Image>
                     <Image
                         source={require('../imgs/home/menu_bg_4.png')}
                         style={styles.menuItem}>
-                        <Text style={styles.menuText}>开奖号码</Text>
+                        <View style={styles.menuIcon}/>
+                        <View>
+                            <Text style={styles.menuText}>玩法详解</Text>
+                            <Text style={styles.menuSubText}>知己知彼，方能百投百中</Text>
+                        </View>
+                        <Text style={styles.look}>我要查看</Text>
                     </Image>
 
                     <View style={{height:cfn.picHeight(20)}}/>
@@ -213,7 +246,7 @@ const styles = StyleSheet.create({
     },
     issueContainer:{
         flexDirection:'row',
-        height:cfn.picHeight(200),
+        height:cfn.picHeight(220),
         alignItems:'center',
         backgroundColor:'#fff',
         borderBottomColor:'#ccc',
@@ -223,7 +256,7 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth()-cfn.picWidth(240),
         backgroundColor:'#0066CC',
         borderRadius:cfn.picWidth(20),
-        height:cfn.picHeight(160),
+        height:cfn.picHeight(200),
         justifyContent:'center',
         paddingLeft:cfn.picWidth(20),
         resizeMode:'stretch'
@@ -235,8 +268,8 @@ const styles = StyleSheet.create({
         resizeMode:'contain'
     },
     drawBtn: {
-        height:cfn.picHeight(160),
-        width:cfn.picWidth(170),
+        height:cfn.picHeight(200),
+        width:cfn.picWidth(200),
         alignItems:'center',
         justifyContent:'center',
         marginLeft:cfn.picHeight(10),
@@ -251,14 +284,13 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         alignItems:'flex-end',
         paddingBottom:cfn.picHeight(10),
-        marginTop:cfn.picHeight(20)
     },
     colLine: {
         width:1,
         height:cfn.picHeight(140),
         backgroundColor:'#ddd',
-        marginLeft:cfn.picWidth(20),
-        marginRight:cfn.picWidth(20),
+        marginLeft:cfn.picWidth(10),
+        marginRight:cfn.picWidth(10),
     },
 
     items: {
@@ -316,5 +348,15 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         borderRadius:40,
         margin:cfn.picWidth(30)
+    },
+    menuSubText: {
+        color:'#fff',
+        fontSize:10,
+        marginTop:cfn.picHeight(10)
+    },
+    look: {
+        color:'#fff',fontSize:12,
+        position:'absolute',
+        right:cfn.picWidth(30)
     }
 });

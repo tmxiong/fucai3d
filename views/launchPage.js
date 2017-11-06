@@ -24,7 +24,7 @@ import {
     Platform
 } from 'react-native';
 
-import JPushModule from 'jpush-react-native';
+//import JPushModule from 'jpush-react-native';
 
 
 import {NavigationActions} from 'react-navigation'
@@ -50,12 +50,12 @@ export default class loadingModal extends Component {
 
     componentDidMount() {
         if(Platform.OS == 'ios') {
-            JPushModule.setBadge(0, (badgeNumber) => {
-                console.log(badgeNumber);
-            });
+            // JPushModule.setBadge(0, (badgeNumber) => {
+            //     console.log(badgeNumber);
+            // });
         } else {
             setTimeout(()=>{
-                SplashScreen.hide();//关闭启动屏幕
+                //SplashScreen.hide();//关闭启动屏幕
             },1000);
         }
 

@@ -7,8 +7,11 @@ import launchPage from './views/launchPage'
 import CPWebViewPage from './views/CPWebViewPage';
 import HomePage from './views/homePage'
 import DrawPage from './views/drawPage/drawPage'
+
+import TrendPage from './views/detailPage/trendPage'
+import HistoryPage from './views/detailPage/historyPage'
+
 import YucePage from './views/detailPage/yucePage'
-import HistoryDataPage from './views/detailPage/historyDataPage'
 import OrderPage from './views/orderPage'
 import SingleKaijiangPage from './views/detailPage/singleKJDetailPage'
 import JieshaoDetailPage from './views/detailPage/jieshaoDetailPage'
@@ -22,8 +25,10 @@ const routers = StackNavigator({
     launch: {screen: launchPage},
     Draw: {screen: DrawPage, navigationOptions: { header:null,}},
     Home: {screen: HomePage,navigationOptions: { header:null,}},
-    // 历史查询
-    HistoryData: {screen: HistoryDataPage,navigationOptions: { header:null,}},
+    // 开奖走势
+    Trend: {screen: TrendPage,navigationOptions: { header:null,}},
+    // 历史开奖
+    History: {screen: HistoryPage,navigationOptions: { header:null,}},
     // 更多彩种
     Order: {screen: OrderPage,navigationOptions: { header:null,}},
     // 彩种介绍
