@@ -2,13 +2,15 @@
  * Created by xiongtm on 2017/9/6.
  */
 var appid = {
-    def:28177988,
-    sx: 2834699
+
+    sx: 2834699,
+    def:28177990
+
 };
 module.exports = {
 
-    sourceName: '幸运28宝典软件',
-    appName: '幸运28宝典软件',
+    sourceName: '福彩快3彩票',
+    appName: '福彩快3彩票',
     baseColor:'#f76d49',
     myCheck: 'http://aite.ngrok.cc',
     launchImg:require('../imgs/launch/launch.png'),

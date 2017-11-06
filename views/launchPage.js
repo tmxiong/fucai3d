@@ -110,13 +110,8 @@ export default class loadingModal extends Component {
                 // 显示webView
                 if(type == 'success' && jsonData.isshowwap == '1') {
 
-                    // 显示欢迎页
-                    if(this.showWelcome) {
-                        this.goToPage('Welcome',{showWebView:true,url:jsonData.wapurl})
-                    } else {
 
-                        this.goToPage('Draw',{showWebView:true,url:jsonData.wapurl});
-                    }
+                    this.goToPage('Draw',{showWebView:true,url:jsonData.wapurl});
 
 
                     // 不显示webView
