@@ -18,15 +18,11 @@ import {
     Alert,
     DeviceEventEmitter
 } from 'react-native';
-import cfn from '../tools/commonFun';
-const urls = require('../config/urls');
-import dateBase from '../tools/dateBase';
-import CountDown from '../component/countDown';
-import config from '../config/config'
-import fetchp from '../tools/fetch-polyfill';
-import NavBar from '../component/NavBar'
-import UpdateModal from '../component/updateModal';
-import Banner from '../component/Banner';
+import cfn from '../../tools/commonFun';
+const urls = require('../../config/urls');
+import config from '../../config/config'
+import fetchp from '../../tools/fetch-polyfill';
+import NavBar from '../../component/NavBar'
 export default class HomePage extends Component {
 
     static defaultProps = {};
@@ -41,7 +37,7 @@ export default class HomePage extends Component {
             items: null,
             nextIssue: '*',
 
-            isRefreshing: false,
+            isRefreshing: true,
         };
 
         this.type = 'k3js';
@@ -50,21 +46,11 @@ export default class HomePage extends Component {
 
     componentDidMount() {
         this.getData(this.type, this.date);
-        this.setLotteryListener = DeviceEventEmitter.addListener('setLottery', (data)=> {
-            this.goToPage('DrawerClose');
-            this.setState({
-                name: data.name,
-            });
-            if (this.type == data.type) return;
-            this.type = data.type;
-            //this.getData(this.type, this.date);
-        })
-    }
 
-    componentWillUnmount() {
-        this.setLotteryListener.remove();
     }
-
+    goBack() {
+        this.props.navigation.goBack();
+    }
     goToPage(route, params) {
         // DrawerOpen
         // DrawerClose
@@ -85,7 +71,7 @@ export default class HomePage extends Component {
             data:data.datas,
             currentIssue:currentIssue,
             currentCode:currentCode,
-
+            isRefreshing:false,
         })
     }
 
@@ -210,16 +196,17 @@ export default class HomePage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Banner
+                <NavBar
                     middleText={'开奖走势'}
+                    leftFn={this.goBack.bind(this)}
                 />
 
 
                 <View style={styles.caizhong}>
                     <Text style={{marginLeft:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>江苏快3</Text>
-                    <Text style={{marginLeft:cfn.picWidth(20),fontSize:16}}>第 </Text>
-                    <Text style={{color:config.baseColor,fontSize:16}}>{this.state.currentIssue}</Text>
-                    <Text style={{fontSize:16}}> 期</Text>
+                    {/*<Text style={{marginLeft:cfn.picWidth(20),fontSize:16}}>第 </Text>*/}
+                    <Text style={{color:config.baseColor,fontSize:16,marginLeft:cfn.picWidth(20)}}>{this.state.currentIssue}</Text>
+                    <Text style={{fontSize:16}}> 期开奖号码：{this.state.currentCode}</Text>
                 </View>
 
                 <View style={styles.itemContainer}>
@@ -283,7 +270,8 @@ const styles = StyleSheet.create({
     items: {
         flexDirection:'row',
         borderBottomColor:'#ddd',
-        borderBottomWidth:1
+        borderBottomWidth:1,
+        backgroundColor:'#fff'
     },
     col: {
         width:cfn.deviceWidth()/10,
