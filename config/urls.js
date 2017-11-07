@@ -9,7 +9,7 @@ exports.getKuai3 = function (type, date) {
 };
 // 资讯
 exports.getNews = function (type) {
-    return 'https://m.ydniu.com/info/'+ type +'/zjxw/';
+    return 'https://m.qmcai.com/support/cmsv2/information/queryContent?parameter=%7B%22command%22:%22queryContent%22,%22categoryId%22:%22csxw%22,%22offset%22:0,%22size%22:15,%22platform%22:%22html%22,%22version%22:%225.2.16%22%7D&callback=jsonp5';
 };
 // 专家预测
 exports.getYuce = function (type) {

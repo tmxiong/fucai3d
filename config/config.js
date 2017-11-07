@@ -11,7 +11,7 @@ module.exports = {
 
     sourceName: '福彩快3彩票',
     appName: '福彩快3彩票',
-    baseColor:'#f76d49',
+    baseColor:'#d81e06',
     myCheck: 'http://aite.ngrok.cc',
     launchImg:require('../imgs/launch/launch.png'),
     welcomeImg:[

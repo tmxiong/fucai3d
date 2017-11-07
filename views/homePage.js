@@ -49,8 +49,9 @@ export default class HomePage extends Component {
             currentIssue: '*',
             items: null,
             nextIssue: '*',
-            name: '北京幸运28',
+            name: '江苏快3',
             isRefreshing: false,
+            newsItem: null,
         };
 
         this.type = 'k3js';
@@ -59,6 +60,7 @@ export default class HomePage extends Component {
 
     componentDidMount() {
         this.getData(this.type, this.date);
+        this.getNews();
         this.setLotteryListener = DeviceEventEmitter.addListener('setLottery', (data)=> {
             this.goToPage('DrawerClose');
             this.setState({
@@ -66,7 +68,7 @@ export default class HomePage extends Component {
             });
             if (this.type == data.type) return;
             this.type = data.type;
-            //this.getData(this.type, this.date);
+            this.getData(this.type, this.date);
         });
     }
 
@@ -103,6 +105,44 @@ export default class HomePage extends Component {
         })
     }
 
+    getNews() {
+        fetchp(urls.getNews(),{timeout:5*1000})
+            .then((res)=>res.text())
+            .then((data)=>this.setNews(data))
+    }
+    setNews(data) {
+        data = data.substring(7,data.length-1);
+        data = JSON.parse(data);
+        data = data.data.dataConfig.data;
+        let views = [];
+        let length = data.length < 5 ? data.length : 5;
+        for(let i = 0; i < length; i++) {
+            let item = data[i];
+            views.push(
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    key={i}
+                    onPress={()=>this.goToDetail('tipsDetail', {
+                            id: item.id,
+                            title: item.title,
+                            rowData: item,
+                        }
+                    )}
+                    style={styles.item_container}>
+                    <View style={styles.item_text_container}>
+                        <Text
+                            style={styles.item_title}>{item.title}</Text>
+                        <Text style={styles.item_source}>{config.sourceName}</Text>
+                        <Text style={styles.item_time}>{new Date(item.publishTime).toLocaleString().split(' ')[0]}</Text>
+                    </View>
+                    <Image
+                        style={styles.item_img}
+                        source={{uri: item.imageList[0]}}/>
+                </TouchableOpacity>
+            )
+        }
+        this.setState({newsItem: views})
+    }
     _onRefresh() {
         this.setState({isRefreshing: true});
         this.getData(this.type, this.date);
@@ -137,13 +177,13 @@ export default class HomePage extends Component {
                 <Image source={require('../imgs/home/menu_bg_5.png')}  style={styles.issueContainer}>
                     <View style={styles.caizhong}>
                         <Text style={{marginLeft:cfn.picWidth(10),fontSize:12,color:config.baseColor}}>已选：</Text>
-                        <Text style={{fontSize:18,color:'#fff'}}>江苏快3</Text>
+                        <Text style={{fontSize:18,color:'#fff'}}>{this.state.name}</Text>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToPage('History')}
+                            onPress={()=>this.goToPage('History',{type:this.type, name:this.state.name})}
                             style={{position:'absolute',right:cfn.picWidth(20),bottom:cfn.picHeight(10)}}
                         >
-                            <Text style={{color:'#fff'}}>历史开奖号码>></Text>
+                            <Text style={{color:'#fff'}}>更多号码>></Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{flexDirection:'row'}}>
@@ -179,7 +219,7 @@ export default class HomePage extends Component {
                         <Text style={{color:'#ccc'}}> Kuai3 Tools</Text>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToPage('History')}
+                            onPress={()=>this.goToPage('MoreTools')}
                             style={{position:'absolute',right:cfn.picWidth(20),}}
                         >
                             <Text>更多工具>></Text>
@@ -248,8 +288,8 @@ export default class HomePage extends Component {
                 </View>
                 <View style={styles.menuContainer}>
                     <View style={styles.menuTitle}>
-                        <Text style={{color:'#000'}}>快3资讯 </Text>
-                        <Text style={{color:'#ccc'}}> Kuai3 News</Text>
+                        <Text style={{color:'#000'}}>彩票资讯 </Text>
+                        <Text style={{color:'#ccc'}}> Lottery News</Text>
                         <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={()=>this.goToPage('History')}
@@ -258,6 +298,7 @@ export default class HomePage extends Component {
                             <Text>更多资讯>></Text>
                         </TouchableOpacity>
                     </View>
+                    {this.state.newsItem}
                 </View>
 
 
@@ -382,5 +423,43 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontSize:8,
         marginTop:cfn.picHeight(10)
+    },
+    item_container: {
+        width: cfn.deviceWidth(),
+        height: cfn.picHeight(160),
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        alignItems: 'center',
+        alignSelf: 'center',
+        backgroundColor: '#fff'
+    },
+    item_text_container: {
+        flexWrap: 'wrap',
+        width: cfn.deviceWidth() - cfn.picWidth(180 + 40),
+        paddingLeft: cfn.picWidth(20),
+        height: cfn.picHeight(120),
+    },
+    item_source: {
+        fontSize: 13,
+        color: '#888',
+        position: 'absolute',
+        left: cfn.picWidth(20),
+        bottom: 0
+    },
+    item_time: {
+        fontSize: 13,
+        color: '#888',
+        position: 'absolute',
+        right: cfn.picWidth(20),
+        bottom: 0
+    },
+    item_title: {
+        color: '#444'
+    },
+    item_img: {
+        width: cfn.picWidth(180),
+        height: cfn.picHeight(120),
+        marginLeft: cfn.picWidth(20),
     }
 });

@@ -30,9 +30,11 @@ export default class HomePage extends Component {
     constructor(props) {
         super(props);
 
+        this.type = props.navigation.state.params.type;
+        this.name = props.navigation.state.params.name;
+
         this.state = {
             data: null,
-
             currentIssue: '*',
             items: null,
             nextIssue: '*',
@@ -46,7 +48,6 @@ export default class HomePage extends Component {
 
     componentDidMount() {
         this.getData(this.type, this.date);
-
     }
     goBack() {
         this.props.navigation.goBack();
@@ -134,13 +135,13 @@ export default class HomePage extends Component {
         return (
             <View style={styles.container}>
                 <NavBar
-                    middleText={'开奖走势'}
+                    middleText={'历史号码'}
                     leftFn={this.goBack.bind(this)}
                 />
 
 
                 <View style={styles.caizhong}>
-                    <Text style={{marginLeft:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>江苏快3</Text>
+                    <Text style={{marginLeft:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>{this.name}</Text>
                     {/*<Text style={{marginLeft:cfn.picWidth(20),fontSize:16}}>第 </Text>*/}
                     <Text style={{color:config.baseColor,fontSize:16,marginLeft:cfn.picWidth(20)}}>{this.state.currentIssue}</Text>
                     <Text style={{fontSize:16}}> 期开奖号码：{this.state.currentCode}</Text>

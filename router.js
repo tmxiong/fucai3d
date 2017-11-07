@@ -19,7 +19,7 @@ import JieshaoDetailPage from './views/detailPage/jieshaoDetailPage'
 import XingyunJieshaoPage from './views/detailPage/xinyunJieshaoDetailPage'
 import GongluePage from './views/detailPage/gongluePage';
 import GonglueDetailPage from './views/detailPage/gonglueDetailPage';
-
+import MoreToolsPage from './views/detailPage/moreToolsPage';
 import TestPage from './views/TestPage';
 
 const routers = StackNavigator({
@@ -34,7 +34,8 @@ const routers = StackNavigator({
     Yuce: {screen: YucePage,navigationOptions: { header:null,}},
     // 秘籍攻略
     Gonglue: {screen: GongluePage, navigationOptions: {header:null}},
-    // 玩法介绍
+    // 更多工具
+    MoreTools: {screen: MoreToolsPage, navigationOptions: {header:null}},
 
 
     // 更多彩种

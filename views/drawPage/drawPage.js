@@ -35,7 +35,7 @@ const MyDraw = DrawerNavigator({
         }
     },
     {
-        drawerWidth: cfn.deviceWidth()/2, // 抽屉宽
+        drawerWidth: cfn.deviceWidth()/3*2, // 抽屉宽
         drawerPosition: 'left', // 抽屉在左边还是右边
         contentComponent: CustomDrawerContentComponent,  // 自定义抽屉组件
         // contentOptions: {

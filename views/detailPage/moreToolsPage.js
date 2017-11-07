@@ -8,17 +8,11 @@ import {
     Text,
     View,
     Image,
-    WebView,
-    FlatList,
     Platform,
-    StatusBar,
-    ToastAndroid,
-    Share,
     DeviceEventEmitter,
     ActivityIndicator,
     TouchableOpacity,
-    RefreshControl,
-    Alert,
+    ScrollView
 } from 'react-native';
 import urls from '../../config/urls';
 import config from '../../config/config'
@@ -46,8 +40,7 @@ export default class yucePage extends Component {
 
 
     componentDidMount() {
-        this.type = this.props.navigation.state.params.type;
-        this.getData(this.type, this.page);
+
     }
 
 
@@ -67,7 +60,7 @@ export default class yucePage extends Component {
         return (
             <View style={styles.container}>
                 <NavBar
-                    middleText={"专家预测"}
+                    middleText={"更多工具"}
                     leftFn={this.goBack.bind(this)}
                 />
                 <ScrollView>
