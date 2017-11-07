@@ -10,8 +10,9 @@ import DrawPage from './views/drawPage/drawPage'
 
 import TrendPage from './views/detailPage/trendPage'
 import HistoryPage from './views/detailPage/historyPage'
-
+import MoreTools from './views/detailPage/moreToolsPage'
 import YucePage from './views/detailPage/yucePage'
+
 import OrderPage from './views/orderPage'
 import SingleKaijiangPage from './views/detailPage/singleKJDetailPage'
 import JieshaoDetailPage from './views/detailPage/jieshaoDetailPage'
@@ -29,6 +30,13 @@ const routers = StackNavigator({
     Trend: {screen: TrendPage,navigationOptions: { header:null,}},
     // 历史开奖
     History: {screen: HistoryPage,navigationOptions: { header:null,}},
+    // 专家预测
+    Yuce: {screen: YucePage,navigationOptions: { header:null,}},
+    // 秘籍攻略
+    Gonglue: {screen: GongluePage, navigationOptions: {header:null}},
+    // 玩法介绍
+
+
     // 更多彩种
     Order: {screen: OrderPage,navigationOptions: { header:null,}},
     // 彩种介绍
@@ -36,7 +44,7 @@ const routers = StackNavigator({
     xinyunJieshao: {screen: XingyunJieshaoPage, navigationOptions: { header:null,}},
     // 单个开奖
     SingleKaijiang: {screen: SingleKaijiangPage, navigationOptions: {header:null}},
-    Gonglue: {screen: GongluePage, navigationOptions: {header:null}},
+
     GonglueDetail: {screen: GonglueDetailPage, navigationOptions: {header:null}},
 
     // 欢迎页 引导页
@@ -44,8 +52,7 @@ const routers = StackNavigator({
 
     // 彩票网站web页面
     CPWebView: {screen:CPWebViewPage},
-    // 专家预测
-    Yuce: {screen: YucePage, navigationOptions: { header:null,}},
+
 
     Test: {screen: TestPage, navigationOptions: { header:null,}}
 });

@@ -7,16 +7,15 @@ exports.getKuai3 = function (type, date) {
     // date: d=1为50期   d=2为100期  d=0为今天  d=-1为昨天  d=-2为前天
     return 'http://chart.ydniu.com/GetAppCheckUpdate.aspx?n='+ type +'&t=fbzs&d='+ date +'&s=74B34E0A5F5A0C69E25CBC09EE33F6AC'
 };
-
-
-exports.get28 = function (type, page) {
-    // type :
-    // 1: 幸运28； 2:加拿大28； 3:丹麦28
-    return 'http://www.dandan28kai.com/api.php?s=/index&page_no='+ page +'&page_size=20&type='+ type +'&sign=f135353cb74ab6ce8c7101977058ca44'
+// 资讯
+exports.getNews = function (type) {
+    return 'https://m.ydniu.com/info/'+ type +'/zjxw/';
 };
-exports.getYuce = function (type, page) {
-    return 'http://www.dandan28kai.com/api.php?s=/index/forecast&page_no=' + page + '&page_size=20&type='+ type +'&sign=f135353cb74ab6ce8c7101977058ca44'
+// 专家预测
+exports.getYuce = function (type) {
+  return 'https://m.ydniu.com/info/'+ type +'/cpyc/';
 };
+
 exports.getHistory = function (type, page, date) {
     return 'http://www.dandan28kai.com/api.php?s=/index/history&date='+date+'&page_no='+page+'&page_size=20&type='+type+'&sign=79b76ffb49853a07a3f90823412f73f5'
 };

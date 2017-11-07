@@ -133,107 +133,132 @@ export default class HomePage extends Component {
                         require('../imgs/banner/banner_3.png'),
                     ]}
                 />
-                <View style={styles.caizhong}>
-                    <Text style={{marginLeft:cfn.picWidth(10),fontSize:12,color:config.baseColor}}>已选：</Text>
-                    <Text style={{fontSize:18,fontWeight:'bold'}}>江苏快3</Text>
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={()=>this.goToPage('History')}
-                        style={{position:'absolute',right:cfn.picWidth(20),bottom:cfn.picHeight(10)}}
-                    >
-                        <Text>历史开奖号码>></Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.issueContainer}>
-                    <TouchableOpacity
-                        style={styles.drawBtn}
-                        activeOpacity={0.8}
-                        onPress={()=>this.goToPage('DrawerOpen')}>
-                        <Image
-                            style={{width:cfn.picWidth(160),height:cfn.picWidth(160)}}
-                            source={require('../imgs/caizhong_btn.png')}/>
-                    </TouchableOpacity>
-                    <View style={styles.colLine}/>
-                    <Image source={require('../imgs/home/menu_bg_5.png')} style={styles.codesContainer}>
-                        <View style={{flexDirection:'row',}}>
-                            {/*<Text style={{fontSize:12,color:'#eee',marginBottom:cfn.picHeight(10)}}>第 </Text>*/}
-                            <Text style={{color:'#eee',fontSize:12}}>{this.state.currentIssue}</Text>
-                            <Text style={{fontSize:12,color:'#eee',marginBottom:cfn.picHeight(30)}}> 期开奖号码：</Text>
-                            <Text style={{color:config.baseColor,fontSize:12}}>{this.state.currentCode.toString()}</Text>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Image source={this.state.currentCodeImg[0]} style={styles.codeImg}/>
-                            <Image source={this.state.currentCodeImg[1]} style={styles.codeImg}/>
-                            <Image source={this.state.currentCodeImg[2]} style={styles.codeImg}/>
-                        </View>
-                        <View style={{flexDirection: 'row',marginTop:cfn.picHeight(10)}}>
 
-
+                <Image source={require('../imgs/home/menu_bg_5.png')}  style={styles.issueContainer}>
+                    <View style={styles.caizhong}>
+                        <Text style={{marginLeft:cfn.picWidth(10),fontSize:12,color:config.baseColor}}>已选：</Text>
+                        <Text style={{fontSize:18,color:'#fff'}}>江苏快3</Text>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('History')}
+                            style={{position:'absolute',right:cfn.picWidth(20),bottom:cfn.picHeight(10)}}
+                        >
+                            <Text style={{color:'#fff'}}>历史开奖号码>></Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flexDirection:'row'}}>
+                        <TouchableOpacity
+                            style={styles.drawBtn}
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('DrawerOpen')}>
+                            <Image
+                                style={{width:cfn.picWidth(160),height:cfn.picWidth(160)}}
+                                source={require('../imgs/caizhong_btn.png')}/>
+                        </TouchableOpacity>
+                        <View style={styles.colLine}/>
+                        <View style={styles.codesContainer}>
+                            <View style={{flexDirection:'row',}}>
+                                {/*<Text style={{fontSize:12,color:'#eee',marginBottom:cfn.picHeight(10)}}>第 </Text>*/}
+                                <Text style={{color:'#eee',fontSize:12}}>{this.state.currentIssue}</Text>
+                                <Text style={{fontSize:12,color:'#eee',marginBottom:cfn.picHeight(30)}}> 期开奖号码：</Text>
+                                <Text style={{color:config.baseColor,fontSize:12}}>{this.state.currentCode.toString()}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Image source={this.state.currentCodeImg[0]} style={styles.codeImg}/>
+                                <Image source={this.state.currentCodeImg[1]} style={styles.codeImg}/>
+                                <Image source={this.state.currentCodeImg[2]} style={styles.codeImg}/>
+                            </View>
                         </View>
-                    </Image>
-                </View>
+                    </View>
+
+                </Image>
 
                 <View style={styles.menuContainer}>
                     <View style={styles.menuTitle}>
                         <Text style={{color:'#000'}}>快3工具 </Text>
                         <Text style={{color:'#ccc'}}> Kuai3 Tools</Text>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('History')}
+                            style={{position:'absolute',right:cfn.picWidth(20),}}
+                        >
+                            <Text>更多工具>></Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={()=>this.goToPage('History')}
-                    >
-                        <Image
-                            source={require('../imgs/home/menu_bg_1.png')}
-                            style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
-                            <View>
-                                <Text style={styles.menuText}>历史开奖号码</Text>
-                                <Text style={styles.menuSubText}>昨天/前天/50期/100期</Text>
-                            </View>
-                            <Text style={styles.look}>我要查看</Text>
-                        </Image>
-                    </TouchableOpacity>
+                    <View style={styles.itemContainer}>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('Trend')}>
+                            <Image
+                                style={styles.menuItem}
+                                source={require('../imgs/home/menu_bg_s_1.png')}>
+                                <Image  source={require('../imgs/home/trend_icon.png')} style={styles.menuIcon}/>
+                                <View>
+                                    <Text style={styles.menuText1}>快3走势图</Text>
+                                    <Text style={styles.menuText2}>走势规律一目了然</Text>
+                                </View>
+                            </Image>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={()=>this.goToPage('Trend')}
-                    >
-                        <Image
-                            source={require('../imgs/home/menu_bg_2.png')}
-                            style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
-                            <View>
-                                <Text style={styles.menuText}>快3走势图</Text>
-                                <Text style={styles.menuSubText}>走势规律一目了然</Text>
-                            </View>
-                            <Text style={styles.look}>我要查看</Text>
-                        </Image>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('Order')}>
+                            <Image
+                                style={styles.menuItem}
+                                source={require('../imgs/home/menu_bg_s_2.png')}>
+                                <Image  source={require('../imgs/home/lottery_icon.png')} style={styles.menuIcon}/>
+                                <View>
+                                    <Text style={styles.menuText1}>全国彩票</Text>
+                                    <Text style={styles.menuText2}>全国各类彩票都在这里</Text>
+                                </View>
+                            </Image>
+                        </TouchableOpacity>
 
-                    <Image
-                        source={require('../imgs/home/menu_bg_3.png')}
-                        style={styles.menuItem}>
-                        <View style={styles.menuIcon}/>
-                        <View>
-                            <Text style={styles.menuText}>秘籍攻略</Text>
-                            <Text style={styles.menuSubText}>来吧，助你一臂之力</Text>
-                        </View>
-                        <Text style={styles.look}>我要查看</Text>
-                    </Image>
-                    <Image
-                        source={require('../imgs/home/menu_bg_4.png')}
-                        style={styles.menuItem}>
-                        <View style={styles.menuIcon}/>
-                        <View>
-                            <Text style={styles.menuText}>玩法详解</Text>
-                            <Text style={styles.menuSubText}>知己知彼，方能百投百中</Text>
-                        </View>
-                        <Text style={styles.look}>我要查看</Text>
-                    </Image>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('Gonglue')}>
+                            <Image
+                                style={styles.menuItem}
+                                source={require('../imgs/home/menu_bg_s_3.png')}>
+                                <Image  source={require('../imgs/home/gonglue_icon.png')} style={styles.menuIcon}/>
+                                <View>
+                                    <Text style={styles.menuText1}>秘籍攻略</Text>
+                                    <Text style={styles.menuText2}>来吧，助你一臂之力</Text>
+                                </View>
+                            </Image>
+                        </TouchableOpacity>
 
-                    <View style={{height:cfn.picHeight(20)}}/>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('Yuce')}>
+                            <Image
+                                style={styles.menuItem}
+                                source={require('../imgs/home/menu_bg_s_4.png')}>
+                                <Image  source={require('../imgs/home/yuce_icon.png')} style={styles.menuIcon}/>
+                                <View>
+                                    <Text style={styles.menuText1}>专家预测</Text>
+                                    <Text style={styles.menuText2}>专家帮你提高中奖率</Text>
+                                </View>
+                            </Image>
+                        </TouchableOpacity>
+
+                        <View style={{height:cfn.picHeight(20),width:cfn.picWidth(300)}}/>
+                    </View>
+
                 </View>
-
+                <View style={styles.menuContainer}>
+                    <View style={styles.menuTitle}>
+                        <Text style={{color:'#000'}}>快3资讯 </Text>
+                        <Text style={{color:'#ccc'}}> Kuai3 News</Text>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('History')}
+                            style={{position:'absolute',right:cfn.picWidth(20),}}
+                        >
+                            <Text>更多资讯>></Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
 
         </ScrollView>)
@@ -245,21 +270,17 @@ const styles = StyleSheet.create({
         width: cfn.deviceWidth(),
     },
     issueContainer:{
-        flexDirection:'row',
-        height:cfn.picHeight(220),
+        height:cfn.picHeight(300),
+        width:cfn.deviceWidth(),
         alignItems:'center',
         backgroundColor:'#fff',
-        borderBottomColor:'#ccc',
-        borderBottomWidth:1
     },
     codesContainer: {
         width:cfn.deviceWidth()-cfn.picWidth(240),
-        backgroundColor:'#0066CC',
         borderRadius:cfn.picWidth(20),
         height:cfn.picHeight(200),
         justifyContent:'center',
         paddingLeft:cfn.picWidth(20),
-        resizeMode:'stretch'
     },
     codeImg: {
         width:cfn.picWidth(80),
@@ -268,26 +289,29 @@ const styles = StyleSheet.create({
         resizeMode:'contain'
     },
     drawBtn: {
-        height:cfn.picHeight(200),
-        width:cfn.picWidth(200),
+        height:cfn.picHeight(180),
+        width:cfn.picWidth(180),
         alignItems:'center',
         justifyContent:'center',
-        marginLeft:cfn.picHeight(10),
+        alignSelf:'center',
         borderRadius:cfn.picWidth(20),
-        backgroundColor:'#ccc'
+        //backgroundColor:'#ccc'
     },
     caizhong: {
         flexDirection: 'row',
         height:cfn.picHeight(100),
-        backgroundColor: '#fff',
+        width:cfn.deviceWidth(),
+        //backgroundColor: '#fff',
         borderBottomColor:'#ddd',
         borderBottomWidth:1,
         alignItems:'flex-end',
         paddingBottom:cfn.picHeight(10),
+        borderTopColor:'#eee',
+        borderTopWidth:1
     },
     colLine: {
         width:1,
-        height:cfn.picHeight(140),
+        height:cfn.picHeight(200),
         backgroundColor:'#ddd',
         marginLeft:cfn.picWidth(10),
         marginRight:cfn.picWidth(10),
@@ -319,7 +343,10 @@ const styles = StyleSheet.create({
     },
     menuContainer: {
       width:cfn.deviceWidth(),
-        backgroundColor:'#fff'
+        backgroundColor:'#fff',
+        marginTop:cfn.picHeight(20),
+        borderTopColor:'#eee',
+        borderTopWidth:1
     },
     menuTitle: {
       flexDirection:'row'  ,
@@ -327,36 +354,33 @@ const styles = StyleSheet.create({
         height:cfn.picHeight(60),
         marginLeft:cfn.picWidth(20),
     },
+    itemContainer: {
+        flexDirection:'row',
+        flexWrap:'wrap'
+    },
     menuItem: {
-        width:cfn.deviceWidth()-cfn.picWidth(40),
-        height:cfn.picHeight(200),
-        alignSelf:'center',
-        borderRadius:25,
-        marginTop:cfn.picHeight(20),
+        width:(cfn.deviceWidth()-cfn.picWidth(60))/2,
+        height:(cfn.deviceWidth()-cfn.picWidth(60))/4,
         resizeMode:'stretch',
         flexDirection:'row',
-        alignItems:'center'
-    },
-    menuText: {
-        color:'#fff',
-        backgroundColor:'transparent',
-        fontSize: 18
+        alignItems:'center',
+        marginTop:cfn.picHeight(20),
+        marginLeft:cfn.picWidth(20)
     },
     menuIcon: {
-        width:cfn.picWidth(80),
-        height:cfn.picWidth(80),
-        backgroundColor:'#fff',
-        borderRadius:40,
-        margin:cfn.picWidth(30)
+        width:cfn.picWidth(100),
+        height:cfn.picWidth(100),
+        margin:cfn.picWidth(20),
+        resizeMode:'contain'
     },
-    menuSubText: {
+    menuText1: {
         color:'#fff',
-        fontSize:10,
-        marginTop:cfn.picHeight(10)
+        fontSize:15,
+        fontWeight:'bold'
     },
-    look: {
-        color:'#fff',fontSize:12,
-        position:'absolute',
-        right:cfn.picWidth(30)
+    menuText2: {
+        color:'#fff',
+        fontSize:8,
+        marginTop:cfn.picHeight(10)
     }
 });
