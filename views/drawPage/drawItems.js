@@ -73,7 +73,7 @@ export default class drawItems extends Component {
                         <Image
                             style={styles.appIcon}
                             source={require('../../imgs/appIcon/ic_launcher.png')}/>
-                        <Text style={{marginTop:cfn.picHeight(30),color:'#fff'}}>{config.sourceName}</Text>
+                        <Text style={{marginTop:cfn.picHeight(30),color:'#fff'}}>{config.appName}</Text>
                     </Image>
                     <View style={{width:cfn.deviceWidth()/3*2,flexDirection:'row',
                         height:cfn.picHeight(60),backgroundColor:'#eee',
@@ -172,9 +172,9 @@ export default class drawItems extends Component {
 }
 const styles = StyleSheet.create({
     appIcon: {
-        width:cfn.picWidth(100),
-        height:cfn.picWidth(100),
-        borderRadius:cfn.picWidth(50),
+        width:cfn.picWidth(120),
+        height:cfn.picWidth(120),
+        borderRadius:cfn.picWidth(60),
         marginTop:cfn.picHeight(30)
     },
     icon: {

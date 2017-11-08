@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     },
 
     icon: {
-        width:cfn.picWidth(60),
-        height:cfn.picWidth(60),
+        width:cfn.picWidth(70),
+        height:cfn.picWidth(70),
         resizeMode:'contain',
         position:'absolute',
         left:cfn.picWidth(20)

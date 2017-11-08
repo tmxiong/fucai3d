@@ -4,7 +4,6 @@
 // SyntaxError: Unexpected token < in JSON at position 0
 import React, {Component} from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
@@ -23,6 +22,7 @@ const urls = require('../../config/urls');
 import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill';
 import NavBar from '../../component/NavBar'
+import Cbutton from '../../component/cbutton';
 export default class HomePage extends Component {
 
     static defaultProps = {};
@@ -32,13 +32,13 @@ export default class HomePage extends Component {
 
         this.type = props.navigation.state.params.type;
         this.name = props.navigation.state.params.name;
-
         this.state = {
             data: null,
             currentIssue: '*',
             items: null,
             nextIssue: '*',
-
+            btnColor:['#fff','#fff',config.baseColor,'#fff','#fff',],
+            btnText:['#aaa','#aaa','#fff','#aaa','#aaa',],
             isRefreshing: true,
         };
 
@@ -131,6 +131,26 @@ export default class HomePage extends Component {
        )
 
     }
+
+    changeDate(index) {
+        let btnColor = ['#fff','#fff','#fff','#fff','#fff'];
+        let btnText = ['#888','#888','#888','#888','#888'];
+        btnColor[index] = config.baseColor;
+        btnText[index] = '#fff';
+        this.setState({
+            btnColor:btnColor,
+            btnText:btnText
+        })
+    }
+    onChangeBack(index, date) {
+        this.cbutton1.buttonRef(index);
+        this.cbutton2.buttonRef(index);
+        this.cbutton3.buttonRef(index);
+        this.cbutton4.buttonRef(index);
+        this.cbutton5.buttonRef(index);
+        this.getData(this.type,date);
+        //alert('点击了第'+index+1+'个按钮');
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -140,10 +160,53 @@ export default class HomePage extends Component {
                 />
 
 
-                <View style={styles.caizhong}>
-                    <Text style={{marginLeft:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>{this.name}</Text>
-                    {/*<Text style={{marginLeft:cfn.picWidth(20),fontSize:16}}>第 </Text>*/}
-                    <Text style={{color:config.baseColor,fontSize:16,marginLeft:cfn.picWidth(20)}}>{this.state.currentIssue}</Text>
+                <View style={[styles.caizhong,{borderBottomWidth:0,marginTop:cfn.picHeight(20)}]}>
+                    <Text style={{marginLeft:cfn.picWidth(20),marginRight:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>{this.name}</Text>
+                    <Cbutton
+                        ref={(ref)=>this.cbutton1 = ref}
+                        btnIndex={0}
+                        btnState={0}
+                        btnText='100期'
+                        date="2"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton2 = ref}
+                        btnIndex={1}
+                        btnState={0}
+                        btnText='50期'
+                        date="1"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton3 = ref}
+                        btnIndex={2}
+                        btnState={1}
+                        btnText='今天'
+                        date="0"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton4 = ref}
+                        btnIndex={3}
+                        btnState={0}
+                        btnText='昨天'
+                        date="-1"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton5 = ref}
+                        btnIndex={4}
+                        btnState={0}
+                        btnText='前天'
+                        date="-2"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+
+                </View>
+                <View style={[styles.caizhong]}>
+                    <Text style={{marginLeft:cfn.picWidth(20),fontSize:16}}>第 </Text>
+                    <Text style={{color:config.baseColor,fontSize:16}}>{this.state.currentIssue}</Text>
                     <Text style={{fontSize:16}}> 期开奖号码：{this.state.currentCode}</Text>
                 </View>
 
@@ -179,15 +242,16 @@ const styles = StyleSheet.create({
     container: {
         height: cfn.deviceHeight(),
         width: cfn.deviceWidth(),
+        backgroundColor:'#fff',
     },
 
     caizhong: {
         flexDirection: 'row',
-        height:cfn.picHeight(100),
+        height:cfn.picHeight(80),
         backgroundColor:'#fff',
         borderBottomColor:'#ddd',
         borderBottomWidth:1,
-        alignItems:'flex-end',
+        alignItems:'center',
         paddingBottom:cfn.picHeight(10)
     },
     colLine: {
