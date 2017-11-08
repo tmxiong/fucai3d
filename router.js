@@ -18,8 +18,9 @@ import SingleKaijiangPage from './views/detailPage/singleKJDetailPage'
 import JieshaoDetailPage from './views/detailPage/jieshaoDetailPage'
 import XingyunJieshaoPage from './views/detailPage/xinyunJieshaoDetailPage'
 import GongluePage from './views/detailPage/gongluePage';
-import GonglueDetailPage from './views/detailPage/gonglueDetailPage';
+import ArticleDetailPage from './views/detailPage/articleDetailPage';
 import MoreToolsPage from './views/detailPage/moreToolsPage';
+import MoreNewsPage from './views/detailPage/moreNewsPage';
 import TestPage from './views/TestPage';
 
 const routers = StackNavigator({
@@ -36,7 +37,11 @@ const routers = StackNavigator({
     Gonglue: {screen: GongluePage, navigationOptions: {header:null}},
     // 更多工具
     MoreTools: {screen: MoreToolsPage, navigationOptions: {header:null}},
+    // 更多新闻
+    MoreNews: {screen: MoreNewsPage, navigationOptions: {header:null}},
 
+    // 文章详情 攻略和新闻
+    ArticleDetail: {screen: ArticleDetailPage, navigationOptions: {header:null}},
 
     // 更多彩种
     Order: {screen: OrderPage,navigationOptions: { header:null,}},
@@ -46,7 +51,7 @@ const routers = StackNavigator({
     // 单个开奖
     SingleKaijiang: {screen: SingleKaijiangPage, navigationOptions: {header:null}},
 
-    GonglueDetail: {screen: GonglueDetailPage, navigationOptions: {header:null}},
+
 
     // 欢迎页 引导页
     Welcome: {screen: welcomePage},

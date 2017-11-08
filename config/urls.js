@@ -8,12 +8,22 @@ exports.getKuai3 = function (type, date) {
     return 'http://chart.ydniu.com/GetAppCheckUpdate.aspx?n='+ type +'&t=fbzs&d='+ date +'&s=74B34E0A5F5A0C69E25CBC09EE33F6AC'
 };
 // 资讯
-exports.getNews = function (type) {
-    return 'https://m.qmcai.com/support/cmsv2/information/queryContent?parameter=%7B%22command%22:%22queryContent%22,%22categoryId%22:%22csxw%22,%22offset%22:0,%22size%22:15,%22platform%22:%22html%22,%22version%22:%225.2.16%22%7D&callback=jsonp5';
+ exports.getNews = function (page) {
+    return 'https://m.qmcai.com/support/cmsv2/information/queryContent?parameter=%7B%22command%22:%22queryContent%22,%22categoryId%22:%22csxw%22,%22offset%22:'+page+',%22size%22:15,%22platform%22:%22html%22,%22version%22:%225.2.16%22%7D&callback=jsonp5';
 };
 // 专家预测
 exports.getYuce = function (type) {
   return 'https://m.ydniu.com/info/'+ type +'/cpyc/';
+};
+
+// 攻略详情
+exports.getGonglueDetail = function (id) {
+    return 'https://m.qmcai.com/hd/caipiaoclass/detail.html?_id='+id+'&fromType=cpkt_k3&clientLogin=true&from=&hideTab=false&isTouzhu=false'
+};
+
+// 资讯详情
+exports.getNewsDetail = function (id) {
+    return 'https://m.qmcai.com/zixun/detail.html?_id=' + id +'&time=' + timeStamp();
 };
 
 exports.getHistory = function (type, page, date) {

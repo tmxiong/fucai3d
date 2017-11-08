@@ -67,7 +67,7 @@ export default class drawItems extends Component {
                 {/*<DrawerItems {...props} />*/}
                 <View style={styles.drawPage}>
                     <Image
-                        source={require('../../imgs/home/menu_bg_3.png')}
+                        source={require('../../imgs/drawPage/menu_bg_3.png')}
                         style={{height:cfn.picHeight(300),resizeMode:'stretch',
                             width:cfn.deviceWidth()/3*2,alignItems:'center',justifyContent:'center'}}>
                         <Image

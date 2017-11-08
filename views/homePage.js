@@ -106,7 +106,7 @@ export default class HomePage extends Component {
     }
 
     getNews() {
-        fetchp(urls.getNews(),{timeout:5*1000})
+        fetchp(urls.getNews(0),{timeout:5*1000})
             .then((res)=>res.text())
             .then((data)=>this.setNews(data))
     }
@@ -122,9 +122,10 @@ export default class HomePage extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     key={i}
-                    onPress={()=>this.goToDetail('tipsDetail', {
+                    onPress={()=>this.goToPage('ArticleDetail', {
                             id: item.id,
-                            title: item.title,
+                            //name: item.title,
+                            name: '资讯详情',
                             rowData: item,
                         }
                     )}
@@ -132,7 +133,7 @@ export default class HomePage extends Component {
                     <View style={styles.item_text_container}>
                         <Text
                             style={styles.item_title}>{item.title}</Text>
-                        <Text style={styles.item_source}>{config.sourceName}</Text>
+                        <Text style={styles.item_source}>{config.appName}</Text>
                         <Text style={styles.item_time}>{new Date(item.publishTime).toLocaleString().split(' ')[0]}</Text>
                     </View>
                     <Image
@@ -292,7 +293,7 @@ export default class HomePage extends Component {
                         <Text style={{color:'#ccc'}}> Lottery News</Text>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToPage('History')}
+                            onPress={()=>this.goToPage('MoreNews')}
                             style={{position:'absolute',right:cfn.picWidth(20),}}
                         >
                             <Text>更多资讯>></Text>
