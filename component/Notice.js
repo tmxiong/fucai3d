@@ -25,9 +25,9 @@ export default class Notice extends PureComponent {
 
     static defaultProps = {
         noticeData: [
-            '看到实用的攻略不要忘记收藏哦。',
-            '研究购彩攻略与彩票玩法是明智之举。',
-            '新增彩票历史订单查询，快去试试吧～',
+            '快3走势图表可帮助你分析近期开奖走势',
+            '为增强用户使用体验，现新增全国彩票',
+            '了解各种彩票玩法是明智之举',
         ],
     };
 

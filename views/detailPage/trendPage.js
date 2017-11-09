@@ -22,13 +22,18 @@ import cfn from '../../tools/commonFun';
 const urls = require('../../config/urls');
 import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill';
-import NavBar from '../../component/NavBar'
+import NavBar from '../../component/NavBar';
+import Cbutton from '../../component/cbutton';
+import Spinner from 'react-native-loading-spinner-overlay'
 export default class HomePage extends Component {
 
     static defaultProps = {};
 
     constructor(props) {
         super(props);
+
+        this.type = props.navigation.state.params.type;
+        this.name = props.navigation.state.params.name;
 
         this.state = {
             data: null,
@@ -38,9 +43,9 @@ export default class HomePage extends Component {
             nextIssue: '*',
 
             isRefreshing: true,
+            isLoading:true,
         };
 
-        this.type = 'k3js';
         this.date = 0;
     }
 
@@ -60,7 +65,8 @@ export default class HomePage extends Component {
     getData(type, date) {
         fetchp(urls.getKuai3(type, date), {timeout: 5 * 1000})
             .then((res)=>res.json())
-            .then((data)=>this.setData(data));
+            .then((data)=>this.setData(data))
+            .catch((error)=>this.setError(error))
     }
 
     setData(data) {
@@ -72,6 +78,16 @@ export default class HomePage extends Component {
             currentIssue:currentIssue,
             currentCode:currentCode,
             isRefreshing:false,
+            isLoading:false
+        })
+    }
+
+    setError(error) {
+        this.setState({
+            isRefreshing:false,
+            isLoading:false,
+        },()=>{
+            Alert.alert('加载错误，请下拉刷新重试！')
         })
     }
 
@@ -193,6 +209,19 @@ export default class HomePage extends Component {
                 </View>
             </View>)
     }
+
+    onChangeBack(index, date) {
+        this.cbutton1.buttonRef(index);
+        this.cbutton2.buttonRef(index);
+        this.cbutton3.buttonRef(index);
+        this.cbutton4.buttonRef(index);
+        this.cbutton5.buttonRef(index);
+        this.getData(this.type,date);
+        this.setState({
+            isLoading:true,
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -200,13 +229,60 @@ export default class HomePage extends Component {
                     middleText={'开奖走势'}
                     leftFn={this.goBack.bind(this)}
                 />
+                <StatusBar hidden={false}
+                           translucent= {true}
+                           animated={true}
+                           backgroundColor={this.state.isLoading ? 'rgba(0,0,0,0.7)':'transparent'}/>
+                <Spinner visible={this.state.isLoading}
+                         textContent={"正在加载..."}
+                         overlayColor="rgba(0,0,0,0.7)"
+                         color="rgb(217,29,54)"
+                         animation={'fade'}
+                         textStyle={{color: '#fff',fontSize:15}} />
 
+                <View style={[styles.caizhong]}>
+                    <Text style={{marginLeft:cfn.picWidth(20),marginRight:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>{this.name}</Text>
+                    <Cbutton
+                        ref={(ref)=>this.cbutton1 = ref}
+                        btnIndex={0}
+                        btnState={0}
+                        btnText='100期'
+                        date="2"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton2 = ref}
+                        btnIndex={1}
+                        btnState={0}
+                        btnText='50期'
+                        date="1"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton3 = ref}
+                        btnIndex={2}
+                        btnState={1}
+                        btnText='今天'
+                        date="0"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton4 = ref}
+                        btnIndex={3}
+                        btnState={0}
+                        btnText='昨天'
+                        date="-1"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
+                    <Cbutton
+                        ref={(ref)=>this.cbutton5 = ref}
+                        btnIndex={4}
+                        btnState={0}
+                        btnText='前天'
+                        date="-2"
+                        onChangeBack={this.onChangeBack.bind(this)}
+                    />
 
-                <View style={styles.caizhong}>
-                    <Text style={{marginLeft:cfn.picWidth(20),fontSize:20,fontWeight:'bold'}}>江苏快3</Text>
-                    {/*<Text style={{marginLeft:cfn.picWidth(20),fontSize:16}}>第 </Text>*/}
-                    <Text style={{color:config.baseColor,fontSize:16,marginLeft:cfn.picWidth(20)}}>{this.state.currentIssue}</Text>
-                    <Text style={{fontSize:16}}> 期开奖号码：{this.state.currentCode}</Text>
                 </View>
 
                 <View style={styles.itemContainer}>
@@ -252,12 +328,9 @@ const styles = StyleSheet.create({
 
     caizhong: {
         flexDirection: 'row',
-        height:cfn.picHeight(100),
+        height:cfn.picHeight(120),
         backgroundColor:'#fff',
-        borderBottomColor:'#ddd',
-        borderBottomWidth:1,
-        alignItems:'flex-end',
-        paddingBottom:cfn.picHeight(10)
+        alignItems:'center',
     },
     colLine: {
         width:1,

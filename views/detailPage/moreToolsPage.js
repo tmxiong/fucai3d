@@ -32,6 +32,9 @@ export default class yucePage extends Component {
     constructor(props){
         super(props);
 
+        this.type = props.navigation.state.params.type;
+        this.name = props.navigation.state.params.name;
+
         this.state={
 
         };
@@ -65,8 +68,22 @@ export default class yucePage extends Component {
                 />
                 <ScrollView>
                     <TouchableOpacity
+                        onPress={()=>this.goToPage('Order')}
+                        activeOpacity={0.8}>
+                        <Image
+                            source={require('../../imgs/home/menu_bg_5_1.png')}
+                            style={styles.menuItem}>
+                            <View style={styles.menuIcon}/>
+                            <View>
+                                <Text style={styles.menuText}>全国彩票</Text>
+                                <Text style={styles.menuSubText}>包含全国各类彩种</Text>
+                            </View>
+                            <Text style={styles.look}>我要查看</Text>
+                        </Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={()=>this.goToPage('History')}
+                        onPress={()=>this.goToPage('History',{type:this.type, name:this.state.name})}
                     >
                         <Image
                             source={require('../../imgs/home/menu_bg_1.png')}
@@ -82,7 +99,7 @@ export default class yucePage extends Component {
 
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={()=>this.goToPage('Trend')}
+                        onPress={()=>this.goToPage('Trend',{type:this.type, name:this.state.name})}
                     >
                         <Image
                             source={require('../../imgs/home/menu_bg_2.png')}
@@ -96,26 +113,35 @@ export default class yucePage extends Component {
                         </Image>
                     </TouchableOpacity>
 
-                    <Image
-                        source={require('../../imgs/home/menu_bg_3.png')}
-                        style={styles.menuItem}>
-                        <View style={styles.menuIcon}/>
-                        <View>
-                            <Text style={styles.menuText}>秘籍攻略</Text>
-                            <Text style={styles.menuSubText}>来吧，助你一臂之力</Text>
-                        </View>
-                        <Text style={styles.look}>我要查看</Text>
-                    </Image>
-                    <Image
-                        source={require('../../imgs/home/menu_bg_4.png')}
-                        style={styles.menuItem}>
-                        <View style={styles.menuIcon}/>
-                        <View>
-                            <Text style={styles.menuText}>玩法详解</Text>
-                            <Text style={styles.menuSubText}>知己知彼，方能百投百中</Text>
-                        </View>
-                        <Text style={styles.look}>我要查看</Text>
-                    </Image>
+                    <TouchableOpacity
+                        activeOpacity={0.8}>
+                        <Image
+                            source={require('../../imgs/home/menu_bg_3.png')}
+                            style={styles.menuItem}>
+                            <View style={styles.menuIcon}/>
+                            <View>
+                                <Text style={styles.menuText}>秘籍攻略</Text>
+                                <Text style={styles.menuSubText}>来吧，助你一臂之力</Text>
+                            </View>
+                            <Text style={styles.look}>我要查看</Text>
+                        </Image>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={()=>this.goToPage('MoreNews')}>
+                        <Image
+                            source={require('../../imgs/home/menu_bg_4.png')}
+                            style={styles.menuItem}>
+                            <View style={styles.menuIcon}/>
+                            <View>
+                                <Text style={styles.menuText}>彩票资讯</Text>
+                                <Text style={styles.menuSubText}>丰富的各类彩票资讯</Text>
+                            </View>
+                            <Text style={styles.look}>我要查看</Text>
+                        </Image>
+                    </TouchableOpacity>
+
 
                     <View style={{height:cfn.picHeight(20)}}/>
                 </ScrollView>
@@ -127,7 +153,8 @@ export default class yucePage extends Component {
 const styles = StyleSheet.create({
     container: {
         height:cfn.deviceHeight(),
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor:'#fff'
     },
     menuItem: {
         width:cfn.deviceWidth()-cfn.picWidth(40),

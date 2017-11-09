@@ -27,6 +27,7 @@ import fetchp from '../tools/fetch-polyfill';
 import NavBar from '../component/NavBar'
 import UpdateModal from '../component/updateModal';
 import Banner from '../component/Banner';
+import Notice from '../component/Notice'
 export default class HomePage extends Component {
 
     static defaultProps = {};
@@ -174,6 +175,7 @@ export default class HomePage extends Component {
                         require('../imgs/banner/banner_3.png'),
                     ]}
                 />
+                <Notice/>
 
                 <Image source={require('../imgs/home/menu_bg_5.png')}  style={styles.issueContainer}>
                     <View style={styles.caizhong}>
@@ -220,7 +222,7 @@ export default class HomePage extends Component {
                         <Text style={{color:'#ccc'}}> Kuai3 Tools</Text>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToPage('MoreTools')}
+                            onPress={()=>this.goToPage('MoreTools',{type:this.type, name:this.state.name})}
                             style={{position:'absolute',right:cfn.picWidth(20),}}
                         >
                             <Text>更多工具>></Text>
@@ -229,7 +231,7 @@ export default class HomePage extends Component {
                     <View style={styles.itemContainer}>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToPage('Trend')}>
+                            onPress={()=>this.goToPage('Trend',{type:this.type, name:this.state.name})}>
                             <Image
                                 style={styles.menuItem}
                                 source={require('../imgs/home/menu_bg_s_1.png')}>
@@ -271,14 +273,14 @@ export default class HomePage extends Component {
 
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToPage('Yuce')}>
+                            onPress={()=>this.goToPage('History',{type:this.type, name:this.state.name})}>
                             <Image
                                 style={styles.menuItem}
                                 source={require('../imgs/home/menu_bg_s_4.png')}>
-                                <Image  source={require('../imgs/home/yuce_icon.png')} style={styles.menuIcon}/>
+                                <Image  source={require('../imgs/home/history_icon.png')} style={styles.menuIcon}/>
                                 <View>
-                                    <Text style={styles.menuText1}>专家预测</Text>
-                                    <Text style={styles.menuText2}>专家帮你提高中奖率</Text>
+                                    <Text style={styles.menuText1}>开奖记录</Text>
+                                    <Text style={styles.menuText2}>查看快3历史开奖记录</Text>
                                 </View>
                             </Image>
                         </TouchableOpacity>

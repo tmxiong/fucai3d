@@ -134,23 +134,12 @@ export default class drawItems extends Component {
                         </View>
                     </View>
 
-                    <View style={{width:cfn.deviceWidth()/3*2,flexDirection:'row',
-                        height:cfn.picHeight(60),backgroundColor:'#eee',
-                        alignItems:'center'}}>
-                        <Text
-                            style={{color:'#555',marginLeft:cfn.picWidth(20),fontSize:12}}>更多功能↓↓</Text>
-                    </View>
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={()=> this.goToPage('Order')}
-                        style={styles.itemContainer}>
-                        <Text style={styles.itemText}>更多彩种</Text>
-                    </TouchableOpacity>
+
                     <TouchableOpacity
                         activeOpacity={0.8}
                         onPress={()=> this.goToPage('Welcome',{showWebView:false,url:''})}
                         style={styles.itemContainer}>
-                        <Text style={styles.itemText}>欢迎页</Text>
+                        <Text style={styles.itemText}>APP介绍</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.8}
