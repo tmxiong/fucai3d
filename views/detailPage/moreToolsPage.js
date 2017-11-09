@@ -58,6 +58,11 @@ export default class yucePage extends Component {
             .catch((err)=>this.setError(err))
     }
 
+    goToPage(route, params) {
+        // DrawerOpen
+        // DrawerClose
+        this.props.navigation.navigate(route, params)
+    }
 
     render() {
         return (
@@ -73,7 +78,7 @@ export default class yucePage extends Component {
                         <Image
                             source={require('../../imgs/home/menu_bg_5_1.png')}
                             style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
+                            <Image source={require('../../imgs/home/lottery_icon.png')} style={styles.menuIcon}/>
                             <View>
                                 <Text style={styles.menuText}>全国彩票</Text>
                                 <Text style={styles.menuSubText}>包含全国各类彩种</Text>
@@ -83,12 +88,12 @@ export default class yucePage extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={()=>this.goToPage('History',{type:this.type, name:this.state.name})}
+                        onPress={()=>this.goToPage('History',{type:this.type, name:this.name})}
                     >
                         <Image
                             source={require('../../imgs/home/menu_bg_1.png')}
                             style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
+                            <Image source={require('../../imgs/home/history_icon.png')} style={styles.menuIcon}/>
                             <View>
                                 <Text style={styles.menuText}>历史开奖号码</Text>
                                 <Text style={styles.menuSubText}>昨天/前天/50期/100期</Text>
@@ -99,12 +104,12 @@ export default class yucePage extends Component {
 
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={()=>this.goToPage('Trend',{type:this.type, name:this.state.name})}
+                        onPress={()=>this.goToPage('Trend',{type:this.type, name:this.name})}
                     >
                         <Image
                             source={require('../../imgs/home/menu_bg_2.png')}
                             style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
+                            <Image source={require('../../imgs/home/trend_icon.png')} style={styles.menuIcon}/>
                             <View>
                                 <Text style={styles.menuText}>快3走势图</Text>
                                 <Text style={styles.menuSubText}>走势规律一目了然</Text>
@@ -114,11 +119,12 @@ export default class yucePage extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
+                        onPress={()=>this.goToPage('Gonglue')}
                         activeOpacity={0.8}>
                         <Image
                             source={require('../../imgs/home/menu_bg_3.png')}
                             style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
+                            <Image source={require('../../imgs/home/gonglue_icon.png')} style={styles.menuIcon}/>
                             <View>
                                 <Text style={styles.menuText}>秘籍攻略</Text>
                                 <Text style={styles.menuSubText}>来吧，助你一臂之力</Text>
@@ -133,7 +139,7 @@ export default class yucePage extends Component {
                         <Image
                             source={require('../../imgs/home/menu_bg_4.png')}
                             style={styles.menuItem}>
-                            <View style={styles.menuIcon}/>
+                            <Image source={require('../../imgs/home/news_icon.png')} style={styles.menuIcon}/>
                             <View>
                                 <Text style={styles.menuText}>彩票资讯</Text>
                                 <Text style={styles.menuSubText}>丰富的各类彩票资讯</Text>
@@ -174,8 +180,7 @@ const styles = StyleSheet.create({
     menuIcon: {
         width:cfn.picWidth(80),
         height:cfn.picWidth(80),
-        backgroundColor:'#fff',
-        borderRadius:40,
+        resizeMode:'contain',
         margin:cfn.picWidth(30)
     },
     menuSubText: {

@@ -169,6 +169,9 @@ export default class HomePage extends Component {
                     modalVisible={this.props.navigation.state.params.showWebView}
                 />
                 <Banner
+                    navigation={this.props.navigation}
+                    type={this.type}
+                    name={this.state.name}
                     bannerList={[
                         require('../imgs/banner/banner_1.png'),
                         require('../imgs/banner/banner_2.png'),
@@ -314,10 +317,11 @@ const styles = StyleSheet.create({
         width: cfn.deviceWidth(),
     },
     issueContainer:{
-        height:cfn.picHeight(300),
+        height:cfn.picHeight(280),
         width:cfn.deviceWidth(),
         alignItems:'center',
         backgroundColor:'#fff',
+        marginTop:cfn.picHeight(20)
     },
     codesContainer: {
         width:cfn.deviceWidth()-cfn.picWidth(240),
@@ -343,7 +347,7 @@ const styles = StyleSheet.create({
     },
     caizhong: {
         flexDirection: 'row',
-        height:cfn.picHeight(100),
+        height:cfn.picHeight(80),
         width:cfn.deviceWidth(),
         //backgroundColor: '#fff',
         borderBottomColor:'#ddd',

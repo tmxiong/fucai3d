@@ -50,7 +50,7 @@ export default class articleDetailPage extends Component {
         var secondChild = ele[ele.length-1].children[1];
         if(fistChild.innerText == "如何领奖：") {
             fistChild.innerText = "温馨提示：";
-            secondChild.innerText = config.sourceName + "祝您中大奖！"
+            secondChild.innerText = config.appName + "祝您中大奖！"
         }
     }
 
@@ -73,7 +73,7 @@ export default class articleDetailPage extends Component {
                         'var secondChild = ele[ele.length-1].children[1];'+
                         'if(fistChild.innerText == "如何领奖：") {'+
                         'fistChild.innerText = "温馨提示：";'+
-                        'secondChild.innerText = "【'+ config.sourceName +'】祝您中大奖！"}'}
+                        'secondChild.innerText = "【'+ config.appName +'】祝您中大奖！"}'}
                 />
 
             </View>)

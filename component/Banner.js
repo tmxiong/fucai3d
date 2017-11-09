@@ -54,15 +54,12 @@ export default class Banner extends PureComponent {
     goToDetail(index) {
         const {navigate} = this.props.navigation;
 
-        if(index == 1) {
-            navigate('PlayTips',{name:'购彩资讯',type:'csxw'})
-        } else if(index == 0) {
-            navigate('PlayTips',{
-                type: 'gpc',
-                name: '时时彩推荐'
-            })
+        if(index == 0) {
+            navigate('Gonglue')
+        } else if(index == 1) {
+            navigate('Trend',{type:this.props.type,name:this.props.name})
         } else if(index == 2) {
-            navigate('jieshao')
+            navigate('MoreNews')
         }
     }
 

@@ -285,21 +285,20 @@ export default class HomePage extends Component {
 
                 </View>
 
-                <View style={styles.itemContainer}>
-                    <View style={styles.items}>
-                        <View style={styles.col}><Text>期号</Text></View>
-                        <View style={styles.col}><Text>奖号</Text></View>
-                        <View style={styles.col}><Text>和值</Text></View>
-                        <View style={styles.col}><Text>跨度</Text></View>
-                        <View style={styles.col}><Text>1</Text></View>
-                        <View style={styles.col}><Text>2</Text></View>
-                        <View style={styles.col}><Text>3</Text></View>
-                        <View style={styles.col}><Text>4</Text></View>
-                        <View style={styles.col}><Text>5</Text></View>
-                        <View style={styles.col}><Text>6</Text></View>
-                    </View>
 
+                <View style={[styles.items, {borderTopColor:'#ddd',borderTopWidth:1,backgroundColor:'#eee'}]}>
+                    <View style={styles.col}><Text>期号</Text></View>
+                    <View style={styles.col}><Text>奖号</Text></View>
+                    <View style={styles.col}><Text>和值</Text></View>
+                    <View style={styles.col}><Text>跨度</Text></View>
+                    <View style={styles.col}><Text>1</Text></View>
+                    <View style={styles.col}><Text>2</Text></View>
+                    <View style={styles.col}><Text>3</Text></View>
+                    <View style={styles.col}><Text>4</Text></View>
+                    <View style={styles.col}><Text>5</Text></View>
+                    <View style={styles.col}><Text>6</Text></View>
                 </View>
+
                 <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem.bind(this)}

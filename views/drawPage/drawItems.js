@@ -161,10 +161,11 @@ export default class drawItems extends Component {
 }
 const styles = StyleSheet.create({
     appIcon: {
-        width:cfn.picWidth(120),
-        height:cfn.picWidth(120),
-        borderRadius:cfn.picWidth(60),
-        marginTop:cfn.picHeight(30)
+        width:cfn.picWidth(130),
+        height:cfn.picWidth(130),
+        //borderRadius:cfn.picWidth(65),
+        marginTop:cfn.picHeight(30),
+        resizeMode:'contain'
     },
     icon: {
         width: 24,
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         borderBottomColor:'#ddd',
         justifyContent:'center',
-        backgroundColor:'#fff'
+        backgroundColor:'#fff',
     },
     itemText: {
         marginLeft:cfn.picWidth(30)
