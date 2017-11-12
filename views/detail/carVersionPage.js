@@ -35,13 +35,19 @@ export default class carVersionPage extends Component {
             .then((data)=>this.setData(data))
     }
     setData(data) {
-        this.setState({data:JSON.stringify(data)})
+        this.setState({data:data})
     }
 
     render() {
         return(
-            <View>
-                <Text>{this.state.data}</Text>
+            <View style={styles.container}>
+                <View style={styles.itemContainer}>
+                    <View style={styles.img}/>
+                    <View>
+                        <Text>法拉利</Text>
+                        <Text>1.5元</Text>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -50,4 +56,12 @@ const styles = StyleSheet.create({
    container: {
 
    } ,
+    itemContainer: {
+        flexDirection:'row'
+    },
+    img: {
+       width:cfn.picWidth(200),
+        height:cfn.picHeight(120),
+        backgroundColor:'#f07',
+    },
 });
