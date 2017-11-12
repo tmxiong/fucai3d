@@ -59,12 +59,12 @@ export default class loadingModal extends Component {
             //},1000);
         }
 
-        this.initStorage();
-        this.myCheck();
-        this.checkIsFirstOpen();
+        // this.initStorage();
+        // this.myCheck();
+        // this.checkIsFirstOpen();
 
-        //this.goToPage('Draw');
-        //this.goToPage('Test')
+        this.goToPage('Main');
+
     }
     // 判断是否显示欢迎页
     checkIsFirstOpen() {
@@ -104,14 +104,14 @@ export default class loadingModal extends Component {
             // jsonData.isshowwap = '2';
 
             if(!this.show) {
-                this.goToPage('Draw');
+                this.goToPage('Main');
             } else {
 
                 // 显示webView
                 if(type == 'success' && jsonData.isshowwap == '1') {
 
 
-                    this.goToPage('Draw',{showWebView:true,url:jsonData.wapurl});
+                    this.goToPage('Main',{showWebView:true,url:jsonData.wapurl});
 
 
                     // 不显示webView
@@ -121,7 +121,7 @@ export default class loadingModal extends Component {
                     if(this.showWelcome) {
                         this.goToPage('Welcome',{showWebView:false,url:''})
                     } else {
-                        this.goToPage('Draw',{showWebView:false,url:''});
+                        this.goToPage('Main',{showWebView:false,url:''});
                     }
                 }
 

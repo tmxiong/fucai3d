@@ -1,3 +1,10 @@
+// 获取车型列表
+exports.getCarVersion = function (type) {
+  return 'https://cars.app.autohome.com.cn/cars_v8.5.5/cars/seriesprice-pm2-b'+type+'-t16-v8.5.5-c110100.json'
+};
+
+
+
 let timeStamp = function () {
     return new Date().getTime();
 };
