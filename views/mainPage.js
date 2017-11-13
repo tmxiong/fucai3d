@@ -9,7 +9,6 @@ import {
 import {TabNavigator} from "react-navigation";
 
 import HomePage from './homePage';
-import TuiJianPage from './tuijianPage';
 import OrderPage from './orderPage';
 import MinePage from './minePage';
 import cfn from '../tools/commonFun'
@@ -38,20 +37,7 @@ const mainPage = TabNavigator({
             header:null,
         }
     },
-    Tuijian: {
-        screen: TuiJianPage,
-        navigationOptions: {
-            title: '专家推荐',
-            tabBarLabel: '专家推荐',
-            tabBarIcon: ({ tintColor }) => (
-                <Image
-                    source={require('../imgs/home_icon.png')}
-                    style={[styles.icon,{tintColor: tintColor} ]}
-                />
-            ),
-            header:null,
-        }
-    },
+
     Order: {
         screen: OrderPage,
         navigationOptions: {
