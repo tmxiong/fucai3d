@@ -26,7 +26,7 @@ export default class wanfaPage extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={()=>this.goToPage('CarVersion',
-                        {logos:logos[i].name,id:logos[i].id})}
+                        {name:logos[i].name,id:logos[i].id,img:logos[i].img})}
                     key={i}
                     style={styles.logoContainer}>
                     <Image

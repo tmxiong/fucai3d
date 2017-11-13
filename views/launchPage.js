@@ -34,7 +34,7 @@ import Global from '../global/global';
 import fetchp from '../tools/fetch-polyfill';
 import config from '../config/config';
 import base64 from '../tools/base64';
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 
 export default class loadingModal extends Component {
     static navigationOptions = {header: null};
@@ -55,7 +55,7 @@ export default class loadingModal extends Component {
             // });
         } else {
             //setTimeout(()=>{
-            //     SplashScreen.hide();//关闭启动屏幕
+                SplashScreen.hide();//关闭启动屏幕
             //},1000);
         }
 
