@@ -27,16 +27,16 @@ export default class jieshaoPage extends Component {
     constructor(props) {
         super(props);
 
-        this.id = this.props.navigation.state.params.id;
-        this.name = this.props.navigation.state.params.name;
-        this.img = this.props.navigation.state.params.img;
+        // this.id = this.props.navigation.state.params.id;
+        // this.name = this.props.navigation.state.params.name;
+        // this.img = this.props.navigation.state.params.img;
         this.state={
             data:[]
         }
     }
 
     componentDidMount() {
-        this.getData();
+        //this.getData();
     }
 
     goBack() {
@@ -57,15 +57,11 @@ export default class jieshaoPage extends Component {
         return(
             <View style={styles.container}>
                 <NavBar
-                    middleText={this.name}
+                    middleText={'配置详情'}
                     leftFn={this.goBack.bind(this)}
                 />
                 <Image style={styles.logo} source={this.img}/>
-                <ScrollView>
-                    <View style={styles.content}>
-                        <Text style={styles.text}>{this.state.data}</Text>
-                    </View>
-                </ScrollView>
+
 
             </View>
         )

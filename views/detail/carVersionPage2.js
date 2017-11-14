@@ -14,7 +14,8 @@ import cfn from '../../tools/commonFun'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
 import NavBar from '../../component/NavBar'
-export default class carVersionPage extends Component {
+import config from '../../config/config'
+export default class carVersionPage2 extends Component {
     static defaultProps={
 
     };
@@ -34,21 +35,22 @@ export default class carVersionPage extends Component {
     }
 
     getData() {
-        fetchp(urls.getCarVersion(this.id),{timeout:5*1000})
+        fetchp(urls.getCarVersion2(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
     }
+
     setData(data) {
-        data = this.changeObjKey(data.result.fctlist);
+        data = this.changeObjKey(data.result.enginelist[0].yearspeclist);
         this.setState({data:data})
     }
 
     changeObjKey(data) {
         for(let i = 0; i < data.length; i++) {
             data[i].key = data[i].name;
-            data[i].data = data[i].serieslist;
+            data[i].data = data[i].speclist;
             delete data[i].name;
-            delete data[i].serieslist;
+            delete data[i].speclist;
         }
         return data;
     }
@@ -65,16 +67,31 @@ export default class carVersionPage extends Component {
 
     renderItem({item}) {
         return(
-            <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={()=>this.goToPage('CarVersion2',{name:item.name,id:item.id,img:item.imgurl})}
+            <View
                 style={styles.itemContainer}>
-                <Image source={{uri:item.imgurl}} style={styles.img}/>
                 <View style={styles.textContainer}>
                     <Text style={styles.name}>{item.name}</Text>
                     <Text style={styles.price}>{item.price}</Text>
                 </View>
-            </TouchableOpacity>
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity
+                        onPress={()=>this.goToPage('Shop',{id:this.id})}
+                        activeOpacity={0.8} style={styles.btn}>
+                        <Text style={styles.btnText}>商店</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=>this.goToPage('CarVersionDetail')}
+                        activeOpacity={0.8} style={styles.btn}>
+                        <Text style={styles.btnText}>详情</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
+                        <Text style={styles.btnText}>收藏</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.pk}>
+                        <Text style={styles.pkText}>加入PK</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         )
     }
     renderSectionHeader({section}) {
@@ -83,19 +100,21 @@ export default class carVersionPage extends Component {
         </View>
     }
     render() {
+        // 大尺寸图片 d, u，v
         return(
             <View style={styles.container}>
                 <NavBar
                     middleText={this.props.navigation.state.params.name}
                     leftFn={this.goBack.bind(this)}
                     rightFn={()=>this.goToPage('Jieshao',{name:this.name,id:this.id, img:this.img})}
-                    rightText={'了解品牌'}
+                    rightText={'开始PK'}
                 />
                 <SectionList
                     sections={this.state.data}
                     renderItem={this.renderItem.bind(this)}
                     renderSectionHeader={this.renderSectionHeader.bind(this)}
                     keyExtractor={this._keyExtractor}
+                    ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
                     ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1}}/>}
                 />
 
@@ -117,10 +136,9 @@ const styles = StyleSheet.create({
         marginLeft:cfn.picWidth(20)
     },
     img: {
-       width:cfn.picWidth(200),
-        height:cfn.picHeight(120),
-        backgroundColor:'#eee',
-        marginLeft:cfn.picWidth(20)
+        width:cfn.deviceWidth(),
+        height:cfn.deviceWidth()*0.5,
+        backgroundColor:'#ddd'
     },
     name: {
         fontSize:15,
@@ -130,6 +148,40 @@ const styles = StyleSheet.create({
         marginTop:cfn.picHeight(10),
         fontSize:15,
         color:'#f33'
+    },
+    btnContainer: {
+        position:'absolute',
+        right:cfn.picHeight(20),
+        bottom:cfn.picHeight(20),
+        alignItems:'center',
+        justifyContent:'center',
+        flexDirection:'row'
+    },
+    pk: {
+        width:cfn.picWidth(120),
+        height:cfn.picHeight(50),
+        backgroundColor:config.baseColor,
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:10
+    },
+    pkText: {
+        color:'#fff',
+        fontSize:12
+    },
+    btn: {
+        width:cfn.picWidth(100),
+        height:cfn.picHeight(50),
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:10,
+        borderColor:'#bbb',
+        borderWidth:1,
+        marginRight:cfn.picWidth(20)
+    },
+    btnText: {
+        color:'#bbb',
+        fontSize:12,
     },
     sectionHeader: {
         height:cfn.picHeight(60),

@@ -8,8 +8,10 @@ import CPWebViewPage from './views/CPWebViewPage';
 import HomePage from './views/homePage'
 import MainPage from './views/mainPage'
 import CarVersionPage from './views/detail/carVersionPage'
+import CarVersionPage2 from './views/detail/carVersionPage2'
 import JieshaoPage from './views/detail/jieshaoPage'
-
+import CarVersionDetailPage from './views/detail/carVertionDetailPage'
+import ShopPage from './views/detail/shopPage';
 
 const routers = StackNavigator({
     launch: {screen: launchPage},
@@ -17,6 +19,11 @@ const routers = StackNavigator({
     Home: {screen: HomePage,navigationOptions: { header:null,}},
     // 汽车型号列表
     CarVersion: {screen: CarVersionPage,navigationOptions: { header:null,}},
+    CarVersion2: {screen: CarVersionPage2,navigationOptions: { header:null,}},
+    // 汽车配置详情
+    CarVersionDetail: {screen: CarVersionDetailPage,navigationOptions: { header:null,}},
+    // 售车商店
+    Shop: {screen: ShopPage,navigationOptions: { header:null,}},
     // 品牌介绍
     Jieshao: {screen:JieshaoPage,navigationOptions: {header:null}},
 
