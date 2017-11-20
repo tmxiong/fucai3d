@@ -55,7 +55,7 @@ export default class carVersionPage2 extends Component {
         return data;
     }
 
-    _keyExtractor=(item,index)=>item.id;
+    _keyExtractor=(item,index)=>index;
 
     goBack() {
         this.props.navigation.goBack();
@@ -75,12 +75,12 @@ export default class carVersionPage2 extends Component {
                 </View>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity
-                        onPress={()=>this.goToPage('Shop',{id:this.id})}
+                        onPress={()=>this.goToPage('Shop',{id:item.id})}
                         activeOpacity={0.8} style={styles.btn}>
                         <Text style={styles.btnText}>商店</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>this.goToPage('CarVersionDetail')}
+                        onPress={()=>this.goToPage('CarVersionDetail',{id:item.id})}
                         activeOpacity={0.8} style={styles.btn}>
                         <Text style={styles.btnText}>详情</Text>
                     </TouchableOpacity>
@@ -106,8 +106,8 @@ export default class carVersionPage2 extends Component {
                 <NavBar
                     middleText={this.props.navigation.state.params.name}
                     leftFn={this.goBack.bind(this)}
-                    rightFn={()=>this.goToPage('Jieshao',{name:this.name,id:this.id, img:this.img})}
-                    rightText={'开始PK'}
+                    rightFn={()=>this.goToPage('PK',{name:this.name,id:this.id, img:this.img})}
+                    rightText={'PK赛车'}
                 />
                 <SectionList
                     sections={this.state.data}

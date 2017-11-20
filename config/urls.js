@@ -14,5 +14,14 @@ exports.getCarVersion2 = function (id) {
 
 // 获取所售车型商店
 exports.getShop = function (id) {
-  return 'https://cars.app.autohome.com.cn/dealer_v8.4.5/dealer/pddealers-pm2-sp30493-ss771-c110100-sc0-p1-s5-o0-lon0.0-lat0.0-pid110000.json'
+  return 'https://cars.app.autohome.com.cn/dealer_v8.4.5/dealer/pddealers-pm2-sp'+id+'-ss771-c110100-sc0-p1-s5-o0-lon0.0-lat0.0-pid110000.json'
+};
+// 获取车型详情
+exports.getCarDetail = function (id) {
+    return 'https://cars.app.autohome.com.cn/cfg_v8.5.0/cars/speccompare.ashx?pm=2&type=1&specids='+id+'&cityid=110100&site=2&pl=2'
+};
+// 获取PK的数据
+exports.getPK = function (ids) {
+    // 23370,21620
+    return 'https://cars.app.autohome.com.cn/compare_v8.4.5/cars/speccomparefirstpage.ashx?pm=2&specids='+ids+'&cityid=110100';
 };

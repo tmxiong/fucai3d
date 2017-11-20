@@ -12,6 +12,8 @@ import CarVersionPage2 from './views/detail/carVersionPage2'
 import JieshaoPage from './views/detail/jieshaoPage'
 import CarVersionDetailPage from './views/detail/carVertionDetailPage'
 import ShopPage from './views/detail/shopPage';
+import PKPage from './views/detail/pkPage';
+
 
 const routers = StackNavigator({
     launch: {screen: launchPage},
@@ -26,7 +28,8 @@ const routers = StackNavigator({
     Shop: {screen: ShopPage,navigationOptions: { header:null,}},
     // 品牌介绍
     Jieshao: {screen:JieshaoPage,navigationOptions: {header:null}},
-
+    // PK赛车
+    PK: {screen:PKPage,navigationOptions: {header:null}},
     // 欢迎页 引导页
     Welcome: {screen: welcomePage},
 

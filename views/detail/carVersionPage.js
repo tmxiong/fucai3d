@@ -39,8 +39,9 @@ export default class carVersionPage extends Component {
             .then((data)=>this.setData(data))
     }
     setData(data) {
-        data = this.changeObjKey(data.result.fctlist);
-        this.setState({data:data})
+        let data1 = this.changeObjKey(data.result.fctlist);
+        let data2 = this.changeObjKey(data.result.otherfctlist);
+        this.setState({data:data1.concat(data2)})
     }
 
     changeObjKey(data) {

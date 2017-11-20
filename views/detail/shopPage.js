@@ -51,21 +51,25 @@ export default class jieshaoPage extends Component {
     }
 
     setData(data) {
-        this.setState({data:data.result.dealerlist})
+        if(data.result.dealerlist.length != 0) {
+            this.setState({data:data.result.dealerlist})
+        }
+
     }
 
     _keyExtractor=(item, index)=> item.id;
 
     renderItem({item, index}) {
         return(
-            <View style={styles.itemContainer}>
+            <View
+                style={styles.itemContainer}>
                 <View style={{flexDirection:'row',minHeight:cfn.picHeight(50),alignItems:'center',marginTop:cfn.picHeight(20)}}>
                     <View style={styles.fourS}>
                         <Text style={{color:'#666',fontSize:8}}>4S店</Text>
                     </View>
                     <Text style={{marginLeft:cfn.picWidth(20),
                         width:cfn.deviceWidth()-cfn.picWidth(200)}}>{item.name}</Text>
-                    <Text style={styles.price}>778万</Text>
+                    <Text style={styles.price}>{item.price}</Text>
                 </View>
                 <Text style={{color:'#888',fontSize:10,marginTop:cfn.picHeight(10),
                     marginBottom:cfn.picHeight(10),width:cfn.deviceWidth()-cfn.picWidth(40)}}>{item.address}</Text>
@@ -105,7 +109,7 @@ export default class jieshaoPage extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor:'#fff',
+        // backgroundColor:'#fff',
         flex:1,
         alignItems:'center'
     },
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
         minHeight:cfn.picHeight(250),
         justifyContent:'center',
         paddingLeft:cfn.picWidth(20),
-        // backgroundColor:'#f89'
+        backgroundColor:'#fff'
     },
     price: {
         fontSize:15,
