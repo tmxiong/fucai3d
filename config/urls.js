@@ -25,3 +25,12 @@ exports.getPK = function (ids) {
     // 23370,21620
     return 'https://cars.app.autohome.com.cn/compare_v8.4.5/cars/speccomparefirstpage.ashx?pm=2&specids='+ids+'&cityid=110100';
 };
+
+// 获取新闻列表
+exports.getCarNews = function (last, next) {
+    return "http://c.m.163.com/nc/auto/districtcode/list/110000/0-20.html";
+};
+
+exports.getCarNewsDetail = function (id) {
+    return 'http://c.m.163.com/nc/article/'+id+'/full.html';
+};

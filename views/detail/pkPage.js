@@ -29,7 +29,7 @@ export default class jieshaoPage extends Component {
         super(props);
 
         // this.id = this.props.navigation.state.params.id;
-        this.id = '23370,21620';
+        this.id = '23370,11620';
         // this.name = this.props.navigation.state.params.name;
         // this.img = this.props.navigation.state.params.img;
         this.state={
@@ -108,16 +108,31 @@ export default class jieshaoPage extends Component {
                     </View>
 
                 } else {
+                    let width = cfn.deviceWidth()-cfn.picWidth(50);
+                    let width_1 = width/2;
+                    let width_2 = width/2;
+
+                    let value_1 = carItems[0][i].items[j].value;
+                    let value_2 = carItems[1][i].items[j].value;
+
+                    if(carItems[1][i].items[j].isint != 0) {
+                        let value_1 = parseFloat(carItems[0][i].items[j].value);
+                        let value_2 = parseFloat(carItems[1][i].items[j].value);
+
+                        width_1 = value_1 / (value_1 + value_2) * width;
+                        width_2 = value_2 / (value_1 + value_2) * width;
+                    }
+
                     items.push(
-                        <View style={styles.itemContainer}>
+                        <View key={""+i+j} style={styles.itemContainer}>
                             <View style={styles.itemTextContainer}>
                                 <Text>{carItems[0][i].items[j].value}</Text>
                                 <Text>{carItems[0][i].items[j].name}</Text>
                                 <Text>{carItems[1][i].items[j].value}</Text>
                             </View>
                             <View style={styles.itemTiaoContainer}>
-                                <View style={[styles.tiao,styles.tiao1]}/>
-                                <View style={[styles.tiao,styles.tiao2]}/>
+                                <View style={[styles.tiao,styles.tiao1,{width:width_1}]}/>
+                                <View style={[styles.tiao,styles.tiao2,{width:width_2}]}/>
                             </View>
                         </View>
                     )

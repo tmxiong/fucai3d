@@ -6,6 +6,7 @@ import welcomePage from './views/welcomePage';
 import launchPage from './views/launchPage'
 import CPWebViewPage from './views/CPWebViewPage';
 import HomePage from './views/homePage'
+import NewsDetailPage from './views/detail/newsDetailPage'
 import MainPage from './views/mainPage'
 import CarVersionPage from './views/detail/carVersionPage'
 import CarVersionPage2 from './views/detail/carVersionPage2'
@@ -19,6 +20,7 @@ const routers = StackNavigator({
     launch: {screen: launchPage},
     Main:{screen: MainPage, navigationOptions: { header:null,}},
     Home: {screen: HomePage,navigationOptions: { header:null,}},
+    NewsDetail: {screen: NewsDetailPage,navigationOptions: { header:null,}},
     // 汽车型号列表
     CarVersion: {screen: CarVersionPage,navigationOptions: { header:null,}},
     CarVersion2: {screen: CarVersionPage2,navigationOptions: { header:null,}},
