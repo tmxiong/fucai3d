@@ -8,7 +8,8 @@ import {
     Text,
     View,
     Image,
-    WebView
+    WebView,
+    PixelRatio
 } from 'react-native';
 import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar';
@@ -25,7 +26,7 @@ export default class articleDetailPage extends Component {
         this.docid = props.navigation.state.params.docid;
         this.title = props.navigation.state.params.title;
         this.mtime = props.navigation.state.params.mtime;
-
+        this.pixelRatio = PixelRatio.get();
         this.state={
             data:'',
             isError:false,
@@ -76,23 +77,35 @@ export default class articleDetailPage extends Component {
         data = data[this.docid];
         let bodySting = data.body;
         let imgs = data.img;
+
+        // 160DPI(PPI) = 1dp = 1px，pixelRatio = 1;
+        // RN的宽度计算：屏幕分辨率／pixelRatio
+        // px单位宽度计算：RN宽度*pixelRatio
+
+        let mWidth = cfn.deviceWidth();
+        //let px = pixelRatio *
+
         if(imgs.length > 0) {
             for(let i = 0; i <imgs.length; i++){
-                // let imgPixel = imgs[i].pixel.split('*');
-                // let imgBili = imgPixel[1]/imgPixel[0]; //高除以宽;
-                //
-                // let imgWidth = cfn.deviceWidth()-cfn.picWidth(20);
-                // let imgHeight = imgWidth * imgBili;
+                let imgWidth = cfn.deviceWidth()*this.pixelRatio;
+                let imgHeight = imgWidth/2;
 
-                //let imgTemp = `<img src="${imgs[i].src}" style="width:${imgWidth}px; height:${imgHeight}px">`;
-                let imgTemp = `<img src='${imgs[i].src}' style='display: block;max-width: ${cfn.deviceWidth()-cfn.picWidth(40)}px'>`;
+                if(imgs[i].pixel) {
+                    let imgPixel = imgs[i].pixel.split('*');
+                    let imgBili = imgPixel[1]/imgPixel[0]; //高除以宽;
+
+                    imgWidth = cfn.deviceWidth()/this.pixelRatio - 40;
+                    imgHeight = imgWidth * imgBili;
+                }
+
+                let imgTemp = `<img src='${imgs[i].src}' style='display: block; width:${imgWidth}px; height:${imgHeight}px'>`;
+                // let imgTemp = `<img src='${imgs[i].src}' style='display: block;width: ${cfn.deviceWidth()-cfn.picWidth(80)}px;padding:0;margin:0'>`;
                 bodySting = bodySting.replace(imgs[i].ref,imgTemp);
             }
         }
         bodySting = bodySting.replace('wangyicaipiao','');
         bodySting = bodySting.replace('ID:','');
-        bodySting = bodySting.replace('网易彩票','【'+config.appName+'】');
-        bodySting = bodySting.replace('【网易彩票】','【'+config.appName+'】');
+        bodySting = bodySting.replace(/网易汽车/g,'【'+config.appName+'】');
         this.setState({
             data:bodySting,
             isError:false,
@@ -109,7 +122,7 @@ export default class articleDetailPage extends Component {
             </head>
             <h3>${this.title}</h3>
             <p>${this.mtime}</P>
-            <body style="max-width:${cfn.deviceWidth()-cfn.picWidth(40)}px">
+            <body style="max-width:${cfn.deviceWidth()*this.pixelRatio}px;font-size:${14}px;padding:20px;margin:0">
             ${this.state.data}
             </body>
             </html>`;
@@ -141,6 +154,7 @@ const styles = StyleSheet.create({
        height:cfn.deviceHeight(),
    },
     webView: {
-       width:cfn.deviceWidth(),
+       //maxWidth:cfn.deviceWidth(),
+        flex:1
     }
 });
