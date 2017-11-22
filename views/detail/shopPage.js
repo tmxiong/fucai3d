@@ -11,7 +11,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
-    FlatList
+    FlatList,
+    Linking
 } from 'react-native';
 
 import NavBar from '../../component/NavBar';
@@ -56,6 +57,12 @@ export default class jieshaoPage extends Component {
         }
 
     }
+    pressBtn(type, data) {
+        if(type == 'phone') {
+            Linking.canOpenURL('tel:'+ data)
+        }
+        console.log(data);
+    }
 
     _keyExtractor=(item, index)=> item.id;
 
@@ -76,11 +83,17 @@ export default class jieshaoPage extends Component {
                 <Text style={{color:'#bbb',fontSize:10,width:cfn.deviceWidth()-cfn.picWidth(40)}}>{item.newstitle}</Text>
                 <View style={{flexDirection: 'row',marginTop:cfn.picHeight(10),
                     justifyContent:'flex-end',paddingRight:cfn.picWidth(20), marginBottom:cfn.picHeight(20)}}>
-                    <TouchableOpacity style={[styles.btn,{marginRight:cfn.picWidth(20)}]}>
+                    <TouchableOpacity
+                        onPress={()=>this.pressBtn('collect')}
+                        activeOpacity={0.8}
+                        style={[styles.btn,{marginRight:cfn.picWidth(20)}]}>
                         <Text style={{color:'#fff'}}>收藏此店</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btn}>
+                    <TouchableOpacity
+                        onPress={()=>this.pressBtn('phone',item.phone)}
+                        activeOpacity={0.8}
+                        style={styles.btn}>
                         <Text style={{color:'#fff'}}>电话咨询</Text>
                     </TouchableOpacity>
                 </View>

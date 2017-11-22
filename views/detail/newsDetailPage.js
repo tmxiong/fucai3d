@@ -82,19 +82,16 @@ export default class articleDetailPage extends Component {
         // RN的宽度计算：屏幕分辨率／pixelRatio
         // px单位宽度计算：RN宽度*pixelRatio
 
-        let mWidth = cfn.deviceWidth();
-        //let px = pixelRatio *
-
         if(imgs.length > 0) {
             for(let i = 0; i <imgs.length; i++){
-                let imgWidth = cfn.deviceWidth()*this.pixelRatio;
+                let imgWidth = cfn.deviceWidth();
                 let imgHeight = imgWidth/2;
 
                 if(imgs[i].pixel) {
                     let imgPixel = imgs[i].pixel.split('*');
                     let imgBili = imgPixel[1]/imgPixel[0]; //高除以宽;
 
-                    imgWidth = cfn.deviceWidth()/this.pixelRatio - 40;
+                    imgWidth = cfn.deviceWidth() - 20 - 40;
                     imgHeight = imgWidth * imgBili;
                 }
 
@@ -122,7 +119,7 @@ export default class articleDetailPage extends Component {
             </head>
             <h3>${this.title}</h3>
             <p>${this.mtime}</P>
-            <body style="max-width:${cfn.deviceWidth()*this.pixelRatio}px;font-size:${14}px;padding:20px;margin:0">
+            <body style="max-width:${cfn.deviceWidth()*this.pixelRatio}px;font-size:${14}px;padding:10px;margin:0">
             ${this.state.data}
             </body>
             </html>`;
@@ -155,6 +152,7 @@ const styles = StyleSheet.create({
    },
     webView: {
        //maxWidth:cfn.deviceWidth(),
-        flex:1
+        flex:1,
+        height:cfn.deviceHeight()
     }
 });

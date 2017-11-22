@@ -104,19 +104,21 @@ export default class wanfaPage extends Component {
                             require('../imgs/banner/banner_3.png'),
                         ]}
                     />
-                    <View style={styles.menuContainer}>
-                        <View style={styles.menuContent}/>
-                        <View style={styles.menuContent}/>
-                        <View style={styles.menuContent}/>
-                        <View style={styles.menuContent}/>
+                    <View style={styles.titleContainer}>
+                        <View style={styles.titleIcon}/>
+                        <Text style={styles.titleText}>PK赛车品牌</Text>
                     </View>
-                    <View
-                        style={styles.allLogosContainer}>
+                    <View style={styles.allLogosContainer}>
                         {this.renderLogos()}
+                    </View>
+                    <View style={styles.titleContainer}>
+                        <View style={styles.titleIcon}/>
+                        <Text style={styles.titleText}>赛车头条资讯</Text>
                     </View>
                     <ScrollView>
                         {this.state.items}
                     </ScrollView>
+                    <View style={{height:50}}/>
                 </View>
             </Image>
         )
@@ -134,16 +136,18 @@ const styles = StyleSheet.create({
         backgroundColor:'rgba(0,0,0,0.5)',
         flex:1
     },
-    menuContainer: {
-      width:cfn.deviceWidth(),
-        height:cfn.picHeight(100),
-        flexDirection:'row'
+    titleContainer: {
+        width:cfn.deviceWidth(),height:cfn.picHeight(70),
+        flexDirection:'row',
+        backgroundColor:'rgba(0,0,0,0.2)',
+        alignItems:'center'
     },
-    menuContent: {
-      width:cfn.picWidth(80),
-        height:cfn.picWidth(80),
-        borderRadius:cfn.picWidth(40),
-        backgroundColor:'#f00'
+    titleIcon: {
+        height:cfn.picHeight(40),width:cfn.picWidth(10),backgroundColor:'#a22',
+        margin:cfn.picHeight(20)
+    },
+    titleText: {
+        fontSize:16,color:'#a22'
     },
     allLogosContainer: {
         flexDirection:'row',
@@ -156,7 +160,7 @@ const styles = StyleSheet.create({
         borderRadius:10,
         alignItems:'center',
         justifyContent:'center',
-        marginTop:cfn.picHeight(20),
+        marginTop:cfn.picHeight(10),
         marginLeft:cfn.picWidth(10),
         backgroundColor:'#000'
     },
@@ -183,10 +187,10 @@ const styles = StyleSheet.create({
         height: cfn.picHeight(160),
         flexDirection: 'row',
         borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        borderBottomColor: '#999',
         alignItems: 'center',
         alignSelf: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: 'rgba(0,0,0,0.6)'
     },
     item_text_container: {
         flexWrap: 'wrap',
@@ -196,20 +200,20 @@ const styles = StyleSheet.create({
     },
     item_source: {
         fontSize: 13,
-        color: '#888',
+        color: '#aaa',
         position: 'absolute',
         left: cfn.picWidth(20),
         bottom: 0
     },
     item_time: {
         fontSize: 13,
-        color: '#888',
+        color: '#aaa',
         position: 'absolute',
         right: cfn.picWidth(20),
         bottom: 0
     },
     item_title: {
-        color: '#444'
+        color: '#eee'
     },
     item_img: {
         width: cfn.picWidth(180),

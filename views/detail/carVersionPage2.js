@@ -27,6 +27,7 @@ export default class carVersionPage2 extends Component {
         this.name = props.navigation.state.params.name;
         this.state={
             data:[],
+            loader: '正在加载...'
         }
     }
 
@@ -41,8 +42,14 @@ export default class carVersionPage2 extends Component {
     }
 
     setData(data) {
-        data = this.changeObjKey(data.result.enginelist[0].yearspeclist);
-        this.setState({data:data})
+        let enginelist = data.result.enginelist;
+        if(enginelist.length > 0) {
+            data = this.changeObjKey(enginelist[0].yearspeclist);
+            this.setState({data:data})
+        } else {
+            this.setState({loader:'暂无数据'});
+        }
+
     }
 
     changeObjKey(data) {
@@ -69,26 +76,25 @@ export default class carVersionPage2 extends Component {
         return(
             <View
                 style={styles.itemContainer}>
-                <View style={styles.textContainer}>
+                <TouchableOpacity
+                    onPress={()=>this.goToPage('CarVersionDetail',{id:item.id})}
+                    activeOpacity={0.8}
+                    style={styles.textContainer}>
                     <Text style={styles.name}>{item.name}</Text>
                     <Text style={styles.price}>{item.price}</Text>
-                </View>
+                    <Text style={styles.detailText}>详细配置>></Text>
+                </TouchableOpacity>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity
                         onPress={()=>this.goToPage('Shop',{id:item.id})}
                         activeOpacity={0.8} style={styles.btn}>
-                        <Text style={styles.btnText}>商店</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={()=>this.goToPage('CarVersionDetail',{id:item.id})}
-                        activeOpacity={0.8} style={styles.btn}>
-                        <Text style={styles.btnText}>详情</Text>
+                        <Text style={styles.btnText}>经销商</Text>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
-                        <Text style={styles.btnText}>收藏</Text>
+                        <Text style={styles.btnText}>加入收藏</Text>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.8} style={styles.pk}>
-                        <Text style={styles.pkText}>加入PK</Text>
+                        <Text style={styles.pkText}>加入PK赛车</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -109,14 +115,16 @@ export default class carVersionPage2 extends Component {
                     rightFn={()=>this.goToPage('PK',{name:this.name,id:this.id, img:this.img})}
                     rightText={'PK赛车'}
                 />
-                <SectionList
+                {this.state.data.length == 0 ?
+                    <Text style={styles.loader}>{this.state.loader}</Text> :
+                    <SectionList
                     sections={this.state.data}
                     renderItem={this.renderItem.bind(this)}
                     renderSectionHeader={this.renderSectionHeader.bind(this)}
                     keyExtractor={this._keyExtractor}
                     ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
                     ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1}}/>}
-                />
+                />}
 
             </View>
         )
@@ -124,16 +132,33 @@ export default class carVersionPage2 extends Component {
 }
 const styles = StyleSheet.create({
    container: {
-       width:cfn.deviceWidth(),height:cfn.deviceHeight()
+       width:cfn.deviceWidth(),
+       height:cfn.deviceHeight(),
+       alignItems:'center'
    } ,
     itemContainer: {
-        flexDirection:'row',
+        //flexDirection:'row',
         backgroundColor:'#fff',
-        height:cfn.picHeight(160),
-        alignItems:'center'
+        minHeight:cfn.picHeight(220),
+        justifyContent:'center'
+    },
+    loader: {
+        position:'absolute',
+        top:cfn.deviceHeight()/2,
+        fontSize:14,
+        color:'#555'
+
     },
     textContainer: {
-        marginLeft:cfn.picWidth(20)
+        marginLeft:cfn.picWidth(20),
+        marginTop:cfn.picHeight(20),
+        justifyContent:'center'
+    },
+    detailText: {
+        position:'absolute',
+        right:cfn.picWidth(20),
+        fontSize:13,
+        color:'#aaa',
     },
     img: {
         width:cfn.deviceWidth(),
@@ -150,31 +175,30 @@ const styles = StyleSheet.create({
         color:'#f33'
     },
     btnContainer: {
-        position:'absolute',
-        right:cfn.picHeight(20),
-        bottom:cfn.picHeight(20),
+        marginTop:cfn.picHeight(20),
         alignItems:'center',
-        justifyContent:'center',
-        flexDirection:'row'
+        flexDirection:'row',
+        paddingLeft:cfn.picWidth(20),
+        marginBottom:cfn.picHeight(20)
     },
     pk: {
-        width:cfn.picWidth(120),
-        height:cfn.picHeight(50),
+        width:(cfn.deviceWidth()-cfn.picWidth(80))/2,
+        height:cfn.picHeight(60),
         backgroundColor:config.baseColor,
         alignItems:'center',
         justifyContent:'center',
-        borderRadius:10
+        //borderRadius:10
     },
     pkText: {
         color:'#fff',
         fontSize:12
     },
     btn: {
-        width:cfn.picWidth(100),
-        height:cfn.picHeight(50),
+        width:(cfn.deviceWidth()-cfn.picWidth(80))/4,
+        height:cfn.picHeight(60),
         alignItems:'center',
         justifyContent:'center',
-        borderRadius:10,
+        //borderRadius:10,
         borderColor:'#bbb',
         borderWidth:1,
         marginRight:cfn.picWidth(20)
