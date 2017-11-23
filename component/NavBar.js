@@ -85,7 +85,7 @@ export default class navBar extends PureComponent {
             </TouchableOpacity>);
         }
 
-        this.setState({leftView: leftView})
+        return leftView
     }
     renderRight() {
         let props = this.props;
@@ -109,7 +109,7 @@ export default class navBar extends PureComponent {
                 <Text style={[styles.TextStyle,{color:props.textColor},{alignSelf:'flex-end'}]}>{props.rightText}</Text>
             </TouchableOpacity>)
         }
-        this.setState({rightView: rightView})
+        return rightView;
     }
     renderMiddle() {
         let props = this.props;
@@ -153,9 +153,9 @@ export default class navBar extends PureComponent {
                 <View style={{height:cfn.picHeight(navBarHeight),width:cfn.deviceWidth(),
                     flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
 
-                    {this.state.leftView}
+                    {this.renderLeft()}
                     {this.renderMiddle()}
-                    {this.state.rightView}
+                    {this.renderRight()}
 
                 </View>
 

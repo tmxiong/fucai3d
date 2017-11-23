@@ -59,7 +59,7 @@ export default class loadingModal extends Component {
             //},1000);
         }
 
-        // this.initStorage();
+        this.initStorage();
         // this.myCheck();
         // this.checkIsFirstOpen();
 

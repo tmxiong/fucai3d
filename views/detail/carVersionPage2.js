@@ -8,13 +8,15 @@ import {
     View,
     Image,
     TouchableOpacity,
-    SectionList
+    SectionList,
+    Alert
 } from 'react-native';
 import cfn from '../../tools/commonFun'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
 import NavBar from '../../component/NavBar'
 import config from '../../config/config'
+import Global from '../../global/global'
 export default class carVersionPage2 extends Component {
     static defaultProps={
 
@@ -27,12 +29,14 @@ export default class carVersionPage2 extends Component {
         this.name = props.navigation.state.params.name;
         this.state={
             data:[],
-            loader: '正在加载...'
+            loader: '正在加载...',
+            PKData:[],
         }
     }
 
     componentDidMount() {
         this.getData();
+        this.getPKCars();
     }
 
     getData() {
@@ -71,6 +75,25 @@ export default class carVersionPage2 extends Component {
     goToPage(route, params) {
         this.props.navigation.navigate(route,params);
     }
+    getPKCars() {
+        Global.storage.getAllDataForKey('PKCars')
+            .then((data)=>this.setState({PKData:data}))
+    }
+    savePKCars(data) {
+        if(this.state.PKData.length == 10) {
+            Alert.alert('提示：','已添加10量PK赛车，若要添加请先删除！');
+            return;
+        }
+        Global.storage.save({
+            key: 'PKCars',  // 注意:请不要在key中使用_下划线符号!
+            id: data.id, //获取所有数据时，id 必须写
+            data: data,
+
+            // 如果不指定过期时间，则会使用defaultExpires参数
+            // 如果设为null，则永不过期
+            expires: null
+        });
+    }
 
     renderItem({item}) {
         return(
@@ -93,7 +116,9 @@ export default class carVersionPage2 extends Component {
                     <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
                         <Text style={styles.btnText}>加入收藏</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.8} style={styles.pk}>
+                    <TouchableOpacity
+                        onPress={()=>this.savePKCars(item)}
+                        activeOpacity={0.8} style={styles.pk}>
                         <Text style={styles.pkText}>加入PK赛车</Text>
                     </TouchableOpacity>
                 </View>
@@ -112,9 +137,12 @@ export default class carVersionPage2 extends Component {
                 <NavBar
                     middleText={this.props.navigation.state.params.name}
                     leftFn={this.goBack.bind(this)}
-                    rightFn={()=>this.goToPage('PK',{name:this.name,id:this.id, img:this.img})}
+                    rightFn={()=>this.goToPage('PKList',{name:this.name,id:this.id, img:this.img})}
                     rightText={'PK赛车'}
                 />
+                <View style={styles.PKNumberContainer}>
+                    <Text style={styles.PKNumber}>{this.state.PKData.length}</Text>
+                </View>
                 {this.state.data.length == 0 ?
                     <Text style={styles.loader}>{this.state.loader}</Text> :
                     <SectionList
@@ -148,6 +176,22 @@ const styles = StyleSheet.create({
         fontSize:14,
         color:'#555'
 
+    },
+    PKNumberContainer: {
+        width:cfn.picWidth(40),
+        height:cfn.picHeight(40),
+        borderRadius:cfn.picWidth(20),
+        backgroundColor:'#fff',
+        alignItems:'center',
+        justifyContent:'center',
+        position:'absolute',
+        top:cfn.picHeight(50),
+        right:cfn.picWidth(5),
+        borderColor:'#999',
+        borderWidth:1
+    },
+    PKNumber: {
+        fontSize:10
     },
     textContainer: {
         marginLeft:cfn.picWidth(20),

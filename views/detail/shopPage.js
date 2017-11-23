@@ -33,7 +33,8 @@ export default class jieshaoPage extends Component {
         // this.name = this.props.navigation.state.params.name;
         // this.img = this.props.navigation.state.params.img;
         this.state={
-            data:[]
+            data:[],
+            loader:'正在加载...'
         }
     }
 
@@ -46,22 +47,39 @@ export default class jieshaoPage extends Component {
     }
 
     getData() {
+        this.setState({loader:'正在加载...'});
         fetchp(urls.getShop(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .catch((err)=>this.setError(err))
     }
 
     setData(data) {
         if(data.result.dealerlist.length != 0) {
             this.setState({data:data.result.dealerlist})
+        } else {
+            this.setState({loader:'暂无数据'})
         }
-
     }
+    setError(err) {
+        this.setState({
+            data:[],
+            loader:'加载错误，点击重试'
+        })
+    }
+
     pressBtn(type, data) {
         if(type == 'phone') {
-            Linking.canOpenURL('tel:'+ data)
+            Alert.alert(
+                '是否拨打电话？',
+                data,
+                [
+                    {text: '确定', onPress: () => Linking.openURL('tel:'+ data)},
+                    {text: '取消', onPress: () => {}},
+
+                ],
+            );
         }
-        console.log(data);
     }
 
     _keyExtractor=(item, index)=> item.id;
@@ -108,12 +126,21 @@ export default class jieshaoPage extends Component {
                     middleText={"汽车商店"}
                     leftFn={this.goBack.bind(this)}
                 />
-                <FlatList
+
+                {this.state.data.length == 0 ?
+                    <TouchableOpacity
+                        style={styles.loader}
+                        onPress={()=>this.getData()}
+                        activeOpacity={0.8}>
+                        <Text>{this.state.loader}</Text>
+                    </TouchableOpacity>
+                    :
+                    <FlatList
                     data={this.state.data}
                     keyExtractor={this._keyExtractor}
                     renderItem={this.renderItem.bind(this)}
                     ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#ddd'}}/>}
-                />
+                />}
 
 
             </View>
@@ -125,6 +152,10 @@ const styles = StyleSheet.create({
         // backgroundColor:'#fff',
         flex:1,
         alignItems:'center'
+    },
+    loader: {
+        position:'absolute',
+        top:cfn.deviceHeight()/2,
     },
     itemContainer: {
         width:cfn.deviceWidth(),

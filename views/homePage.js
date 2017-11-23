@@ -118,7 +118,7 @@ export default class wanfaPage extends Component {
                     <ScrollView>
                         {this.state.items}
                     </ScrollView>
-                    <View style={{height:50}}/>
+                    <View style={{height:cfn.picHeight(100)}}/>
                 </View>
             </Image>
         )
@@ -157,12 +157,14 @@ const styles = StyleSheet.create({
     logoContainer: {
         width:(cfn.deviceWidth()-cfn.picWidth(60))/5,
         height:(cfn.deviceWidth()-cfn.picWidth(60))/5,
-        borderRadius:10,
+        //borderRadius:10,
         alignItems:'center',
         justifyContent:'center',
         marginTop:cfn.picHeight(10),
         marginLeft:cfn.picWidth(10),
-        backgroundColor:'#000'
+        backgroundColor:'rgba(0,0,0,0.5)',
+        borderColor:'#fff',
+        borderWidth:1
     },
     logoText: {
         position:'absolute',
@@ -223,14 +225,14 @@ const styles = StyleSheet.create({
 });
 
 const logos = [
-    {img:require('../imgs/cars/保时捷.png'),name:'保时捷',id:40},
-    {img:require('../imgs/cars/兰博基尼.png'),name:'兰博基尼',id:48},
-    {img:require('../imgs/cars/奔驰.png'),name:'奔驰',id:36},
-    {img:require('../imgs/cars/奥迪.png'),name:'奥迪',id:33},
-    {img:require('../imgs/cars/宝马.png'),name:'宝马',id:15},
-    {img:require('../imgs/cars/宾利.png'),name:'宾利',id:39},
-    {img:require('../imgs/cars/法拉利.png'),name:'法拉利',id:42},
-    {img:require('../imgs/cars/玛莎拉蒂.png'),name:'玛莎拉蒂',id:57},
-    {img:require('../imgs/cars/路特斯.png'),name:'路特斯',id:50},
-    {img:require('../imgs/cars/阿斯顿马丁.png'),name:'阿斯顿·马丁',id:35},
+    {img:require('../imgs/cars/bsj.png'),name:'保时捷',id:40},
+    {img:require('../imgs/cars/lbjn.png'),name:'兰博基尼',id:48},
+    {img:require('../imgs/cars/bc.png'),name:'奔驰',id:36},
+    {img:require('../imgs/cars/ad.png'),name:'奥迪',id:33},
+    {img:require('../imgs/cars/bm.png'),name:'宝马',id:15},
+    {img:require('../imgs/cars/bl.png'),name:'宾利',id:39},
+    {img:require('../imgs/cars/fll.png'),name:'法拉利',id:42},
+    {img:require('../imgs/cars/msld.png'),name:'玛莎拉蒂',id:57},
+    {img:require('../imgs/cars/lts.png'),name:'路特斯',id:50},
+    {img:require('../imgs/cars/asdmd.png'),name:'阿斯顿·马丁',id:35},
 ];

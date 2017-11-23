@@ -28,8 +28,8 @@ export default class jieshaoPage extends Component {
     constructor(props) {
         super(props);
 
-        // this.id = this.props.navigation.state.params.id;
-        this.id = '23370,11620';
+        this.id = this.props.navigation.state.params.ids;
+        //this.id = '23370,11620';
         // this.name = this.props.navigation.state.params.name;
         // this.img = this.props.navigation.state.params.img;
         this.state={
@@ -77,20 +77,22 @@ export default class jieshaoPage extends Component {
 
             let items = [];
 
-            // 配置差异
+
             let peizhi_1 = [];
             let peizhi_2 = [];
 
             for(let j = 0; j < carItems[0][i].items.length; j++) {
+
+                // 最后一项 配置差异 部分
                 if(carItems[0].length - 1 == i) {
 
-                    if(carItems[0][i].items[j].value == 1) {
+                    if(carItems[0][i].items[j].value == 1 && carItems[1][i].items[j].value == 0) {
                         peizhi_1.push(
                             <View style={styles.chayiContent}>
                                 <Text style={styles.chayiText}>{carItems[0][i].items[j].name}</Text>
                             </View>
                         );
-                    } else if(carItems[1][i].items[j].value == 1) {
+                    } else if(carItems[1][i].items[j].value == 1 && carItems[0][i].items[j].value == 0) {
                         peizhi_2.push(
                             <View style={styles.chayiContent}>
                                 <Text style={styles.chayiText}>{carItems[1][i].items[j].name}</Text>
@@ -100,13 +102,14 @@ export default class jieshaoPage extends Component {
 
                     items = <View style={[styles.itemContainer,{flexDirection:'row',alignItems:'flex-start'}]}>
                         <View style={styles.chayiContainer}>
-                            {peizhi_1}
+                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text>无其它配置差异</Text> : peizhi_1}
                         </View>
                         <View style={[styles.chayiContainer,{justifyContent:'flex-end',alignItems:'flex-start'}]}>
-                            {peizhi_2}
+                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text>无其它配置差异</Text> : peizhi_2}
                         </View>
                     </View>
 
+                    // 有横条的部分
                 } else {
                     let width = cfn.deviceWidth()-cfn.picWidth(50);
                     let width_1 = width/2;

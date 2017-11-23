@@ -20,7 +20,7 @@ import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
 
-export default class jieshaoPage extends Component {
+export default class carVertionDetailPage extends Component {
 
     static defaultProps={
 
@@ -100,7 +100,7 @@ export default class jieshaoPage extends Component {
                     leftFn={this.goBack.bind(this)}
                 />
                 <View style={styles.itemTitle}>
-                    <Text style={{color:'#000'}}>→ {this.state.itemTitle}</Text>
+                    <Text style={{color:'#000'}}>{this.state.itemTitle}</Text>
                 </View>
                 <SectionList
                     sections={this.state.data}

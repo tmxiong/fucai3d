@@ -84,7 +84,7 @@ const mainPage = TabNavigator({
         showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
         indicatorStyle: {height: 0}, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
         style: {
-            backgroundColor: '#eee', // TabBar 背景色
+            backgroundColor: 'rgba(0,0,0,0.7)', // TabBar 背景色
             height:cfn.picHeight(100)
         },
         labelStyle: {
