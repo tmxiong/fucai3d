@@ -7,7 +7,8 @@ import {
     View,
     Image,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Text
 } from 'react-native';
 
 import commonFn from '../tools/commonFun';
@@ -41,9 +42,19 @@ export default class Banner extends PureComponent {
                 arr.push(<TouchableOpacity
                     key={i}
                     activeOpacity={0.9}
-                onPress={()=>this.goToDetail(i)}
+                    onPress={()=>this.goToPage('NewsDetail', {
+                            docid: bannerList[i].docid,
+                            title: bannerList[i].title,
+                            mtime: bannerList[i].mtime,
+                            rowData: bannerList[i],
+                        })}
                 >
-                        <Image style={styles.imageStyle} source={bannerList[i]}/>
+                        <Image style={styles.imageStyle} source={{uri:bannerList[i].imgsrc}}/>
+                    <View style={{position:'absolute',bottom:0,width:commonFn.deviceWidth(),
+                        backgroundColor:'rgba(0,0,0,0.5)',padding:commonFn.picWidth(5)}}>
+                        <Text style={{color:'#ddd',fontSize:12}}>{bannerList[i].title}</Text>
+                    </View>
+
                     </TouchableOpacity>);
             }
             return arr;
@@ -51,16 +62,8 @@ export default class Banner extends PureComponent {
 
     }
 
-    goToDetail(index) {
-        const {navigate} = this.props.navigation;
-
-        if(index == 0) {
-            navigate('Gonglue')
-        } else if(index == 1) {
-            navigate('Trend',{type:this.props.type,name:this.props.name})
-        } else if(index == 2) {
-            navigate('MoreNews')
-        }
+    goToPage(route,params) {
+        this.props.navigation.navigate(route,params);
     }
 
     onScroll(event) {

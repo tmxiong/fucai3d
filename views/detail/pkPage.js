@@ -20,6 +20,17 @@ import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
 
+const colors = {
+    titleColor:'#ccc',
+    tiaoColor_1:'#b63827',
+    textColor_1:'#b63827',
+    borderColor_1:'#b63827',
+
+    tiaoColor_2:'#3169bc',
+    textColor_2:'#3169bc',
+    borderColor_2:'#3169bc',
+};
+
 export default class jieshaoPage extends Component {
 
     static defaultProps={
@@ -94,18 +105,18 @@ export default class jieshaoPage extends Component {
                         );
                     } else if(carItems[1][i].items[j].value == 1 && carItems[0][i].items[j].value == 0) {
                         peizhi_2.push(
-                            <View style={styles.chayiContent}>
-                                <Text style={styles.chayiText}>{carItems[1][i].items[j].name}</Text>
+                            <View style={[styles.chayiContent,{borderColor:colors.borderColor_2}]}>
+                                <Text style={[styles.chayiText,{color:colors.tiaoColor_2}]}>{carItems[1][i].items[j].name}</Text>
                             </View>
                         );
                     }
 
                     items = <View style={[styles.itemContainer,{flexDirection:'row',alignItems:'flex-start'}]}>
                         <View style={styles.chayiContainer}>
-                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text>无其它配置差异</Text> : peizhi_1}
+                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text style={styles.itemText}>无其它配置差异</Text> : peizhi_1}
                         </View>
                         <View style={[styles.chayiContainer,{justifyContent:'flex-end',alignItems:'flex-start'}]}>
-                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text>无其它配置差异</Text> : peizhi_2}
+                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text style={styles.itemText}>无其它配置差异</Text> : peizhi_2}
                         </View>
                     </View>
 
@@ -129,9 +140,9 @@ export default class jieshaoPage extends Component {
                     items.push(
                         <View key={""+i+j} style={styles.itemContainer}>
                             <View style={styles.itemTextContainer}>
-                                <Text>{carItems[0][i].items[j].value}</Text>
-                                <Text>{carItems[0][i].items[j].name}</Text>
-                                <Text>{carItems[1][i].items[j].value}</Text>
+                                <Text style={styles.itemText}>{carItems[0][i].items[j].value}</Text>
+                                <Text style={styles.itemText}>{carItems[0][i].items[j].name}</Text>
+                                <Text style={styles.itemText}>{carItems[1][i].items[j].value}</Text>
                             </View>
                             <View style={styles.itemTiaoContainer}>
                                 <View style={[styles.tiao,styles.tiao1,{width:width_1}]}/>
@@ -155,99 +166,109 @@ export default class jieshaoPage extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <NavBar
-                    middleText={'PK赛车'}
-                    leftFn={this.goBack.bind(this)}
-                />
-                <View style={styles.titleContainer}>
-                    <Image source={{uri:this.state.carImg[0]}} style={styles.car}>
-                        <View style={styles.carImg}>
-                            <View style={styles.carName}>
-                                <Text style={styles.carNameText1}>{this.state.carName[0][0]}</Text>
-                                <Text style={styles.carNameText2}>{this.state.carName[0][1]}</Text>
+            <Image source={require('../../imgs/pageBg/page_bg_4.png')}
+                   style={styles.containerBg}>
+                <View style={styles.container}>
+                    <NavBar
+                        middleText={'PK赛车'}
+                        leftFn={this.goBack.bind(this)}
+                    />
+                    <View style={styles.titleContainer}>
+                        <Image source={{uri:this.state.carImg[0]}} style={styles.car}>
+                            <View style={styles.carImg}>
+                                <View style={styles.carName}>
+                                    <Text style={styles.carNameText1}>{this.state.carName[0][0]}</Text>
+                                    <Text style={styles.carNameText2}>{this.state.carName[0][1]}</Text>
+                                </View>
+                            </View>
+
+                        </Image>
+                        <Image source={{uri:this.state.carImg[1]}} style={styles.car}>
+                            <View style={styles.carImg}>
+                                <View style={styles.carName}>
+                                    <Text style={styles.carNameText1}>{this.state.carName[1][0]}</Text>
+                                    <Text style={styles.carNameText2}>{this.state.carName[1][1]}</Text>
+                                </View>
+                            </View>
+                        </Image>
+                        <View style={styles.pk}>
+                            <Text style={styles.pkText}>PK</Text>
+                        </View>
+                    </View>
+
+                    <ScrollView>
+
+                        <Text style={styles.pkTitle}>PK价格</Text>
+                        <View style={[styles.itemContainer,{flexDirection:'row'}]}>
+
+                            <View style={styles.priceContainer}>
+
+                                <Text style={[styles.priceText,{fontSize:12}]}>全款参考:</Text>
+                                <Text style={[styles.priceText,{fontWeight:'bold',fontSize:18}]}>{this.state.carPrice[0][0]}</Text>
+
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={styles.priceText}>裸车价参考:</Text>
+                                    <Text style={styles.priceText}>{this.state.carPrice[0][1]}</Text>
+                                </View>
+
+                            </View>
+
+                            <View style={[styles.priceContainer,{marginLeft:cfn.picWidth(40),borderColor:colors.borderColor_2}]}>
+
+                                <Text style={[styles.priceText,{fontSize:12,color:colors.borderColor_2}]}>全款参考:</Text>
+                                <Text style={[styles.priceText,{fontWeight:'bold',fontSize:18,color:colors.textColor_2}]}>{this.state.carPrice[1][0]}</Text>
+
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={[styles.priceText,{color:colors.textColor_2}]}>裸车价参考:</Text>
+                                    <Text style={[styles.priceText,{color:colors.textColor_2}]}>{this.state.carPrice[1][1]}</Text>
+                                </View>
+
                             </View>
                         </View>
 
-                    </Image>
-                    <Image source={{uri:this.state.carImg[1]}} style={styles.car}>
-                        <View style={styles.carImg}>
-                            <View style={styles.carName}>
-                                <Text style={styles.carNameText1}>{this.state.carName[1][0]}</Text>
-                                <Text style={styles.carNameText2}>{this.state.carName[1][1]}</Text>
-                            </View>
-                        </View>
-                    </Image>
-                    <View style={styles.pk}>
-                        <Text style={styles.pkText}>PK</Text>
-                    </View>
+
+
+                        <Text style={styles.pkTitle}>PK配置</Text>
+                        {this.state.carItems}
+                        {/*<Text style={styles.pkSubTitle}>动力性能</Text>*/}
+                        {/*<View style={[styles.itemContainer,{flexDirection:'row'}]}>*/}
+                        {/*<View style={styles.chayiContainer}>*/}
+
+                        {/*</View>*/}
+
+                        {/*<View style={styles.chayiContainer}>*/}
+                        {/*<View style={styles.chayiContent}>*/}
+                        {/*<Text style={styles.chayiText}>气囊气囊</Text>*/}
+                        {/*</View>*/}
+                        {/*</View>*/}
+                        {/*</View>*/}
+
+                    </ScrollView>
                 </View>
-
-                <ScrollView>
-
-                    <Text style={styles.pkTitle}>PK价格</Text>
-                    <View style={[styles.itemContainer,{flexDirection:'row'}]}>
-
-                        <View style={styles.priceContainer}>
-
-                            <Text style={[styles.priceText,{fontSize:12}]}>全款参考:</Text>
-                            <Text style={[styles.priceText,{fontWeight:'bold',fontSize:18}]}>{this.state.carPrice[0][0]}</Text>
-
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={styles.priceText}>裸车价参考:</Text>
-                                <Text style={styles.priceText}>{this.state.carPrice[0][1]}</Text>
-                            </View>
-
-                        </View>
-
-                        <View style={[styles.priceContainer,{marginLeft:cfn.picWidth(40),borderColor:'#a45'}]}>
-
-                            <Text style={[styles.priceText,{fontSize:12,color:'#a45'}]}>全款参考:</Text>
-                            <Text style={[styles.priceText,{fontWeight:'bold',fontSize:18,color:'#a45'}]}>{this.state.carPrice[1][0]}</Text>
-
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={[styles.priceText,{color:'#a45'}]}>裸车价参考:</Text>
-                                <Text style={[styles.priceText,{color:'#a45'}]}>{this.state.carPrice[1][1]}</Text>
-                            </View>
-
-                        </View>
-                    </View>
+            </Image>
 
 
-
-                    <Text style={styles.pkTitle}>PK配置</Text>
-                    {this.state.carItems}
-                    {/*<Text style={styles.pkSubTitle}>动力性能</Text>*/}
-                    {/*<View style={[styles.itemContainer,{flexDirection:'row'}]}>*/}
-                        {/*<View style={styles.chayiContainer}>*/}
-
-                        {/*</View>*/}
-
-                        {/*<View style={styles.chayiContainer}>*/}
-                            {/*<View style={styles.chayiContent}>*/}
-                                {/*<Text style={styles.chayiText}>气囊气囊</Text>*/}
-                            {/*</View>*/}
-                        {/*</View>*/}
-                    {/*</View>*/}
-
-                </ScrollView>
-            </View>
         )
     }
 }
 const styles = StyleSheet.create({
+    containerBg: {
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+        resizeMode:'stretch'
+    },
    container: {
-
        flex:1,
        alignItems:'center',
-       width:cfn.deviceWidth()
+       width:cfn.deviceWidth(),
+       backgroundColor:'rgba(0,0,0,0.5)'
    },
    content: {
        width:cfn.deviceWidth(),
        padding:cfn.picWidth(20)
    },
     text: {
-       color:'#333',
+       color:colors.titleColor,
         lineHeight:25,
         fontSize:14
     },
@@ -256,8 +277,10 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth(),
         justifyContent:'space-around',
         alignItems:'center',
-        backgroundColor:'#fff',
-        height:cfn.picHeight(240)
+        //backgroundColor:'#fff',
+        height:cfn.picHeight(240),
+        borderBottomColor:'#fff',
+        borderBottomWidth:1
     },
     car: {
 
@@ -267,14 +290,15 @@ const styles = StyleSheet.create({
         bottom:0,
         backgroundColor:'rgba(0,0,0,0.5)',
         width:(cfn.deviceWidth()-cfn.picWidth(60))/2,
+        padding:5
     },
     carNameText1: {
         color:'#fff',
-        fontSize:14
+        fontSize:12,
     },
     carNameText2: {
         color:'#fff',
-        fontSize:10
+        fontSize:9
     },
     pk: {
       width:cfn.picWidth(100),
@@ -293,28 +317,28 @@ const styles = StyleSheet.create({
     },
     pkTitle: {
         fontSize: 16,
-        color:'#000',
+        color:colors.titleColor,
         alignSelf:'center',
         marginTop:cfn.picHeight(40)
     },
     pkSubTitle: {
         alignSelf:'center',
-        color:'#333',
+        color:colors.titleColor,
         fontSize:12,
-        marginTop:cfn.picHeight(20)
+        marginTop:cfn.picHeight(40)
     },
 
     priceContainer: {
-        width:cfn.picHeight(200),
+        width:cfn.picHeight(300),
         height:cfn.picHeight(200),
-        borderColor:'#45a',
+        borderColor:colors.borderColor_1,
         borderWidth:2,
         justifyContent:'center',
         alignItems:'center'
     },
     priceText: {
       fontSize:9,
-        color:'#45a'
+        color:colors.textColor_1
     },
 
     carImg: {
@@ -326,7 +350,7 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth(),
         alignItems:'center',
         justifyContent:'center',
-        marginTop:cfn.picHeight(20)
+        marginTop:cfn.picHeight(20),
     },
     itemTextContainer: {
         flexDirection:'row',
@@ -335,6 +359,10 @@ const styles = StyleSheet.create({
         alignItems:'center',
         height:cfn.picHeight(50),
     },
+    itemText: {
+        color:colors.titleColor,
+        fontSize:12
+    },
     itemTiaoContainer: {
         flexDirection:'row',
         justifyContent:'space-between',
@@ -342,13 +370,13 @@ const styles = StyleSheet.create({
     },
     tiao: {
         width:(cfn.deviceWidth()-cfn.picWidth(50))/2,
-        height:cfn.picHeight(20),
+        height:cfn.picHeight(10),
     },
     tiao1: {
-        backgroundColor:'#45a'
+        backgroundColor:colors.tiaoColor_1
     },
     tiao2: {
-        backgroundColor:'#a45'
+        backgroundColor:colors.tiaoColor_2
     },
     chayiContainer: {
         width:(cfn.deviceWidth()-cfn.picWidth(40))/2,
@@ -363,11 +391,11 @@ const styles = StyleSheet.create({
         alignItems:'center',justifyContent:'center',
         paddingLeft:3,paddingRight:3,
         margin:5,
-        borderColor:'#a45',
+        borderColor:colors.borderColor_1,
         borderWidth:1
     },
     chayiText: {
         fontSize:10,
-        color:'#a45'
+        color:colors.textColor_1
     }
 });

@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.5)',
         overflow:'hidden',
         position:'absolute',
-        top:commonFun.picHeight(322)
+        top:commonFun.picHeight(422)
     },
     noticeIcon: {
         width: commonFun.picHeight(26),

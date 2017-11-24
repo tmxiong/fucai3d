@@ -11,7 +11,7 @@ import {
     WebView,
     FlatList,
     TouchableOpacity,
-    RefreshControl
+    RefreshControl,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import cfn from '../tools/commonFun'
@@ -19,7 +19,8 @@ import NavBar from '../component/NavBar';
 import fetchp from '../tools/fetch-polyfill';
 import urls from '../config/urls';
 import config from '../config/config';
-import lotterys from '../config/lotterys';
+import Banner from '../component/Banner'
+import Notice from '../component/Notice'
 export default class articleDetailPage extends Component {
     static navigationOptions = {header: null};
 
@@ -27,48 +28,42 @@ export default class articleDetailPage extends Component {
         super(props);
         this.loading = '正在加载...';
         this.error = '加载错误，点击重试';
+        this.bannerLength = 3;
         this.state={
             data:[],
             isLoading: true,
             isRefreshing: true,
             loadState:this.loading,
+            bannerList:[
+                require('../imgs/banner/banner_1.png'),
+                require('../imgs/banner/banner_2.png'),
+                require('../imgs/banner/banner_3.png'),
+            ]
         };
-
-        this.ids = '';
-        for(let i = 0; i < lotterys.length; i++) {
-            this.ids += lotterys[i].id;
-            this.ids += '|';
-        }
     }
     static defaultProps = {
 
     };
 
     componentDidMount() {
-        //this.getData();
+        this.getData();
     }
 
     getData() {
-        fetchp(urls.getNewestLotteryCode(this.ids),{timeout:5*1000})
+        fetchp(urls.getCarNews(),{timeout:5*1000})
             .then((res)=>res.json())
-            .then((json)=>this.setData(json))
-            .catch((error)=>this.setError(error))
+            .then((data)=>this.setData(data))
+            .catch((err)=>console.log(err));
     }
 
     setData(data) {
-        data = data.showapi_res_body.result;
-        for(let i = 0; i < data.length; i++) {
-            for(let j = 0; j < lotterys.length; j++) {
-                if(data[i].code == lotterys[j].id) {
-                    data[i].name = lotterys[j].name;
-                    data[i].icon = lotterys[j].icon;
-                    data[i].jieshao = lotterys[j].jieshao;
-                    break;
-                }
-            }
-        }
         //console.log(data);
-        this.setState({data:data,isRefreshing:false});
+        let bannerList = this.getBannerData(data.list);
+        this.setState({
+            data:data.list,
+            isRefreshing:false,
+            bannerList:bannerList
+        });
     }
 
     setError(error) {
@@ -84,78 +79,48 @@ export default class articleDetailPage extends Component {
         this.props.navigation.goBack();
     }
 
-    goToDetail(route, params) {
+    goToPage(route, params) {
         this.props.navigation.navigate(route, params)
     }
-
-    _keyExtractor=(item, index) => item.expect + index;
-
-    renderCode(data) {
-        let codes = [];
-        let code= {
-            width:cfn.picWidth(50),
-            height:cfn.picWidth(50),
-            borderRadius:cfn.picWidth(25),
-            backgroundColor:config.baseColor,
-            alignItems:'center',
-            justifyContent:'center',
-            marginRight:cfn.picWidth(10),
-            marginTop:cfn.picWidth(10)
-        };
-        let codeText = {
-            color:'#fff',
-            fontSize:12
-        };
-
-        if(data.length > 5) {
-            code.height = cfn.picWidth(40);
-            code.width = cfn.picWidth(40);
-            code.borderRadius = cfn.picWidth(20);
-            codeText.fontSize = 10;
+    getBannerData(data) {
+        let bannerList = [];
+        for(let i = 0; i < this.bannerLength; i++) {
+            bannerList.push(data[i])
         }
-        for(let i = 0; i < data.length; i++) {
-            codes.push(
-                <View
-                    key={i}
-                    style={code}>
-                    <Text style={codeText}>{data[i]}</Text>
-                </View>
-            )
-        }
-        return codes;
+        return bannerList;
     }
 
+    _keyExtractor=(item, index) => index;
+
+
     renderItem({item, index}) {
-        let codes = item.openCode;
-        if(codes.match(/[+]/)) {
-            codes = codes.split('+')[0].split(',');
-        } else {
-            codes = codes.split(',');
+        if(index < this.bannerLength) {
+            return null;
+        }else {
+            return(
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={()=>this.goToPage('NewsDetail', {
+                            docid: item.docid,
+                            title: item.title,
+                            mtime: item.mtime,
+                            rowData: item,
+                        }
+                    )}
+                    style={styles.item_container}>
+                    <View style={styles.item_text_container}>
+                        <Text
+                            style={styles.item_title}>{item.title}</Text>
+                        <Text style={styles.item_source}>{config.appName}</Text>
+                        <Text style={styles.item_time}>{item.mtime}</Text>
+                    </View>
+                    <Image
+                        style={styles.item_img}
+                        source={{uri: item.imgsrc}}/>
+                </TouchableOpacity>
+            )
         }
-        return(
-            <TouchableOpacity
-                key={item.expect}
-                style={styles.item_container}
-                activeOpacity={0.8}
-                onPress={()=>this.goToDetail('SingleKaijiang',
-                    {id:item.code,
-                        icon:item.icon,
-                        jieshao:item.jieshao,
-                        title: item.name
-                    })}>
-                <View style={{flexDirection:'row'}}>
-                    <Text style={styles.cz_name}>{item.name}</Text>
-                    <Text
-                        style={{marginLeft:cfn.picWidth(20),color:'#999'}}>第{item.expect}期</Text>
-                </View>
-                <View style={styles.codeContainer}>
-                    {this.renderCode(codes)}
-                </View>
-                <Image
-                    style={styles.icon_r}
-                    source={require('../imgs/more_r_icon.png')}/>
-            </TouchableOpacity>
-        )
+
     }
 
     _onRefresh() {
@@ -178,10 +143,13 @@ export default class articleDetailPage extends Component {
         return(
             <View style={styles.container}>
                 <NavBar
-                    middleText='更多彩种'
+                    middleText='赛车资讯'
                     leftFn={()=>this.goBack()}
                 />
-
+                <Banner
+                    bannerList={this.state.bannerList}
+                    navigation={this.props.navigation}
+                />
                 {this.state.data.length == 0 ?
                     <TouchableOpacity
                         activeOpacity={1}
@@ -205,6 +173,7 @@ export default class articleDetailPage extends Component {
                                 progressBackgroundColor="#fff"
                             />}
                     />}
+                    <View style={{height:cfn.picHeight(100)}}/>
             </View>)
     }
 }
@@ -223,37 +192,41 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
     },
     item_container: {
-        width:cfn.deviceWidth()-cfn.picWidth(40) ,
-        minHeight:cfn.picHeight(140),
-        alignItems:'flex-start',
-        borderBottomColor:'#eee',
-        borderBottomWidth:1,
-        alignSelf:'center',
-        justifyContent:'center',
-        backgroundColor:'#fff',
+        width: cfn.deviceWidth(),
+        height: cfn.picHeight(160),
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: '#999',
+        alignItems: 'center',
+        alignSelf: 'center',
+        backgroundColor: 'rgba(0,0,0,0.6)'
     },
-    codeContainer: {
-        flexDirection:'row',
-        marginTop:cfn.picHeight(10),
-        width:cfn.deviceWidth()-cfn.picWidth(150),
-        flexWrap:'wrap',
-        marginBottom:cfn.picWidth(10)
+    item_text_container: {
+        flexWrap: 'wrap',
+        width: cfn.deviceWidth() - cfn.picWidth(180 + 40),
+        paddingLeft: cfn.picWidth(20),
+        height: cfn.picHeight(120),
     },
-    icon: {
-        width:cfn.picWidth(50),
-        height:cfn.picWidth(50),
-        resizeMode:'contain',
-        marginLeft:cfn.picWidth(20)
-    },
-    icon_r: {
-        width: cfn.picWidth(50),
-        height: cfn.picHeight(50),
-        resizeMode: 'contain',
+    item_source: {
+        fontSize: 13,
+        color: '#aaa',
         position: 'absolute',
-        right: cfn.picWidth(20)
+        left: cfn.picWidth(20),
+        bottom: 0
     },
-    cz_name: {
-        fontSize:14,
-        color:'#777',
+    item_time: {
+        fontSize: 13,
+        color: '#aaa',
+        position: 'absolute',
+        right: cfn.picWidth(20),
+        bottom: 0
     },
+    item_title: {
+        color: '#eee'
+    },
+    item_img: {
+        width: cfn.picWidth(180),
+        height: cfn.picHeight(120),
+        marginLeft: cfn.picWidth(20),
+    }
 });

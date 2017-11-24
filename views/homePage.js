@@ -5,7 +5,8 @@ import {
     View,
     Image,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    SectionList
 } from 'react-native';
 import cfn from '../tools/commonFun'
 import Banner from '../component/Banner'
@@ -21,7 +22,9 @@ export default class wanfaPage extends Component {
         super(props);
         this.state = {
             items:null,
-        }
+            data:[],
+        };
+        this.id = 40;
     }
 
     componentDidMount() {
@@ -33,44 +36,28 @@ export default class wanfaPage extends Component {
     }
 
     getData() {
-        fetchp(urls.getCarNews(),{timeout:5*1000})
+        fetchp(urls.getCarVersion(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
-            .catch((err)=>console.log(err));
     }
 
     setData(data) {
-        let items = [];
-        data = data.list;
-        for(let i = 0; i < data.length; i++) {
-            items.push(
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    key={i}
-                    onPress={()=>this.goToPage('NewsDetail', {
-                            docid: data[i].docid,
-                            title: data[i].title,
-                            mtime: data[i].mtime,
-                            rowData: data[i],
-                        }
-                    )}
-                    style={styles.item_container}>
-                    <View style={styles.item_text_container}>
-                        <Text
-                            style={styles.item_title}>{data[i].title}</Text>
-                        <Text style={styles.item_source}>{config.appName}</Text>
-                        <Text style={styles.item_time}>{data[i].mtime}</Text>
-                    </View>
-                    <Image
-                        style={styles.item_img}
-                        source={{uri: data[i].imgsrc}}/>
-                </TouchableOpacity>
-            )
-        }
-        this.setState({
-            items: items,
-        })
+        let data1 = this.changeObjKey(data.result.fctlist);
+        let data2 = this.changeObjKey(data.result.otherfctlist);
+        this.setState({data:data1.concat(data2)})
     }
+
+    changeObjKey(data) {
+        for(let i = 0; i < data.length; i++) {
+            data[i].key = data[i].name;
+            data[i].data = data[i].serieslist;
+            delete data[i].name;
+            delete data[i].serieslist;
+        }
+        return data;
+    }
+
+    _keyExtractor=(item,index)=>item.id;
 
     renderLogos() {
         let views = [];
@@ -92,18 +79,27 @@ export default class wanfaPage extends Component {
         return views;
     }
 
+    renderItem({item}) {
+        return(
+            <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={()=>this.goToPage('CarVersion2',{name:item.name,id:item.id,img:item.imgurl})}
+                style={styles.itemContainer}>
+                <Image source={{uri:item.imgurl}} style={styles.img}/>
+                <View style={styles.textContainer}>
+                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={styles.price}>{item.price}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
     render() {
 
         return (
             <Image source={require('../imgs/pageBg/page_bg_1.png')} style={styles.container}>
                 <View style={styles.containerBg}>
-                    <Banner
-                        bannerList={[
-                            require('../imgs/banner/banner_1.png'),
-                            require('../imgs/banner/banner_2.png'),
-                            require('../imgs/banner/banner_3.png'),
-                        ]}
-                    />
+                    <View style={styles.titleImg}/>
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}/>
                         <Text style={styles.titleText}>PK赛车品牌</Text>
@@ -113,11 +109,15 @@ export default class wanfaPage extends Component {
                     </View>
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}/>
-                        <Text style={styles.titleText}>赛车头条资讯</Text>
+                        <Text style={styles.titleText}>当前展示车型：保时捷</Text>
                     </View>
-                    <ScrollView>
-                        {this.state.items}
-                    </ScrollView>
+                    <SectionList
+                        sections={this.state.data}
+                        renderItem={this.renderItem.bind(this)}
+                        //renderSectionHeader={this.renderSectionHeader.bind(this)}
+                        keyExtractor={this._keyExtractor}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#333'}}/>}
+                    />
                     <View style={{height:cfn.picHeight(100)}}/>
                 </View>
             </Image>
@@ -135,6 +135,10 @@ const styles = StyleSheet.create({
     containerBg: {
         backgroundColor:'rgba(0,0,0,0.5)',
         flex:1
+    },
+    titleImg: {
+        width:cfn.deviceWidth(),
+        height:cfn.picHeight(250),
     },
     titleContainer: {
         width:cfn.deviceWidth(),height:cfn.picHeight(70),
@@ -156,7 +160,7 @@ const styles = StyleSheet.create({
     },
     logoContainer: {
         width:(cfn.deviceWidth()-cfn.picWidth(60))/5,
-        height:(cfn.deviceWidth()-cfn.picWidth(60))/5,
+        height:cfn.picHeight(170),
         //borderRadius:10,
         alignItems:'center',
         justifyContent:'center',
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
     },
     logoText: {
         position:'absolute',
-        bottom:0,
+        bottom:2,
         backgroundColor:'rgba(0,0,0,0.5)',
         color:'#fff',
         width:(cfn.deviceWidth()-cfn.picWidth(60))/5,
@@ -184,44 +188,31 @@ const styles = StyleSheet.create({
         height:(cfn.deviceWidth()-cfn.picWidth(60))/5-2,
         //borderRadius:10
     },
-    item_container: {
-        width: cfn.deviceWidth(),
-        height: cfn.picHeight(160),
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderBottomColor: '#999',
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: 'rgba(0,0,0,0.6)'
+    itemContainer: {
+        flexDirection:'row',
+        backgroundColor:'rgba(0,0,0,0.7)',
+        height:cfn.picHeight(140),
+        alignItems:'center'
     },
-    item_text_container: {
-        flexWrap: 'wrap',
-        width: cfn.deviceWidth() - cfn.picWidth(180 + 40),
-        paddingLeft: cfn.picWidth(20),
-        height: cfn.picHeight(120),
+    textContainer: {
+        marginLeft:cfn.picWidth(20)
     },
-    item_source: {
-        fontSize: 13,
-        color: '#aaa',
-        position: 'absolute',
-        left: cfn.picWidth(20),
-        bottom: 0
+    img: {
+        width:cfn.picWidth(200),
+        height:cfn.picHeight(120),
+        backgroundColor:'#eee',
+        marginLeft:cfn.picWidth(20)
     },
-    item_time: {
-        fontSize: 13,
-        color: '#aaa',
-        position: 'absolute',
-        right: cfn.picWidth(20),
-        bottom: 0
+    name: {
+        fontSize:15,
+        color:'#eee'
     },
-    item_title: {
-        color: '#eee'
+    price: {
+        marginTop:cfn.picHeight(10),
+        fontSize:15,
+        color:'#a22'
     },
-    item_img: {
-        width: cfn.picWidth(180),
-        height: cfn.picHeight(120),
-        marginLeft: cfn.picWidth(20),
-    }
+
 });
 
 const logos = [

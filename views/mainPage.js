@@ -26,8 +26,8 @@ const mainPage = TabNavigator({
     Home: {
         screen: HomePage,
         navigationOptions: {
-            title: '北京赛车',
-            tabBarLabel: '北京赛车',
+            //title: 'PK赛车',
+            tabBarLabel: 'PK赛车',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/home_icon.png')}
@@ -41,8 +41,8 @@ const mainPage = TabNavigator({
     Order: {
         screen: OrderPage,
         navigationOptions: {
-            title: '其它彩种',
-            tabBarLabel: '其它彩种',
+            //title: '赛车头条',
+            tabBarLabel: '赛车头条',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/order_icon.png')}
