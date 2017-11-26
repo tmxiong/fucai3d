@@ -111,6 +111,14 @@ export default class pkListPage extends Component {
             }
         }
         this.getData();
+        try{
+            let params = this.props.navigation.state.params;
+            if(params.update) {
+                params.update();
+            }
+        }catch(e){}
+
+
     }
 
     addItems() {
@@ -191,6 +199,9 @@ export default class pkListPage extends Component {
                     rightFn={this.selectAll.bind(this)}
                 />
                 <View style={styles.container}>
+                    <View style={styles.notice}>
+                        <Text style={styles.noticeText}>注:可选择2款赛车型号进行PK,红色即为选中状态!</Text>
+                    </View>
 
                     <ScrollView>
                         {this.state.data.length == 0 ?
@@ -240,6 +251,14 @@ const styles = StyleSheet.create({
         fontSize:15,
         marginTop:cfn.deviceHeight()*1/3
     },
+    notice: {
+        height:cfn.picHeight(60),
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    noticeText: {
+        color:'#ccc',
+    },
     itemContainer: {
         width:cfn.deviceWidth()-cfn.picWidth(40),
         minHeight:cfn.picHeight(120),
@@ -287,21 +306,21 @@ const styles = StyleSheet.create({
     },
     delBtn: {
         width:cfn.picWidth(150),
-        height:cfn.picHeight(100),
+        height:cfn.picHeight(80),
         backgroundColor:'#aaa',
         alignItems:'center',
         justifyContent:'center'
     },
     PKBtn: {
-        width:cfn.deviceWidth()-cfn.picWidth(40+150+150+20+20),
-        height:cfn.picHeight(100),
+        width:cfn.deviceWidth()-cfn.picWidth(40+150+150),
+        height:cfn.picHeight(80),
         backgroundColor:'#e44',
         alignItems:'center',
         justifyContent:'center'
     },
     addBtn: {
         width:cfn.picWidth(150),
-        height:cfn.picHeight(100),
+        height:cfn.picHeight(80),
         backgroundColor:'#4b4',
         alignItems:'center',
         justifyContent:'center'

@@ -58,9 +58,10 @@ export default class articleDetailPage extends Component {
 
     setData(data) {
         //console.log(data);
-        let bannerList = this.getBannerData(data.list);
+        data = this.deleteData(data.list);
+        let bannerList = this.getBannerData(data);
         this.setState({
-            data:data.list,
+            data:data,
             isRefreshing:false,
             bannerList:bannerList
         });
@@ -74,6 +75,16 @@ export default class articleDetailPage extends Component {
         })
     }
 
+    // 每日易乐有点黄 有点污 删掉！！
+    deleteData(data) {
+        for(let i = 0; i < data.length; i++) {
+            if(data[i].title.match(/每日易乐/)) {
+                data.splice(i,1);
+                break;
+            }
+        }
+        return data;
+    }
 
     goBack() {
         this.props.navigation.goBack();

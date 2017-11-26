@@ -6,13 +6,15 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    SectionList
+    SectionList,
+    StatusBar
 } from 'react-native';
 import cfn from '../tools/commonFun'
 import Banner from '../component/Banner'
 import fetchp from '../tools/fetch-polyfill'
 import urls from '../config/urls'
 import config from '../config/config'
+import ChangeCarModal from './detail/changeCarModal'
 export default class wanfaPage extends Component {
 
     static defaultProps = {};
@@ -23,8 +25,10 @@ export default class wanfaPage extends Component {
         this.state = {
             items:null,
             data:[],
+            visible:true,
+            name:config.cars[0].name
         };
-        this.id = 40;
+        this.id = config.cars[0].id;
     }
 
     componentDidMount() {
@@ -61,6 +65,7 @@ export default class wanfaPage extends Component {
 
     renderLogos() {
         let views = [];
+        let logos = config.cars;
         for(let i = 0; i < logos.length; i++) {
             views.push(
                 <TouchableOpacity
@@ -90,16 +95,34 @@ export default class wanfaPage extends Component {
                     <Text style={styles.name}>{item.name}</Text>
                     <Text style={styles.price}>{item.price}</Text>
                 </View>
+                <Image source={require('../imgs/more_r_icon.png')} style={styles.moreIcon}/>
             </TouchableOpacity>
         )
+    }
+
+    changeCar(id,name) {
+        this._modal.closeModal();
+        this.id = id;
+        this.setState({
+            name:name
+        });
+        this.getData();
     }
 
     render() {
 
         return (
             <Image source={require('../imgs/pageBg/page_bg_1.png')} style={styles.container}>
+
+                <ChangeCarModal
+                    ref={(ref)=>this._modal = ref}
+                    changeCar={this.changeCar.bind(this)}
+                />
+
                 <View style={styles.containerBg}>
-                    <View style={styles.titleImg}/>
+                    <TouchableOpacity activeOpacity={0.8} onPress={()=>this.goToPage("PKList")} >
+                        <Image source={require('../imgs/home/pk_banner.png')} style={styles.titleImg}/>
+                    </TouchableOpacity>
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}/>
                         <Text style={styles.titleText}>PK赛车品牌</Text>
@@ -109,7 +132,13 @@ export default class wanfaPage extends Component {
                     </View>
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}/>
-                        <Text style={styles.titleText}>当前展示车型：保时捷</Text>
+                        <Text style={styles.titleText}>当前展示车型：{this.state.name}</Text>
+                        <TouchableOpacity activeOpacity={0.8}
+                            style={{position:'absolute',right:5}}
+                                          onPress={()=>this._modal.openModal()}
+                        >
+                            <Text style={styles.titleText}>切换车型>></Text>
+                        </TouchableOpacity>
                     </View>
                     <SectionList
                         sections={this.state.data}
@@ -138,25 +167,28 @@ const styles = StyleSheet.create({
     },
     titleImg: {
         width:cfn.deviceWidth(),
-        height:cfn.picHeight(250),
+        height:cfn.picHeight(375),
     },
     titleContainer: {
-        width:cfn.deviceWidth(),height:cfn.picHeight(70),
+        width:cfn.deviceWidth(),height:cfn.picHeight(60),
         flexDirection:'row',
-        backgroundColor:'rgba(0,0,0,0.2)',
-        alignItems:'center'
+        backgroundColor:'#464646',
+        alignItems:'center',
+        //marginTop:cfn.picHeight(20)
+
     },
     titleIcon: {
-        height:cfn.picHeight(40),width:cfn.picWidth(10),backgroundColor:'#a22',
+        height:cfn.picHeight(30),width:cfn.picWidth(10),backgroundColor:'#fff',
         margin:cfn.picHeight(20)
     },
     titleText: {
-        fontSize:16,color:'#a22'
+        fontSize:12,color:'#eee'
     },
     allLogosContainer: {
         flexDirection:'row',
         flexWrap:'wrap',
         alignItems:'center',
+        //marginTop:cfn.picHeight(20)
     },
     logoContainer: {
         width:(cfn.deviceWidth()-cfn.picWidth(60))/5,
@@ -191,15 +223,23 @@ const styles = StyleSheet.create({
     itemContainer: {
         flexDirection:'row',
         backgroundColor:'rgba(0,0,0,0.7)',
-        height:cfn.picHeight(140),
+        height:cfn.picHeight(120),
         alignItems:'center'
+    },
+    moreIcon: {
+        width:cfn.picWidth(50),
+        height:cfn.picWidth(50),
+        resizeMode:'stretch',
+        position:'absolute',
+        right:cfn.picWidth(20)
+
     },
     textContainer: {
         marginLeft:cfn.picWidth(20)
     },
     img: {
         width:cfn.picWidth(200),
-        height:cfn.picHeight(120),
+        height:cfn.picHeight(100),
         backgroundColor:'#eee',
         marginLeft:cfn.picWidth(20)
     },
@@ -209,21 +249,9 @@ const styles = StyleSheet.create({
     },
     price: {
         marginTop:cfn.picHeight(10),
-        fontSize:15,
+        fontSize:12,
         color:'#a22'
     },
 
 });
 
-const logos = [
-    {img:require('../imgs/cars/bsj.png'),name:'保时捷',id:40},
-    {img:require('../imgs/cars/lbjn.png'),name:'兰博基尼',id:48},
-    {img:require('../imgs/cars/bc.png'),name:'奔驰',id:36},
-    {img:require('../imgs/cars/ad.png'),name:'奥迪',id:33},
-    {img:require('../imgs/cars/bm.png'),name:'宝马',id:15},
-    {img:require('../imgs/cars/bl.png'),name:'宾利',id:39},
-    {img:require('../imgs/cars/fll.png'),name:'法拉利',id:42},
-    {img:require('../imgs/cars/msld.png'),name:'玛莎拉蒂',id:57},
-    {img:require('../imgs/cars/lts.png'),name:'路特斯',id:50},
-    {img:require('../imgs/cars/asdmd.png'),name:'阿斯顿·马丁',id:35},
-];

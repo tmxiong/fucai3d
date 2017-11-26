@@ -113,10 +113,10 @@ export default class jieshaoPage extends Component {
 
                     items = <View style={[styles.itemContainer,{flexDirection:'row',alignItems:'flex-start'}]}>
                         <View style={styles.chayiContainer}>
-                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text style={styles.itemText}>无其它配置差异</Text> : peizhi_1}
+                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text style={[styles.itemText,{marginBottom:cfn.picHeight(40)}]}>无其它配置差异</Text> : peizhi_1}
                         </View>
                         <View style={[styles.chayiContainer,{justifyContent:'flex-end',alignItems:'flex-start'}]}>
-                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text style={styles.itemText}>无其它配置差异</Text> : peizhi_2}
+                            {peizhi_1.length == 0 && peizhi_2.length == 0 ? <Text style={[styles.itemText,{marginBottom:cfn.picHeight(40)}]}>无其它配置差异</Text> : peizhi_2}
                         </View>
                     </View>
 
@@ -358,10 +358,11 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth()-cfn.picWidth(40),
         alignItems:'center',
         height:cfn.picHeight(50),
+        //backgroundColor:'#f78'
     },
     itemText: {
         color:colors.titleColor,
-        fontSize:12
+        fontSize:12,
     },
     itemTiaoContainer: {
         flexDirection:'row',

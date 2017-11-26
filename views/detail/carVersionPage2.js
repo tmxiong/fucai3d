@@ -17,6 +17,7 @@ import urls from '../../config/urls';
 import NavBar from '../../component/NavBar'
 import config from '../../config/config'
 import Global from '../../global/global'
+import CarItem from '../../component/carItem';
 export default class carVersionPage2 extends Component {
     static defaultProps={
 
@@ -31,7 +32,7 @@ export default class carVersionPage2 extends Component {
             data:[],
             loader: '正在加载...',
             PKData:[],
-        }
+        };
     }
 
     componentDidMount() {
@@ -77,8 +78,33 @@ export default class carVersionPage2 extends Component {
     }
     getPKCars() {
         Global.storage.getAllDataForKey('PKCars')
-            .then((data)=>this.setState({PKData:data}))
+            .then((data)=>this.setState({PKData:data}));
     }
+
+    getIsSelected(type, id) {
+        let isSelected = false;
+        if(type == 'collect') {
+
+        } else {
+            let data = this.state.PKData;
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].id == id) {
+                    isSelected = true;
+                    break;
+                }
+            }
+        }
+        return isSelected;
+    }
+
+    setIsSelected(data) {
+        for(let i = 0; i < data.length; i++) {
+            data[i].isSelected = this.getIsSelected('collect',data[i].id);
+            data[i].isSelectedPK = this.getIsSelected('PK',data[i].id);
+        }
+        return data;
+    }
+
     savePKCars(data) {
         if(this.state.PKData.length == 10) {
             Alert.alert('提示：','已添加10量PK赛车，若要添加请先删除！');
@@ -95,35 +121,26 @@ export default class carVersionPage2 extends Component {
         }).then(()=>this.getPKCars());
     }
 
+    update() {
+        this.getPKCars();
+        this.setState({data:this.state.data});
+        this.forceUpdate();
+
+    }
+
     renderItem({item}) {
         return(
-            <View
-                style={styles.itemContainer}>
-                <TouchableOpacity
-                    onPress={()=>this.goToPage('CarVersionDetail',{id:item.id})}
-                    activeOpacity={0.8}
-                    style={styles.textContainer}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}</Text>
-                    <Text style={styles.detailText}>详细配置>></Text>
-                </TouchableOpacity>
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity
-                        onPress={()=>this.goToPage('Shop',{id:item.id})}
-                        activeOpacity={0.8} style={styles.btn}>
-                        <Text style={styles.btnText}>经销商</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
-                        <Text style={styles.btnText}>加入收藏</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={()=>this.savePKCars(item)}
-                        activeOpacity={0.8} style={styles.pk}>
-                        <Text style={styles.pkText}>加入PK赛车</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
+            <CarItem
+                name={item.name}
+                price={item.price}
+                id={item.id}
+                item={item}
+                savePKCars={this.savePKCars.bind(this)}
+                goToPage={this.goToPage.bind(this)}
+                isSelectedPK={this.getIsSelected('collect',item.id)}
+                isSelected={this.getIsSelected('PK',item.id)}
+            />
+        );
     }
     renderSectionHeader({section}) {
         return <View style={styles.sectionHeader}>
@@ -137,7 +154,8 @@ export default class carVersionPage2 extends Component {
                 <NavBar
                     middleText={this.props.navigation.state.params.name}
                     leftFn={this.goBack.bind(this)}
-                    rightFn={()=>this.goToPage('PKList',{name:this.name,id:this.id, img:this.img})}
+                    rightFn={()=>this.goToPage('PKList',
+                        {name:this.name,id:this.id, img:this.img, update: this.update.bind(this)})}
                     rightText={'PK赛车'}
                 />
                 <View style={styles.PKNumberContainer}>
