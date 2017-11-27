@@ -80,37 +80,40 @@ export default class carVersionPage extends Component {
     }
     renderSectionHeader({section}) {
         return <View style={styles.sectionHeader}>
-            <Text style={{marginLeft:cfn.picWidth(20),fontSize:12,color:'#000'}}>{section.key}</Text>
+            <Text style={{marginLeft:cfn.picWidth(20),fontSize:12,color:'#bbb'}}>{section.key}</Text>
         </View>
     }
     render() {
         return(
-            <View style={styles.container}>
-                <NavBar
-                    middleText={this.props.navigation.state.params.name}
-                    leftFn={this.goBack.bind(this)}
-                    rightFn={()=>this.goToPage('Jieshao',{name:this.name,id:this.id, img:this.img})}
-                    rightText={'了解品牌'}
-                />
-                <SectionList
-                    sections={this.state.data}
-                    renderItem={this.renderItem.bind(this)}
-                    renderSectionHeader={this.renderSectionHeader.bind(this)}
-                    keyExtractor={this._keyExtractor}
-                    ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1}}/>}
-                />
+            <Image source={require('../../imgs/pageBg/page_bg_3.png')} style={styles.container}>
+                <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.7)'}]}>
+                    <NavBar
+                        middleText={this.props.navigation.state.params.name}
+                        leftFn={this.goBack.bind(this)}
+                        rightFn={()=>this.goToPage('Jieshao',{name:this.name,id:this.id, img:this.img})}
+                        rightText={'了解品牌'}
+                    />
+                    <SectionList
+                        sections={this.state.data}
+                        renderItem={this.renderItem.bind(this)}
+                        renderSectionHeader={this.renderSectionHeader.bind(this)}
+                        keyExtractor={this._keyExtractor}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
+                    />
 
-            </View>
+                </View>
+            </Image>
         )
     }
 }
 const styles = StyleSheet.create({
    container: {
-       width:cfn.deviceWidth(),height:cfn.deviceHeight()
+       width:cfn.deviceWidth(),
+       height:cfn.deviceHeight()
    } ,
     itemContainer: {
         flexDirection:'row',
-        backgroundColor:'#fff',
+        backgroundColor:'rgba(0,0,0,0.3)',
         height:cfn.picHeight(160),
         alignItems:'center'
     },
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize:15,
-        color:'#333'
+        color:'#ddd'
     },
     price: {
         marginTop:cfn.picHeight(10),
@@ -135,6 +138,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         height:cfn.picHeight(60),
         width:cfn.deviceHeight(),
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor:'#464646',
     }
 });

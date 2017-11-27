@@ -32,12 +32,14 @@ export default class carVersionPage2 extends Component {
             data:[],
             loader: '正在加载...',
             PKData:[],
+            collectData:[],
         };
     }
 
     componentDidMount() {
         this.getData();
         this.getPKCars();
+        this.getCollectCars();
     }
 
     getData() {
@@ -76,15 +78,18 @@ export default class carVersionPage2 extends Component {
     goToPage(route, params) {
         this.props.navigation.navigate(route,params);
     }
-    getPKCars() {
-        Global.storage.getAllDataForKey('PKCars')
-            .then((data)=>this.setState({PKData:data}));
-    }
+
 
     getIsSelected(type, id) {
         let isSelected = false;
         if(type == 'collect') {
-
+            let data = this.state.collectData;
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].id == id) {
+                    isSelected = true;
+                    break;
+                }
+            }
         } else {
             let data = this.state.PKData;
             for(let i = 0; i < data.length; i++) {
@@ -97,12 +102,10 @@ export default class carVersionPage2 extends Component {
         return isSelected;
     }
 
-    setIsSelected(data) {
-        for(let i = 0; i < data.length; i++) {
-            data[i].isSelected = this.getIsSelected('collect',data[i].id);
-            data[i].isSelectedPK = this.getIsSelected('PK',data[i].id);
-        }
-        return data;
+    getPKCars() {
+        // isFirst  true:首次加载  false:刷新
+        Global.storage.getAllDataForKey('PKCars')
+            .then((data)=>this.setState({PKData:data}));
     }
 
     savePKCars(data) {
@@ -121,11 +124,32 @@ export default class carVersionPage2 extends Component {
         }).then(()=>this.getPKCars());
     }
 
+    saveCollectCars(data) {
+        Global.storage.save({
+            key: 'collectCars',  // 注意:请不要在key中使用_下划线符号!
+            id: data.id, //获取所有数据时，id 必须写
+            data: data,
+
+            // 如果不指定过期时间，则会使用defaultExpires参数
+            // 如果设为null，则永不过期
+            expires: null
+        }).then(()=>{});
+    }
+
+    deleteCollectCars(data) {
+        Global.storage.remove({
+            key: 'collectCars',
+            id: data.id
+        });
+    }
+
+    getCollectCars() {
+        Global.storage.getAllDataForKey('collectCars')
+            .then((data)=>this.setState({collectData: data}))
+    }
+
     update() {
         this.getPKCars();
-        this.setState({data:this.state.data});
-        this.forceUpdate();
-
     }
 
     renderItem({item}) {
@@ -136,43 +160,48 @@ export default class carVersionPage2 extends Component {
                 id={item.id}
                 item={item}
                 savePKCars={this.savePKCars.bind(this)}
+                saveCollectCars={this.saveCollectCars.bind(this)}
+                deleteCollectCars={this.deleteCollectCars.bind(this)}
+
                 goToPage={this.goToPage.bind(this)}
-                isSelectedPK={this.getIsSelected('collect',item.id)}
-                isSelected={this.getIsSelected('PK',item.id)}
+                isSelectedPK={this.getIsSelected('PK',item.id)}
+                isSelected={this.getIsSelected('collect',item.id)}
             />
         );
     }
     renderSectionHeader({section}) {
         return <View style={styles.sectionHeader}>
-            <Text style={{marginLeft:cfn.picWidth(20),fontSize:12,color:'#000'}}>{section.key}</Text>
+            <Text style={{marginLeft:cfn.picWidth(20),fontSize:12,color:'#bbb'}}>{section.key}</Text>
         </View>
     }
     render() {
         // 大尺寸图片 d, u，v
         return(
-            <View style={styles.container}>
-                <NavBar
-                    middleText={this.props.navigation.state.params.name}
-                    leftFn={this.goBack.bind(this)}
-                    rightFn={()=>this.goToPage('PKList',
-                        {name:this.name,id:this.id, img:this.img, update: this.update.bind(this)})}
-                    rightText={'PK赛车'}
-                />
-                <View style={styles.PKNumberContainer}>
-                    <Text style={styles.PKNumber}>{this.state.PKData.length}</Text>
+            <Image source={require('../../imgs/pageBg/page_bg_1.png')} style={styles.container}>
+                <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.7)'}]}>
+                    <NavBar
+                        middleText={this.props.navigation.state.params.name}
+                        leftFn={this.goBack.bind(this)}
+                        rightFn={()=>this.goToPage('PKList',
+                            {name:this.name,id:this.id, img:this.img, update: this.update.bind(this)})}
+                        rightText={'PK赛车'}
+                    />
+                    <View style={styles.PKNumberContainer}>
+                        <Text style={styles.PKNumber}>{this.state.PKData.length}</Text>
+                    </View>
+                    {this.state.data.length == 0 ?
+                        <Text style={styles.loader}>{this.state.loader}</Text> :
+                        <SectionList
+                        sections={this.state.data}
+                        extraData={this.state} // 设置不同的数据，以保证界面能刷新
+                        renderItem={this.renderItem.bind(this)}
+                        renderSectionHeader={this.renderSectionHeader.bind(this)}
+                        keyExtractor={this._keyExtractor}
+                        ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
+                    />}
                 </View>
-                {this.state.data.length == 0 ?
-                    <Text style={styles.loader}>{this.state.loader}</Text> :
-                    <SectionList
-                    sections={this.state.data}
-                    renderItem={this.renderItem.bind(this)}
-                    renderSectionHeader={this.renderSectionHeader.bind(this)}
-                    keyExtractor={this._keyExtractor}
-                    ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
-                    ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1}}/>}
-                />}
-
-            </View>
+            </Image>
         )
     }
 }
@@ -182,12 +211,6 @@ const styles = StyleSheet.create({
        height:cfn.deviceHeight(),
        alignItems:'center'
    } ,
-    itemContainer: {
-        //flexDirection:'row',
-        backgroundColor:'#fff',
-        minHeight:cfn.picHeight(220),
-        justifyContent:'center'
-    },
     loader: {
         position:'absolute',
         top:cfn.deviceHeight()/2,
@@ -205,23 +228,14 @@ const styles = StyleSheet.create({
         position:'absolute',
         top:cfn.picHeight(50),
         right:cfn.picWidth(5),
-        borderColor:'#999',
+        borderColor:config.baseColor,
         borderWidth:1
     },
     PKNumber: {
-        fontSize:10
+        fontSize:10,
+        color:config.baseColor
     },
-    textContainer: {
-        marginLeft:cfn.picWidth(20),
-        marginTop:cfn.picHeight(20),
-        justifyContent:'center'
-    },
-    detailText: {
-        position:'absolute',
-        right:cfn.picWidth(20),
-        fontSize:13,
-        color:'#aaa',
-    },
+
     img: {
         width:cfn.deviceWidth(),
         height:cfn.deviceWidth()*0.5,
@@ -236,42 +250,10 @@ const styles = StyleSheet.create({
         fontSize:15,
         color:'#f33'
     },
-    btnContainer: {
-        marginTop:cfn.picHeight(20),
-        alignItems:'center',
-        flexDirection:'row',
-        paddingLeft:cfn.picWidth(20),
-        marginBottom:cfn.picHeight(20)
-    },
-    pk: {
-        width:(cfn.deviceWidth()-cfn.picWidth(80))/2,
-        height:cfn.picHeight(60),
-        backgroundColor:config.baseColor,
-        alignItems:'center',
-        justifyContent:'center',
-        //borderRadius:10
-    },
-    pkText: {
-        color:'#fff',
-        fontSize:12
-    },
-    btn: {
-        width:(cfn.deviceWidth()-cfn.picWidth(80))/4,
-        height:cfn.picHeight(60),
-        alignItems:'center',
-        justifyContent:'center',
-        //borderRadius:10,
-        borderColor:'#bbb',
-        borderWidth:1,
-        marginRight:cfn.picWidth(20)
-    },
-    btnText: {
-        color:'#bbb',
-        fontSize:12,
-    },
     sectionHeader: {
         height:cfn.picHeight(60),
         width:cfn.deviceHeight(),
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor:'#464646',
     }
 });

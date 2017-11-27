@@ -71,7 +71,7 @@ export default class carVertionDetailPage extends Component {
     _keyExtractor=(item,index)=>item.name;
 
     renderItem({item,index, section}) {
-        let color = '#888';
+        let color = '#ddd';
         if(index == 1 && section.key == '基本参数') {
             color = '#c22'
         }
@@ -84,9 +84,9 @@ export default class carVertionDetailPage extends Component {
     }
     renderSectionHeader({section}) {
         return (
-            <View style={[styles.itemContainer, {backgroundColor: 'transparent'}]}>
-                <Text style={[styles.itemText, {color: '#333'}]}>{section.key}</Text>
-                <Text style={[styles.itemText, {color: '#333'}]}>标配● 选配◎ 无-</Text>
+            <View style={[styles.itemContainer, {backgroundColor:'#464646',}]}>
+                <Text style={[styles.itemText, {color: '#ddd'}]}>{section.key}</Text>
+                <Text style={[styles.itemText, {color: '#ddd'}]}>标配● 选配◎ 无-</Text>
             </View>
         );
     }
@@ -94,54 +94,58 @@ export default class carVertionDetailPage extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <NavBar
-                    middleText={'配置详情'}
-                    leftFn={this.goBack.bind(this)}
-                />
-                <View style={styles.itemTitle}>
-                    <Text style={{color:'#000'}}>{this.state.itemTitle}</Text>
-                </View>
-                <SectionList
-                    sections={this.state.data}
-                    renderItem={this.renderItem.bind(this)}
-                    renderSectionHeader={this.renderSectionHeader.bind(this)}
-                    keyExtractor={this._keyExtractor}
-                    //ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
-                    //ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1}}/>}
-                />
+            <Image source={require('../../imgs/pageBg/page_bg_3.png')} style={styles.container}>
+                <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.7)'}]}>
+                    <NavBar
+                        middleText={'配置详情'}
+                        leftFn={this.goBack.bind(this)}
+                    />
+                    <View style={styles.itemTitle}>
+                        <Text style={{color:'#ddd'}}>{this.state.itemTitle}</Text>
+                    </View>
+                    <SectionList
+                        sections={this.state.data}
+                        renderItem={this.renderItem.bind(this)}
+                        renderSectionHeader={this.renderSectionHeader.bind(this)}
+                        keyExtractor={this._keyExtractor}
+                        //ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666',}}/>}
+                    />
 
-            </View>
+                </View>
+            </Image>
         )
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex:1,
-        alignItems:'center'
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight()
     },
     itemTitle: {
         width:cfn.deviceWidth(),
         height:cfn.picHeight(80),
-        backgroundColor:'#f5f5f5',
+        backgroundColor:'#464646',
         paddingLeft:cfn.picWidth(20),
-        justifyContent:'center'
+        justifyContent:'center',
+        borderBottomColor:'#666',
+        borderBottomWidth:1
     },
 
     itemContainer: {
         flexDirection:'row',
         height:cfn.picHeight(80),
         width:cfn.deviceWidth(),
-        backgroundColor:'#fff',
+        backgroundColor:'rgba(0,0,0,0.4)',
         alignItems:'center',
         paddingLeft:cfn.picWidth(20),
         paddingRight:cfn.picWidth(20),
         justifyContent:'space-between',
-        borderBottomColor:'#ddd',
-        borderBottomWidth:1
+
     },
     itemText: {
-        fontSize:12
+        fontSize:12,
+        color:'#ddd'
     }
 
 });

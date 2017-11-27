@@ -152,10 +152,11 @@ export default class articleDetailPage extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
+            <Image source={require('../imgs/pageBg/page_bg_4.png')} style={styles.container}>
                 <NavBar
                     middleText='赛车资讯'
                     leftFn={()=>this.goBack()}
+                    leftIcon={null}
                 />
                 <Banner
                     bannerList={this.state.bannerList}
@@ -173,6 +174,7 @@ export default class articleDetailPage extends Component {
                         style={styles.flatListStyle}
                         renderItem={this.renderItem.bind(this)}
                         keyExtractor={this._keyExtractor}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
                         refreshControl={
                             <RefreshControl
                                 refreshing={this.state.isRefreshing}
@@ -185,7 +187,7 @@ export default class articleDetailPage extends Component {
                             />}
                     />}
                     <View style={{height:cfn.picHeight(100)}}/>
-            </View>)
+            </Image>)
     }
 }
 
@@ -195,22 +197,20 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
         //backgroundColor:'#fff',
-        alignItems:'center'
+        alignItems:'center',
+        resizeMode:'stretch'
     },
     flatListStyle: {
         width: cfn.deviceWidth(),
         zIndex:2,
-        backgroundColor:'#fff',
     },
     item_container: {
         width: cfn.deviceWidth(),
         height: cfn.picHeight(160),
         flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderBottomColor: '#999',
         alignItems: 'center',
         alignSelf: 'center',
-        backgroundColor: 'rgba(0,0,0,0.6)'
+        backgroundColor: 'rgba(0,0,0,0.7)'
     },
     item_text_container: {
         flexWrap: 'wrap',

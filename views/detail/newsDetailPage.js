@@ -119,28 +119,31 @@ export default class articleDetailPage extends Component {
             </head>
             <h3>${this.title}</h3>
             <p>${this.mtime}</P>
-            <body style="max-width:${cfn.deviceWidth()*this.pixelRatio}px;font-size:${14}px;padding:10px;margin:0">
+            <body style="max-width:${cfn.deviceWidth()*this.pixelRatio}px;font-size:14px;padding:10px;margin:0;">
             ${this.state.data}
             </body>
             </html>`;
        return(
-        <View style={styles.container}>
-            <NavBar
-            middleText="文章详情"
-            leftFn={()=>this.goBack()}
-            />
+           //<Image source={require('../../imgs/pageBg/page_bg_1.png')} style={styles.container}>
+               <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.7)'}]}>
+                   <NavBar
+                       middleText="文章详情"
+                       leftFn={()=>this.goBack()}
+                   />
 
-            <WebView
-                style={styles.webView}
-                source={{html: htmlTemp}}
-                scalesPageToFit={false}
-            />
-            <Loading
-                isError={this.state.isError}
-                isLoading={this.state.isLoading}
-                reload={this.getData.bind(this)}
-            />
-        </View>)
+                   <WebView
+                       style={styles.webView}
+                       source={{html: htmlTemp}}
+                       scalesPageToFit={false}
+                   />
+                   <Loading
+                       isError={this.state.isError}
+                       isLoading={this.state.isLoading}
+                       reload={this.getData.bind(this)}
+                   />
+               </View>
+          // </Image>
+        )
     }
 }
 
@@ -152,7 +155,9 @@ const styles = StyleSheet.create({
    },
     webView: {
        //maxWidth:cfn.deviceWidth(),
-        flex:1,
-        height:cfn.deviceHeight()
+        ///flex:1,
+        height:cfn.deviceHeight(),
+        //backgroundColor:'transparent',
+        backgroundColor:'#fff'
     }
 });

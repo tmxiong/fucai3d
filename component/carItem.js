@@ -22,6 +22,8 @@ export default class shopList extends PureComponent {
         id:'id',
         item:[],
         savePKCars:()=>{},
+        saveCollectCars:()=>{},
+        deleteCollectCars:()=>{},
         goToPage:()=>{},
     };
 
@@ -46,20 +48,29 @@ export default class shopList extends PureComponent {
             this.props.goToPage(type,data)
         } else if(type == 'collect'){
             // collect
+            if(this.state.isSelected) {
+                this.props.deleteCollectCars(data);
+            } else {
+                this.props.saveCollectCars(data);
+            }
             this.setState({
                 isSelected: !this.state.isSelected
-            })
-        } else {
+            });
+        } else if(type == 'PK'){
             this.setState({
                 isSelectedPK: true,
             });
             this.props.savePKCars(data);
+        } else {
+            this.props.goToPage('CarVersionDetail',data);
         }
     }
 
 
     render() {
         let item = this.props;
+        //this.state.isSelected = item.isSelected;
+        this.state.isSelectedPK = item.isSelectedPK;
         let textColor = this.state.isSelected ? this.selectedBtn[1] : this.unselectedBtn[1];
         let borderColor = this.state.isSelected ? this.selectedBtn[0] : this.unselectedBtn[1];
         let bgColor = this.state.isSelected ? this.selectedBtn[0] : this.unselectedBtn[0];
@@ -72,7 +83,7 @@ export default class shopList extends PureComponent {
             <View
                 style={styles.itemContainer}>
                 <TouchableOpacity
-                    onPress={()=>this.goToPage('CarVersionDetail',{id:item.id})}
+                    onPress={()=>this.pressBtn('CarVersionDetail',{id:item.id})}
                     activeOpacity={0.8}
                     style={styles.textContainer}>
                     <Text style={styles.name}>{item.name}</Text>
@@ -86,7 +97,7 @@ export default class shopList extends PureComponent {
                         <Text style={styles.btnText}>经销商</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>this.pressBtn('collect')}
+                        onPress={()=>this.pressBtn('collect',item.item)}
                         activeOpacity={0.8}
                         style={[styles.btn,{backgroundColor:bgColor,borderColor:borderColor}]}>
                         <Text style={[styles.btnText,{color:textColor}]}>{btnText}</Text>
@@ -104,9 +115,10 @@ export default class shopList extends PureComponent {
 const styles = StyleSheet.create({
     itemContainer: {
         //flexDirection:'row',
-        backgroundColor:'#fff',
+        backgroundColor:'rgba(0,0,0,0.4)',
         minHeight:cfn.picHeight(220),
-        justifyContent:'center'
+        justifyContent:'center',
+        width:cfn.deviceWidth()
     },
     textContainer: {
         marginLeft:cfn.picWidth(20),
@@ -115,7 +127,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize:15,
-        color:'#333'
+        color:'#ccc'
     },
     price: {
         marginTop:cfn.picHeight(10),

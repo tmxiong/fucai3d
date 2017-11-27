@@ -90,8 +90,8 @@ export default class pkListPage extends Component {
             "提示：",
             "确定删除所选项？",
             [
-                {text: '确定', onPress: () => this.deleteItemsOK()},
                 {text: '取消', onPress: () => {}},
+                {text: '确定', onPress: () => this.deleteItemsOK()},
             ]
         );
         //Global.storage.clearMapForKey('history');

@@ -14,7 +14,8 @@ import Banner from '../component/Banner'
 import fetchp from '../tools/fetch-polyfill'
 import urls from '../config/urls'
 import config from '../config/config'
-import ChangeCarModal from './detail/changeCarModal'
+import ChangeCarModal from './detail/changeCarModal';
+import Global from '../global/global'
 export default class wanfaPage extends Component {
 
     static defaultProps = {};
@@ -26,13 +27,12 @@ export default class wanfaPage extends Component {
             items:null,
             data:[],
             visible:true,
-            name:config.cars[0].name
+            carType:config.cars[0], //默认展示的车型列表
         };
-        this.id = config.cars[0].id;
     }
 
     componentDidMount() {
-        this.getData();
+        this.carType('get');
     }
 
     goToPage(router,params) {
@@ -40,7 +40,7 @@ export default class wanfaPage extends Component {
     }
 
     getData() {
-        fetchp(urls.getCarVersion(this.id),{timeout:5*1000})
+        fetchp(urls.getCarVersion(this.state.carType.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
     }
@@ -49,6 +49,31 @@ export default class wanfaPage extends Component {
         let data1 = this.changeObjKey(data.result.fctlist);
         let data2 = this.changeObjKey(data.result.otherfctlist);
         this.setState({data:data1.concat(data2)})
+    }
+
+    carType(type, data) {
+        if(type == 'get') {
+
+            Global.storage.getAllDataForKey('carType')
+                .then((data)=>{
+                    if(data.length > 0) {
+                        this.setState({carType:data[0]},()=>this.getData())
+                    } else {
+                        this.getData();
+                    }
+                });
+
+        } else if(type == 'set') {
+            Global.storage.save({
+                key: 'carType',  // 注意:请不要在key中使用_下划线符号!
+                id: 1, //获取所有数据时，id 必须写
+                data: data,
+
+                // 如果不指定过期时间，则会使用defaultExpires参数
+                // 如果设为null，则永不过期
+                expires: null
+            }).then(()=>{});
+        }
     }
 
     changeObjKey(data) {
@@ -100,13 +125,11 @@ export default class wanfaPage extends Component {
         )
     }
 
-    changeCar(id,name) {
+    changeCar(data) {
         this._modal.closeModal();
-        this.id = id;
-        this.setState({
-            name:name
-        });
-        this.getData();
+        this.carType('set',data);
+        this.setState({carType: data},()=>this.getData());
+
     }
 
     render() {
@@ -132,7 +155,7 @@ export default class wanfaPage extends Component {
                     </View>
                     <View style={styles.titleContainer}>
                         <View style={styles.titleIcon}/>
-                        <Text style={styles.titleText}>当前展示车型：{this.state.name}</Text>
+                        <Text style={styles.titleText}>当前展示车型：{this.state.carType.name}</Text>
                         <TouchableOpacity activeOpacity={0.8}
                             style={{position:'absolute',right:5}}
                                           onPress={()=>this._modal.openModal()}

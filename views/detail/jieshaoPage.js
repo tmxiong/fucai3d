@@ -55,26 +55,27 @@ export default class jieshaoPage extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <NavBar
-                    middleText={this.name}
-                    leftFn={this.goBack.bind(this)}
-                />
-                <Image style={styles.logo} source={this.img}/>
-                <ScrollView>
-                    <View style={styles.content}>
-                        <Text style={styles.text}>{this.state.data}</Text>
-                    </View>
-                </ScrollView>
-
-            </View>
+            <Image style={styles.container} source={require('../../imgs/pageBg/page_bg_1.png')}>
+                <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.7)',}]}>
+                    <NavBar
+                        middleText={this.name}
+                        leftFn={this.goBack.bind(this)}
+                    />
+                    <Image style={styles.logo} source={this.img}/>
+                    <ScrollView>
+                        <View style={styles.content}>
+                            <Text style={styles.text}>{this.state.data}</Text>
+                        </View>
+                    </ScrollView>
+                </View>
+            </Image>
         )
     }
 }
 const styles = StyleSheet.create({
    container: {
-        backgroundColor:'#fff',
-       flex:1,
+        width:cfn.deviceWidth(),
+       height:cfn.deviceHeight(),
        alignItems:'center'
    },
    content: {
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
        padding:cfn.picWidth(20)
    },
     text: {
-       color:'#333',
+       color:'#ddd',
         lineHeight:25,
         fontSize:14
     },

@@ -53,7 +53,7 @@ export default class changeCarModal extends PureComponent {
     renderItem({item,index}) {
         return(
             <TouchableOpacity
-                onPress={()=>this.props.changeCar(item.id, item.name)}
+                onPress={()=>this.props.changeCar(item)}
                 style={styles.itemContainer}>
                 <Image style={styles.icon} source={item.img}/>
                 <Text style={styles.itemText}>{item.name}</Text>

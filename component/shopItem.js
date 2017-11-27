@@ -17,17 +17,19 @@ import config from '../config/config'
 export default class shopList extends PureComponent {
 
     static defaultProps = {
+        item:[],
         name:'店名',
         address:'地址',
         newstitle:'newstitle',
         phone: 'phone',
         price: 'price',
+        collectShops: ()=>{}
     };
 
     constructor(props) {
         super(props);
         this.state={
-            isSealed: false,
+            isSelected: props.isSelected || false,
         };
         this.unselectedBtn = ['transparent','#aaa'];
         this.selectedBtn= ['#efa900','#fff']
@@ -40,15 +42,21 @@ export default class shopList extends PureComponent {
                 '是否拨打电话？',
                 data,
                 [
-                    {text: '确定', onPress: () => Linking.openURL('tel:'+ data)},
                     {text: '取消', onPress: () => {}},
+                    {text: '确定', onPress: () => Linking.openURL('tel:'+ data)},
 
                 ],
             );
         } else {
             // collect
+            if(this.state.isSelected) {
+                this.props.collectShops('delete', data);
+            } else {
+                this.props.collectShops('save', data);
+            }
+
             this.setState({
-                isSealed: !this.state.isSealed
+                isSelected: !this.state.isSelected
             })
         }
     }
@@ -56,10 +64,10 @@ export default class shopList extends PureComponent {
 
     render() {
         let item = this.props;
-        let textColor = this.state.isSealed ? this.selectedBtn[1] : this.unselectedBtn[1];
-        let borderColor = this.state.isSealed ? this.selectedBtn[0] : this.unselectedBtn[1];
-        let bgColor = this.state.isSealed ? this.selectedBtn[0] : this.unselectedBtn[0];
-        let btnText = this.state.isSealed ? '取消收藏':'收藏此店';
+        let textColor = this.state.isSelected ? this.selectedBtn[1] : this.unselectedBtn[1];
+        let borderColor = this.state.isSelected ? this.selectedBtn[0] : this.unselectedBtn[1];
+        let bgColor = this.state.isSelected ? this.selectedBtn[0] : this.unselectedBtn[0];
+        let btnText = this.state.isSelected ? '取消收藏':'收藏此店';
         return(
             <View
                 style={styles.itemContainer}>
@@ -77,7 +85,7 @@ export default class shopList extends PureComponent {
                 <View style={{flexDirection: 'row',marginTop:cfn.picHeight(10),
                     justifyContent:'flex-end',paddingRight:cfn.picWidth(20), marginBottom:cfn.picHeight(20)}}>
                     <TouchableOpacity
-                        onPress={()=>this.pressBtn('collect')}
+                        onPress={()=>this.pressBtn('collect',item.item)}
                         activeOpacity={0.8}
                         style={[styles.btn,styles.collectBtn,
                             {backgroundColor:bgColor,borderColor:borderColor}]}>
