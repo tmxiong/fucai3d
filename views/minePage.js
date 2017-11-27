@@ -80,17 +80,19 @@ export default class MinePage extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <Image source={require('../imgs/pageBg/page_bg_more.png')} style={styles.bg} >
                 <NavBar
                     middleText='更多'
                     leftFn={this.goBack.bind(this)}
                 />
-                <ScrollView>
-                    <View style={styles.container}>
-                        <Image
-                            style={styles.icon}
-                            source={require('../imgs/appIcon/cp_icon.png')}/>
-                        <Text style={{marginTop: cfn.picHeight(20), color: '#888'}}>{config.appName}</Text>
+                <Image
+                    style={styles.icon}
+                    source={require('../imgs/appIcon/cp_icon.png')}/>
+                <Text style={{marginTop: cfn.picHeight(20), color: '#888',alignSelf:'center'}}>{config.appName}</Text>
+                <ScrollView style={[styles.container,]}>
+
+
+
                         {/*<Text style={{marginTop: cfn.picHeight(20), color: '#888'}}>内核版本 {config.coreVersion}</Text>*/}
                         <TouchableOpacity
                             onPress={()=>this.goToDetail('Welcome',{showWebView:false,url:''})}
@@ -142,7 +144,7 @@ export default class MinePage extends Component {
 
                         <TouchableOpacity
                             onPress={()=>this.cleanCache()}
-                            activeOpacity={0.8}
+                            activeOpacity={0.9}
                             style={[styles.item_container, {marginTop: cfn.picWidth(30)}]}>
                             <Text style={styles.item_text}>清除缓存</Text>
                             <Text style={[styles.item_text, {
@@ -174,39 +176,43 @@ export default class MinePage extends Component {
                             style={[styles.item_container, {marginTop: cfn.picWidth(30)}]}>
                             <Text style={styles.item_text}>意见反馈</Text>
                         </TouchableOpacity>
-                    </View>
+
                 </ScrollView>
-            </View>
+            </Image>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: cfn.deviceHeight()
+        width:cfn.deviceWidth(),
+        marginTop:cfn.picHeight(40)
+    },
+    bg: {
+        height: cfn.deviceHeight(),
+        width:cfn.deviceWidth(),
+        resizeMode:'contain'
     },
     icon: {
         width: cfn.picWidth(130),
         height: cfn.picWidth(130),
         resizeMode: 'contain',
-        marginTop: cfn.picHeight(80)
+        marginTop: cfn.picHeight(80),
+        alignSelf:'center'
     },
     item_container: {
         flexDirection: 'row',
         width: cfn.deviceWidth(),
         height: cfn.picHeight(100),
         alignItems: 'center',
-        backgroundColor: '#fff',
-        borderBottomColor: '#dedede',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        borderBottomColor: '#666',
         borderBottomWidth: 1,
         paddingLeft: cfn.picWidth(20),
         paddingRight: cfn.picWidth(20)
     },
     item_text: {
         fontSize: 16,
-        color: '#222'
+        color: '#ccc'
     },
     icon_r: {
         width: cfn.picWidth(50),

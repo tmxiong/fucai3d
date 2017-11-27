@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         height:cfn.picHeight(60),
-        width:cfn.deviceHeight(),
+        width:cfn.deviceWidth(),
         justifyContent:'center',
         backgroundColor:'#464646',
     }

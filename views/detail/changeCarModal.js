@@ -53,6 +53,7 @@ export default class changeCarModal extends PureComponent {
     renderItem({item,index}) {
         return(
             <TouchableOpacity
+                activeOpacity={0.8}
                 onPress={()=>this.props.changeCar(item)}
                 style={styles.itemContainer}>
                 <Image style={styles.icon} source={item.img}/>
@@ -80,7 +81,7 @@ export default class changeCarModal extends PureComponent {
                         data={this.state.data}
                         renderItem={this.renderItem.bind(this)}
                         keyExtractor={this._keyExtractor}
-                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#333'}}/>}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#ccc'}}/>}
                     />
                     <StatusBar hidden={false}  translucent= {true} backgroundColor={'#464646'} />
 

@@ -55,14 +55,14 @@ export default class jieshaoPage extends Component {
 
     render() {
         return(
-            <Image style={styles.container} source={require('../../imgs/pageBg/page_bg_1.png')}>
-                <View style={[styles.container,{backgroundColor:'rgba(0,0,0,0.7)',}]}>
+            <Image style={styles.container} source={require('../../imgs/pageBg/page_bg_jieshao.png')}>
+                <View style={[styles.container,]}>
                     <NavBar
                         middleText={this.name}
                         leftFn={this.goBack.bind(this)}
                     />
                     <Image style={styles.logo} source={this.img}/>
-                    <ScrollView>
+                    <ScrollView style={styles.bg}>
                         <View style={styles.content}>
                             <Text style={styles.text}>{this.state.data}</Text>
                         </View>
@@ -82,16 +82,19 @@ const styles = StyleSheet.create({
        width:cfn.deviceWidth(),
        padding:cfn.picWidth(20)
    },
+    bg: {
+       //backgroundColor:'rgba(0,0,0,0.6)'
+    },
     text: {
        color:'#ddd',
         lineHeight:25,
         fontSize:14
     },
     logo: {
-        position:'absolute',
-        width:cfn.deviceWidth()-cfn.picWidth(100),
-        height:cfn.deviceWidth()-cfn.picWidth(100),
-        opacity:0.2,
-        top:cfn.deviceWidth()/2 - 50
+        width:cfn.picWidth(400),
+        height:cfn.picWidth(400),
+        opacity:0.8,
+        marginTop:cfn.picHeight(-10),
+        resizeMode:'contain'
     }
 });

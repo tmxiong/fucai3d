@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     },
     titleImg: {
         width:cfn.deviceWidth(),
-        height:cfn.picHeight(375),
+        height:cfn.picHeight(333),
     },
     titleContainer: {
         width:cfn.deviceWidth(),height:cfn.picHeight(60),

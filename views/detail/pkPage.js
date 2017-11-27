@@ -155,8 +155,10 @@ export default class jieshaoPage extends Component {
             }
 
             sections.push(
-                <View key={i}>
-                    <Text style={styles.pkSubTitle}>{carItems[0][i].itemtype}</Text>
+                <View key={i} style={styles.sectionBg}>
+                    <View style={styles.sectionHeader_1}>
+                        <Text style={styles.pkSubTitle}>{carItems[0][i].itemtype}</Text>
+                    </View>
                     {items}
                 </View>) ;
         }
@@ -174,32 +176,34 @@ export default class jieshaoPage extends Component {
                         leftFn={this.goBack.bind(this)}
                     />
                     <View style={styles.titleContainer}>
-                        <Image source={{uri:this.state.carImg[0]}} style={styles.car}>
-                            <View style={styles.carImg}>
-                                <View style={styles.carName}>
-                                    <Text style={styles.carNameText1}>{this.state.carName[0][0]}</Text>
-                                    <Text style={styles.carNameText2}>{this.state.carName[0][1]}</Text>
-                                </View>
+                        <View  style={styles.car}>
+                            <Image source={{uri:this.state.carImg[0]}} style={styles.carImg}/>
+                            <View style={styles.carName}>
+                                <Text style={styles.carNameText1}>{this.state.carName[0][0]}</Text>
+                                <Text style={styles.carNameText2}>{this.state.carName[0][1]}</Text>
                             </View>
 
-                        </Image>
-                        <Image source={{uri:this.state.carImg[1]}} style={styles.car}>
-                            <View style={styles.carImg}>
-                                <View style={styles.carName}>
-                                    <Text style={styles.carNameText1}>{this.state.carName[1][0]}</Text>
-                                    <Text style={styles.carNameText2}>{this.state.carName[1][1]}</Text>
-                                </View>
+                        </View>
+                        <View  style={styles.car}>
+                            <Image source={{uri:this.state.carImg[1]}} style={styles.carImg}/>
+                            <View style={[styles.carName,{alignItems:'flex-end'}]}>
+                                <Text style={styles.carNameText1}>{this.state.carName[1][0]}</Text>
+                                <Text style={styles.carNameText2}>{this.state.carName[1][1]}</Text>
                             </View>
-                        </Image>
+                        </View>
                         <View style={styles.pk}>
-                            <Text style={styles.pkText}>PK</Text>
+                           <Image source={require('../../imgs/pk_icon.png')} style={styles.pkIcon}/>
                         </View>
                     </View>
 
                     <ScrollView>
 
-                        <Text style={styles.pkTitle}>PK价格</Text>
-                        <View style={[styles.itemContainer,{flexDirection:'row'}]}>
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.pkTitle}>—— PK价格 ——</Text>
+                        </View>
+
+                        <View style={[styles.itemContainer,
+                            {flexDirection:'row',backgroundColor:'rgba(0,0,0,0.5)',height:cfn.picHeight(240)}]}>
 
                             <View style={styles.priceContainer}>
 
@@ -228,7 +232,9 @@ export default class jieshaoPage extends Component {
 
 
 
-                        <Text style={styles.pkTitle}>PK配置</Text>
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.pkTitle}>—— PK配置 ——</Text>
+                        </View>
                         {this.state.carItems}
                         {/*<Text style={styles.pkSubTitle}>动力性能</Text>*/}
                         {/*<View style={[styles.itemContainer,{flexDirection:'row'}]}>*/}
@@ -261,7 +267,7 @@ const styles = StyleSheet.create({
        flex:1,
        alignItems:'center',
        width:cfn.deviceWidth(),
-       backgroundColor:'rgba(0,0,0,0.5)'
+       backgroundColor:'rgba(0,0,0,0.1)'
    },
    content: {
        width:cfn.deviceWidth(),
@@ -275,57 +281,86 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection:'row',
         width:cfn.deviceWidth(),
-        justifyContent:'space-around',
-        alignItems:'center',
+        justifyContent:'space-between',
         //backgroundColor:'#fff',
-        height:cfn.picHeight(240),
-        borderBottomColor:'#fff',
-        borderBottomWidth:1
+        height:cfn.picHeight(200+70),
+        borderBottomColor:'#666',
+        borderBottomWidth:1,
+        marginTop:cfn.picHeight(20)
     },
     car: {
-
+        width:(cfn.deviceWidth()-cfn.picWidth(20))/2,
+        height:cfn.picHeight(200),
+        //resizeMode:'contain'
+    },
+    carImg: {
+        width:(cfn.deviceWidth()-cfn.picWidth(20))/2,
+        height:cfn.picHeight(200),
+        // backgroundColor:'#c11'
     },
     carName: {
-        position:'absolute',
-        bottom:0,
         backgroundColor:'rgba(0,0,0,0.5)',
-        width:(cfn.deviceWidth()-cfn.picWidth(60))/2,
-        padding:5
+        width:(cfn.deviceWidth()-cfn.picWidth(20))/2,
+        padding:2,
+        height:cfn.picHeight(70),
+        justifyContent:'center'
     },
     carNameText1: {
-        color:'#fff',
+        color:'#ddd',
         fontSize:12,
     },
     carNameText2: {
-        color:'#fff',
+        color:'#ccc',
         fontSize:9
     },
     pk: {
-      width:cfn.picWidth(100),
-        height:cfn.picWidth(100),
-        borderRadius:cfn.picWidth(50),
-        backgroundColor:'#f00',
+        width:cfn.picWidth(200),
+        height:cfn.picWidth(200),
         position:'absolute',
         alignItems:'center',
         justifyContent:'center',
-        left:(cfn.deviceWidth()-cfn.picWidth(40))/2 - cfn.picWidth(30),
+        left:(cfn.deviceWidth()-cfn.picWidth(40))/2 - cfn.picWidth(80)
     },
-    pkText: {
-        fontSize:25,
-        color:'#fff',
-        fontWeight:'bold'
+    pkIcon: {
+      width:cfn.picWidth(200),
+        height:cfn.picWidth(200),
+        resizeMode:'contain'
+    },
+    sectionHeader: {
+        height:cfn.picHeight(60),
+        width:cfn.deviceWidth(),
+        justifyContent:'center',
+        backgroundColor:'#464646',
+        alignItems:'center'
     },
     pkTitle: {
-        fontSize: 16,
+        fontSize: 14,
         color:colors.titleColor,
         alignSelf:'center',
-        marginTop:cfn.picHeight(40)
     },
-    pkSubTitle: {
+
+    sectionBg: {
+        backgroundColor:'rgba(0,0,0,0.5)'
+    },
+
+    sectionHeader_1: {
+        //backgroundColor:'rgba(0,0,0,0.7)',
+        alignItems:'center',
+        justifyContent:'center',
         alignSelf:'center',
+        marginTop:cfn.picHeight(40),
+        borderTopColor:colors.titleColor,
+        borderBottomColor:colors.titleColor,
+        borderTopWidth:1,
+        borderBottomWidth:1,
+        marginBottom:cfn.picHeight(20),
+        width:cfn.picWidth(200)
+    },
+
+    pkSubTitle: {
         color:colors.titleColor,
         fontSize:12,
-        marginTop:cfn.picHeight(40)
+        padding:cfn.picWidth(10)
     },
 
     priceContainer: {
@@ -341,16 +376,14 @@ const styles = StyleSheet.create({
         color:colors.textColor_1
     },
 
-    carImg: {
-        width:(cfn.deviceWidth()-cfn.picWidth(60))/2,
-        height:cfn.picHeight(200),
-        // backgroundColor:'#c11'
-    },
+
+
+
     itemContainer: {
         width:cfn.deviceWidth(),
         alignItems:'center',
         justifyContent:'center',
-        marginTop:cfn.picHeight(20),
+        //marginTop:cfn.picHeight(20),
     },
     itemTextContainer: {
         flexDirection:'row',
@@ -368,6 +401,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         width:cfn.deviceWidth()-cfn.picWidth(40),
+        marginBottom:cfn.picHeight(20)
     },
     tiao: {
         width:(cfn.deviceWidth()-cfn.picWidth(50))/2,

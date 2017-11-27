@@ -190,7 +190,7 @@ export default class pkListPage extends Component {
     render() {
         return (
             <Image
-                source={require('../../imgs/pageBg/page_bg_3.png')}
+                source={require('../../imgs/pageBg/page_bg_pk.png')}
                 style={styles.containerBg}>
                 <NavBar
                     middleText="PK赛车列表"
@@ -236,13 +236,12 @@ export default class pkListPage extends Component {
 
 const styles = StyleSheet.create({
     containerBg: {
-
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
         resizeMode:'stretch'
     },
     container: {
-        backgroundColor:'rgba(0,0,0,0.6)',
+        backgroundColor:'rgba(0,0,0,0.4)',
         flex: 1,
         alignItems:'center'
     },
