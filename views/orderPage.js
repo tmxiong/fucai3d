@@ -21,14 +21,15 @@ import fetchp from '../tools/fetch-polyfill';
 import urls from '../config/urls';
 import config from '../config/config';
 import Banner from '../component/Banner'
+import Global from '../global/global'
 import Notice from '../component/Notice'
 export default class articleDetailPage extends Component {
     static navigationOptions = {header: null};
 
     constructor(props) {
         super(props);
-        this.loadingText = '正在加载...';
         this.loadMoreText = '点击加载更多';
+        this.loadingText = '正在加载...';
         this.errorText = '加载失败，点击重试';
 
         this.bannerLength = 3;
@@ -110,7 +111,20 @@ export default class articleDetailPage extends Component {
         this.props.navigation.goBack();
     }
 
+    saveHistory(data) {
+        Global.storage.save({
+            key: 'history',  // 注意:请不要在key中使用_下划线符号!
+            id: data.docid, //获取所有数据时，id 必须写
+            data: data,
+
+            // 如果不指定过期时间，则会使用defaultExpires参数
+            // 如果设为null，则永不过期
+            expires: null
+        }).then(()=>{});
+    }
+
     goToPage(route, params) {
+        this.saveHistory(params.rowData);
         this.props.navigation.navigate(route, params)
     }
     getBannerData(data) {

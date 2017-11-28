@@ -89,7 +89,7 @@ export default class MinePage extends Component {
             <Image source={require('../imgs/pageBg/page_bg_more.png')} style={styles.bg} >
                 <NavBar
                     middleText='更多'
-                    leftFn={this.goBack.bind(this)}
+                    leftIcon={null}
                 />
                 <Image
                     style={styles.icon}
@@ -111,7 +111,7 @@ export default class MinePage extends Component {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={()=>this.goToDetail('jieshao')}
+                            onPress={()=>this.goToDetail('History')}
                             activeOpacity={0.8}
                             style={[styles.item_container]}>
                             <Text style={styles.item_text}>阅读历史</Text>

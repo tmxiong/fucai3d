@@ -24,8 +24,11 @@ export default class carVersionPage extends Component {
         this.id = props.navigation.state.params.id;
         this.img = props.navigation.state.params.img;
         this.name = props.navigation.state.params.name;
+        this.loadingText = '正在加载...';
+        this.errorText = '加载失败，点击重试';
         this.state={
             data:[],
+            isError:false,
         }
     }
 
@@ -37,11 +40,18 @@ export default class carVersionPage extends Component {
         fetchp(urls.getCarVersion(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .then((error)=>this.setError())
     }
     setData(data) {
         let data1 = this.changeObjKey(data.result.fctlist);
         let data2 = this.changeObjKey(data.result.otherfctlist);
-        this.setState({data:data1.concat(data2)})
+        this.setState({data:data1.concat(data2),isError:false,})
+    }
+
+    setError(error) {
+        this.setState({
+            isError: true,
+        })
     }
 
     changeObjKey(data) {
@@ -62,6 +72,16 @@ export default class carVersionPage extends Component {
 
     goToPage(route, params) {
         this.props.navigation.navigate(route,params);
+    }
+
+    reLoad() {
+        if(this.state.isError) {
+            this.setState({
+                isError: false,
+            });
+            this.getData();
+        }
+
     }
 
     renderItem({item}) {
@@ -99,6 +119,13 @@ export default class carVersionPage extends Component {
                         renderSectionHeader={this.renderSectionHeader.bind(this)}
                         keyExtractor={this._keyExtractor}
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
+                        ListEmptyComponent={
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                style={{alignSelf:'center',marginTop:cfn.deviceHeight()/3}}
+                                onPress={()=> this.reLoad()}>
+                                <Text style={{color:'#eee'}}>{this.state.isError ? this.errorText : this.loadingText}</Text>
+                            </TouchableOpacity>}
                     />
 
                 </View>

@@ -15,7 +15,7 @@ import CarVersionDetailPage from './views/detail/carVertionDetailPage'
 import ShopPage from './views/detail/shopPage';
 import PKListPage from './views/detail/pkListPage'
 import PKPage from './views/detail/pkPage';
-
+import HistoryPage from './views/detail/historyPage';
 
 const routers = StackNavigator({
     launch: {screen: launchPage},
@@ -36,6 +36,8 @@ const routers = StackNavigator({
     PK: {screen:PKPage,navigationOptions: {header:null}},
     // 欢迎页 引导页
     Welcome: {screen: welcomePage},
+    // 阅读历史
+    History: {screen: HistoryPage, navigationOptions: {header:null}},
 
     // 彩票网站web页面
     CPWebView: {screen:CPWebViewPage},
