@@ -73,15 +73,15 @@ export default class shopList extends PureComponent {
                 style={styles.itemContainer}>
                 <View style={{flexDirection:'row',minHeight:cfn.picHeight(50),alignItems:'center',marginTop:cfn.picHeight(20)}}>
                     <View style={styles.fourS}>
-                        <Text style={{color:'#666',fontSize:8}}>4S店</Text>
+                        <Text style={{color:'#ddd',fontSize:8}}>4S店</Text>
                     </View>
-                    <Text style={{marginLeft:cfn.picWidth(20),
+                    <Text style={{marginLeft:cfn.picWidth(20),color:'#eee',
                         width:cfn.deviceWidth()-cfn.picWidth(200)}}>{item.name}</Text>
                     <Text style={styles.price}>{item.price}万</Text>
                 </View>
                 <Text style={{color:'#888',fontSize:10,marginTop:cfn.picHeight(10),
                     marginBottom:cfn.picHeight(10),width:cfn.deviceWidth()-cfn.picWidth(40)}}>{item.address}</Text>
-                <Text style={{color:'#bbb',fontSize:10,width:cfn.deviceWidth()-cfn.picWidth(40)}}>{item.newstitle}</Text>
+                <Text style={{color:'#888',fontSize:10,width:cfn.deviceWidth()-cfn.picWidth(40)}}>{item.newstitle}</Text>
                 <View style={{flexDirection: 'row',marginTop:cfn.picHeight(10),
                     justifyContent:'flex-end',paddingRight:cfn.picWidth(20), marginBottom:cfn.picHeight(20)}}>
                     <TouchableOpacity
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         minHeight:cfn.picHeight(250),
         justifyContent:'center',
         paddingLeft:cfn.picWidth(20),
-        backgroundColor:'#fff'
+        backgroundColor:'#rgba(0,0,0,0.5)'
     },
     price: {
         fontSize:15,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     fourS: {
         width:cfn.picWidth(60),
         height:cfn.picHeight(30),
-        borderColor:'#666',
+        borderColor:'#ddd',
         borderWidth:1,
         alignItems:'center',
         justifyContent:'center'

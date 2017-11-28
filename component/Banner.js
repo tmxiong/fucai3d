@@ -31,7 +31,7 @@ export default class Banner extends PureComponent {
     };
 
     static defaultProps = {
-        bannerList:[],
+        //bannerList:[{imgsrc:require('../imgs/banner/banner_default.png'),title:'数据正在加载...'}],
     };
 
     renderBanner() {
@@ -49,7 +49,7 @@ export default class Banner extends PureComponent {
                             rowData: bannerList[i],
                         })}
                 >
-                        <Image style={styles.imageStyle} source={{uri:bannerList[i].imgsrc}}/>
+                        <Image style={styles.imageStyle} source={bannerList[i].imgsrc}/>
                     <View style={{position:'absolute',bottom:0,width:commonFn.deviceWidth(),
                         backgroundColor:'rgba(0,0,0,0.5)',padding:commonFn.picWidth(5)}}>
                         <Text style={{color:'#ddd',fontSize:12}}>{bannerList[i].title}</Text>
@@ -63,7 +63,9 @@ export default class Banner extends PureComponent {
     }
 
     goToPage(route,params) {
-        this.props.navigation.navigate(route,params);
+        if(params.docid) {
+            this.props.navigation.navigate(route,params);
+        }
     }
 
     onScroll(event) {

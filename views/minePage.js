@@ -63,8 +63,14 @@ export default class MinePage extends Component {
 
     cleanCache() {
         this.setState({
-            cleanCache: '已清除缓存'
-        })
+            cleanCache: '正在清除...'
+        });
+        setTimeout(()=>{
+            this.setState({
+                cleanCache: '已清除缓存'
+            })
+        },2*1000)
+
     }
 
     goToDetail(route, params) {
@@ -72,7 +78,7 @@ export default class MinePage extends Component {
     }
 
     fankui() {
-        Alert.alert('意见反馈','如果您有好的意见和建议，\n或使用本软件时遇到问题，\n可以发送邮件至客服邮箱：\ndanyun0175@163.com\n感谢您对'+config.sourceName+'的支持！')
+        Alert.alert('意见反馈','如果您有好的意见和建议，\n或使用本软件时遇到问题，\n可以发送邮件至客服邮箱：\ntmxiong@foxmail.com\n感谢您对'+config.appName+'的支持！')
     }
 
     goBack() {
@@ -108,7 +114,7 @@ export default class MinePage extends Component {
                             onPress={()=>this.goToDetail('jieshao')}
                             activeOpacity={0.8}
                             style={[styles.item_container]}>
-                            <Text style={styles.item_text}>玩法介绍</Text>
+                            <Text style={styles.item_text}>阅读历史</Text>
                             <Image
                                 style={styles.icon_r}
                                 source={require('../imgs/more_r_icon.png')}/>
@@ -118,7 +124,7 @@ export default class MinePage extends Component {
                             activeOpacity={0.8}
                             onPress={()=>this.goToDetail('ReadHistory')}
                             style={[styles.item_container, {marginTop: cfn.picWidth(30)}]}>
-                            <Text style={styles.item_text}>已阅读攻略</Text>
+                            <Text style={styles.item_text}>收藏的赛车</Text>
                             <Image
                                 style={styles.icon_r}
                                 source={require('../imgs/more_r_icon.png')}/>
@@ -127,7 +133,7 @@ export default class MinePage extends Component {
                             activeOpacity={0.8}
                             onPress={()=>this.goToDetail('ArticleCollection')}
                             style={styles.item_container}>
-                            <Text style={styles.item_text}>收藏的攻略</Text>
+                            <Text style={styles.item_text}>收藏的店铺</Text>
                             <Image
                                 style={styles.icon_r}
                                 source={require('../imgs/more_r_icon.png')}/>
@@ -185,12 +191,13 @@ export default class MinePage extends Component {
 const styles = StyleSheet.create({
     container: {
         width:cfn.deviceWidth(),
-        marginTop:cfn.picHeight(40)
+        marginTop:cfn.picHeight(40),
+        backgroundColor:'rgba(0,0,0,0.5)'
     },
     bg: {
         height: cfn.deviceHeight(),
         width:cfn.deviceWidth(),
-        resizeMode:'contain'
+        //resizeMode:'contain'
     },
     icon: {
         width: cfn.picWidth(130),
@@ -204,8 +211,8 @@ const styles = StyleSheet.create({
         width: cfn.deviceWidth(),
         height: cfn.picHeight(100),
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.8)',
-        borderBottomColor: '#666',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderBottomColor: '#333',
         borderBottomWidth: 1,
         paddingLeft: cfn.picWidth(20),
         paddingRight: cfn.picWidth(20)

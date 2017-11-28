@@ -12,6 +12,7 @@ import {
     FlatList,
     TouchableOpacity,
     RefreshControl,
+    ActivityIndicator
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import cfn from '../tools/commonFun'
@@ -26,19 +27,22 @@ export default class articleDetailPage extends Component {
 
     constructor(props) {
         super(props);
-        this.loading = '正在加载...';
-        this.error = '加载错误，点击重试';
+        this.loadingText = '正在加载...';
+        this.loadMoreText = '点击加载更多';
+        this.errorText = '加载失败，点击重试';
+
         this.bannerLength = 3;
+        this.page = 0;
         this.state={
             data:[],
             isLoading: true,
             isRefreshing: true,
-            loadState:this.loading,
+            isError:false,
             bannerList:[
-                require('../imgs/banner/banner_1.png'),
-                require('../imgs/banner/banner_2.png'),
-                require('../imgs/banner/banner_3.png'),
-            ]
+                {imgsrc:require('../imgs/banner/banner_default.png'),title:'数据正在加载...', docid:null, rowData:null, mtime:null,},
+                {imgsrc:require('../imgs/banner/banner_default.png'),title:'数据正在加载...', docid:null, rowData:null, mtime:null,},
+                {imgsrc:require('../imgs/banner/banner_default.png'),title:'数据正在加载...', docid:null, rowData:null, mtime:null,},
+                ],
         };
     }
     static defaultProps = {
@@ -50,37 +54,53 @@ export default class articleDetailPage extends Component {
     }
 
     getData() {
-        fetchp(urls.getCarNews(),{timeout:5*1000})
+        fetchp(urls.getCarNews(this.page),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
-            .catch((err)=>console.log(err));
+            .catch((err)=>this.setError(err));
     }
 
     setData(data) {
         //console.log(data);
         data = this.deleteData(data.list);
-        let bannerList = this.getBannerData(data);
-        this.setState({
-            data:data,
-            isRefreshing:false,
-            bannerList:bannerList
-        });
+        if(this.page == 0) {
+            let bannerList = this.getBannerData(data);
+            this.setState({
+                data:data,
+                isRefreshing:false,
+                bannerList:bannerList,
+                isError:false
+            });
+        } else {
+            data = this.state.data.concat(data);
+            this.setState({
+                data:data,
+                isRefreshing:false,
+                animating:false,
+                isError:false
+            })
+        }
+
+
     }
 
     setError(error) {
+        if(this.page > 0) {
+            this.page --;
+        }
         this.setState({
             isRefreshing:false,
-            loadState:this.error,
-            data:[]
+            animating:false,
+            isError:true
         })
     }
 
-    // 每日易乐有点黄 有点污 删掉！！
+    // 每日易乐有点黄 有点污 删掉！！ 带视频的文章也删掉！！
     deleteData(data) {
         for(let i = 0; i < data.length; i++) {
-            if(data[i].title.match(/每日易乐/)) {
+            if(data[i].title.match(/每日易乐/) || data[i].docid.match(/_/) || data[i].articleType == 'webview') {
                 data.splice(i,1);
-                break;
+                //break;
             }
         }
         return data;
@@ -96,7 +116,9 @@ export default class articleDetailPage extends Component {
     getBannerData(data) {
         let bannerList = [];
         for(let i = 0; i < this.bannerLength; i++) {
-            bannerList.push(data[i])
+            bannerList.push(
+                {imgsrc:{uri:data[i].imgsrc},rowData:data[i],docid:data[i].docid,mtime:data[i].mtime,title:data[i].title}
+                )
         }
         return bannerList;
     }
@@ -135,20 +157,26 @@ export default class articleDetailPage extends Component {
     }
 
     _onRefresh() {
-        this.setState({isRefreshing:true});
+        this.page = 0;
+        this.setState({isRefreshing:true,isError:false});
         this.getData()
     }
 
-    reLoad() {
-        if(this.state.loadState == this.error) {
-            this.setState({
-                isLoading:true,
-                loadState:this.loading
-            });
-            this.getData()
-        }
+    loadMore() {
+        this.page ++;
+        this.setState({animating:true});
+        this.getData();
     }
 
+    reLoad() {
+
+        this.setState({
+            isLoading:true,
+            isError:false,
+        });
+        this.getData()
+
+    }
 
     render() {
         return(
@@ -162,16 +190,17 @@ export default class articleDetailPage extends Component {
                     bannerList={this.state.bannerList}
                     navigation={this.props.navigation}
                 />
-                {this.state.data.length == 0 ?
-                    <TouchableOpacity
-                        activeOpacity={1}
-                        onPress={()=> this.reLoad()}
-                        style={{position:'absolute',zIndex:9,top:cfn.deviceHeight()/2}}>
-                        <Text>{this.state.loadState}</Text>
-                    </TouchableOpacity> :
+
                     <FlatList
                         data={this.state.data}
                         style={styles.flatListStyle}
+                        ListEmptyComponent={
+                            <TouchableOpacity
+                            activeOpacity={1}
+                            style={{alignSelf:'center',marginTop:cfn.deviceHeight()/4}}
+                            onPress={()=> this.reLoad()}>
+                            <Text style={{color:'#eee'}}>{this.state.isError ? this.errorText : this.loadingText}</Text>
+                            </TouchableOpacity>}
                         renderItem={this.renderItem.bind(this)}
                         keyExtractor={this._keyExtractor}
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
@@ -185,7 +214,27 @@ export default class articleDetailPage extends Component {
                                 colors={['#000']}
                                 progressBackgroundColor="#fff"
                             />}
-                    />}
+                        ListFooterComponent={
+                            this.state.data.length == 0 ? null :
+                                <View style={{height:cfn.picHeight(100), width:cfn.deviceWidth(),
+                                    backgroundColor:'rgba(0,0,0,0.9)',alignItems:'center', justifyContent:'center'}}>
+                                {this.state.animating ?
+                                    <ActivityIndicator
+                                        animating={this.state.animating}
+                                        style={{height: cfn.picHeight(100),width:cfn.deviceWidth(), alignItems:'center',justifyContent:'center'}}
+                                        color="#eee"
+                                        size="small"
+                                    /> :
+                                    <TouchableOpacity
+                                        style={{width:cfn.deviceWidth(),height:cfn.picHeight(100),alignItems:'center',justifyContent:'center'}}
+                                        activeOpacity={0.9}
+                                        onPress={()=>this.loadMore()}
+                                    >
+                                        <Text style={{color:'#eee'}}>{this.state.isError ? this.errorText : this.loadMoreText}</Text>
+                                    </TouchableOpacity>}
+
+                            </View>}
+                    />
                     <View style={{height:cfn.picHeight(100)}}/>
             </Image>)
     }

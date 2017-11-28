@@ -27,8 +27,9 @@ exports.getPK = function (ids) {
 };
 
 // 获取新闻列表
-exports.getCarNews = function (last, next) {
-    return "http://c.m.163.com/nc/auto/districtcode/list/110000/0-20.html";
+exports.getCarNews = function (page) {
+    let list = page*20;
+    return "http://c.m.163.com/nc/auto/districtcode/list/110000/"+list+"-20.html";
 };
 
 exports.getCarNewsDetail = function (id) {

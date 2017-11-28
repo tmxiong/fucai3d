@@ -124,35 +124,43 @@ export default class jieshaoPage extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <NavBar
-                    middleText={"汽车商店"}
-                    leftFn={this.goBack.bind(this)}
-                />
+            <Image style={styles.bg} source={require('../../imgs/pageBg/page_bg_2.png')}>
+                <View style={styles.container}>
+                    <NavBar
+                        middleText={"汽车商店"}
+                        leftFn={this.goBack.bind(this)}
+                    />
 
-                {this.state.data.length == 0 ?
-                    <TouchableOpacity
-                        style={styles.loader}
-                        onPress={()=>this.getData()}
-                        activeOpacity={0.8}>
-                        <Text>{this.state.loader}</Text>
-                    </TouchableOpacity>
-                    :
-                    <FlatList
-                    data={this.state.data}
-                    keyExtractor={this._keyExtractor}
-                    renderItem={this.renderItem.bind(this)}
-                    ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#ddd'}}/>}
-                />}
-            </View>
+                    {this.state.data.length == 0 ?
+                        <TouchableOpacity
+                            style={styles.loader}
+                            onPress={()=>this.getData()}
+                            activeOpacity={0.8}>
+                            <Text>{this.state.loader}</Text>
+                        </TouchableOpacity>
+                        :
+                        <FlatList
+                        data={this.state.data}
+                        keyExtractor={this._keyExtractor}
+                        renderItem={this.renderItem.bind(this)}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#ddd'}}/>}
+                    />}
+                </View>
+            </Image>
         )
     }
 }
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor:'#fff',
-        flex:1,
-        alignItems:'center'
+        backgroundColor:'#rgba(0,0,0,0.5)',
+        alignItems:'center',
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+    },
+    bg: {
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+        resizeMode:'stretch'
     },
     loader: {
         position:'absolute',
