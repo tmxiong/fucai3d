@@ -87,6 +87,13 @@ export default class collectCarPage extends Component {
 
     goToPage(route, params) {
 
+        const {isFromMinePage} = this.props.navigation.state.params;
+
+        if(!isFromMinePage && route == 'PKList') {
+            this.props.navigation.state.params.update();
+            return this.goBack();
+        }
+
         this.props.navigation.navigate(route, params)
     }
 

@@ -35,7 +35,8 @@ export default class jieshaoPage extends Component {
         // this.img = this.props.navigation.state.params.img;
         this.state={
             data:[],
-            loader:'正在加载...',
+            isError:false,
+            isLoading:true,
             collectData:[],
         }
     }
@@ -50,24 +51,34 @@ export default class jieshaoPage extends Component {
     }
 
     getData() {
-        this.setState({loader:'正在加载...'});
         fetchp(urls.getShop(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
             .catch((err)=>this.setError(err))
     }
 
-    setData(data) {
-        if(data.result.dealerlist.length != 0) {
-            this.setState({data:data.result.dealerlist})
-        } else {
-            this.setState({loader:'暂无数据'})
+    reload() {
+        if(this.state.isError) {
+            this.setState({
+                isError:false,
+                isLoading:true,
+            },()=>this.getData());
         }
+    }
+
+    setData(data) {
+
+        this.setState({
+            data:data.result.dealerlist,
+            isError:false,
+            isLoading:false,
+        })
+
     }
     setError(err) {
         this.setState({
-            data:[],
-            loader:'加载错误，点击重试'
+            isError:true,
+            isLoading:false
         })
     }
 
@@ -131,20 +142,22 @@ export default class jieshaoPage extends Component {
                         leftFn={this.goBack.bind(this)}
                     />
 
-                    {this.state.data.length == 0 ?
-                        <TouchableOpacity
-                            style={styles.loader}
-                            onPress={()=>this.getData()}
-                            activeOpacity={0.8}>
-                            <Text>{this.state.loader}</Text>
-                        </TouchableOpacity>
-                        :
-                        <FlatList
+
+
+                    <FlatList
                         data={this.state.data}
                         keyExtractor={this._keyExtractor}
                         renderItem={this.renderItem.bind(this)}
+                        ListEmptyComponent={
+                            <TouchableOpacity
+                                style={{marginTop:cfn.deviceHeight()/3}}
+                                onPress={()=>this.reload()}
+                                activeOpacity={0.8}>
+                                <Text style={{color:'#ddd'}}>{this.state.isError ? '加载错误，点击重试' : '正在加载...'}</Text>
+                            </TouchableOpacity>
+                        }
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#ddd'}}/>}
-                    />}
+                    />
                 </View>
             </Image>
         )
@@ -161,10 +174,6 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
         resizeMode:'stretch'
-    },
-    loader: {
-        position:'absolute',
-        top:cfn.deviceHeight()/2,
     },
 
 });

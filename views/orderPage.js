@@ -55,7 +55,17 @@ export default class articleDetailPage extends Component {
     }
 
     getData() {
-        fetchp(urls.getCarNews(this.page),{timeout:5*1000})
+        fetchp(urls.getCarNews(this.page),
+            {headers: {
+                'Accept':'*/*',
+                'Accept-Language':'zh-CN,zh;q=0.8',
+                'Connection':'keep-alive',
+                'Content-Type': 'application/json',
+                'Origin': 'http://c.m.163.com',
+                // 以下一条可防止出现403拒绝访问错误
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+            }},
+            {timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
             .catch((err)=>this.setError(err));
@@ -63,6 +73,7 @@ export default class articleDetailPage extends Component {
 
     setData(data) {
         //console.log(data);
+        //data = JSON.parse(data);
         data = this.deleteData(data.list);
         if(this.page == 0) {
             let bannerList = this.getBannerData(data);

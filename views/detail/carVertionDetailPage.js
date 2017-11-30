@@ -49,13 +49,34 @@ export default class carVertionDetailPage extends Component {
         fetchp(urls.getCarDetail(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .catch((err)=>this.setError(err))
     }
 
     setData(data) {
         let data1 = this.changeObjKey(data.result.paramitems);
         let data2 = this.changeObjKey(data.result.configitems);
-        this.setState({data:data1.concat(data2),
-            itemTitle:data1[0].data[0].modelexcessids[0].value})
+        this.setState({
+            data:data1.concat(data2),
+            itemTitle:data1[0].data[0].modelexcessids[0].value,
+            isError:false,
+            isLoading:false
+        })
+    }
+
+    setError(err) {
+        this.setState({
+            isError:true,
+            isLoading:false
+        })
+    }
+
+    reload() {
+        if(this.state.isError){
+            this.setState({
+                isError:false,
+                isLoading:true,
+            },()=>this.getData());
+        }
     }
 
     changeObjKey(data) {
@@ -108,6 +129,15 @@ export default class carVertionDetailPage extends Component {
                         renderItem={this.renderItem.bind(this)}
                         renderSectionHeader={this.renderSectionHeader.bind(this)}
                         keyExtractor={this._keyExtractor}
+                        ListEmptyComponent={
+                            <TouchableOpacity
+                                style={{alignSelf:'center',marginTop:cfn.deviceHeight()/3}}
+                                activeOpacity={0.8}
+                                onPress={()=>this.reload()}
+                            >
+                                <Text style={{color:'#ddd'}}>{this.state.isError ? '加载错误，点击重试' : '正在加载...'}</Text>
+                            </TouchableOpacity>
+                        }
                         //ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666',}}/>}
                     />
