@@ -17,16 +17,18 @@ import NavBar from '../../component/NavBar';
 import Global from '../../global/global'
 import cfn from '../../tools/commonFun'
 import config from '../../config/config'
-import fetchp from '../../tools/fetch-polyfill';
+import CarItem from '../../component/carItem'
 import urls from '../../config/urls';
 
-export default class historyPage extends Component {
+export default class collectCarPage extends Component {
 
 
     constructor(props) {
         super(props);
         this.state = {
             data:[],
+            PKData:[],
+            collectData:[],
         };
 
     }
@@ -34,12 +36,28 @@ export default class historyPage extends Component {
     static defaultProps = {};
 
     componentDidMount() {
-        this.getReadHistory();
+        this.getPKCars();
+        this.getCollect();
     }
 
-    getReadHistory() {
+    componentWillUnmount() {
+        const {isFromMinePage} = this.props.navigation.state.params;
+
+        if(!isFromMinePage) {
+            this.props.navigation.state.params.update();
+        }
+
+    }
+
+    getPKCars() {
+        // isFirst  true:首次加载  false:刷新
+        Global.storage.getAllDataForKey('PKCars')
+            .then((data)=>this.setState({PKData:data}));
+    }
+
+    getCollect() {
         // 获取某个key下的所有数据
-        Global.storage.getAllDataForKey('history').then((data) => {
+        Global.storage.getAllDataForKey('collectCars').then((data) => {
             this.setState({data:data});
         });
 
@@ -55,46 +73,103 @@ export default class historyPage extends Component {
             return;
         }
         Alert.alert( '提示:',
-            '确定要清除历史记录？',
+            '确定要清除所有赛车收藏？',
             [
                 {text: '取消', onPress: ()=> {}},
                 {text: '确定', onPress: ()=> this.clearAllOk()},
             ]);
     }
     clearAllOk() {
-        Global.storage.clearMapForKey('history');
+        Global.storage.clearMapForKey('collectCars');
         // Global.storage.clearMapForKey('welcome');
-        this.getReadHistory();
+        this.getCollect();
     }
 
     goToPage(route, params) {
+
         this.props.navigation.navigate(route, params)
+    }
+
+
+
+    savePKCars(data) {
+        if(this.state.PKData.length == 10) {
+            Alert.alert('提示：','已添加10量PK赛车，若要添加请先删除！');
+            return;
+        }
+        Global.storage.save({
+            key: 'PKCars',  // 注意:请不要在key中使用_下划线符号!
+            id: data.id, //获取所有数据时，id 必须写
+            data: data,
+
+            // 如果不指定过期时间，则会使用defaultExpires参数
+            // 如果设为null，则永不过期
+            expires: null
+        }).then(()=>this.getPKCars());
+    }
+
+    saveCollectCars(data) {
+        Global.storage.save({
+            key: 'collectCars',  // 注意:请不要在key中使用_下划线符号!
+            id: data.id, //获取所有数据时，id 必须写
+            data: data,
+
+            // 如果不指定过期时间，则会使用defaultExpires参数
+            // 如果设为null，则永不过期
+            expires: null
+        }).then(()=>{});
+    }
+
+    deleteCollectCars(data) {
+        Global.storage.remove({
+            key: 'collectCars',
+            id: data.id
+        });
+    }
+
+    getIsSelected(type, id) {
+        let isSelected = false;
+        if(type == 'collect') {
+            let data = this.state.collectData;
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].id == id) {
+                    isSelected = true;
+                    break;
+                }
+            }
+        } else {
+            let data = this.state.PKData;
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].id == id) {
+                    isSelected = true;
+                    break;
+                }
+            }
+        }
+        return isSelected;
+    }
+
+    update() {
+        this.getPKCars();
     }
 
     _keyExtractor=(item, index) => index;
 
     renderItem({item, index}) {
         return(
-            <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={()=>this.goToPage('NewsDetail', {
-                        docid: item.docid,
-                        title: item.title,
-                        mtime: item.mtime,
-                        rowData: item,
-                    }
-                )}
-                style={styles.item_container}>
-                <View style={styles.item_text_container}>
-                    <Text
-                        style={styles.item_title}>{item.title}</Text>
-                    <Text style={styles.item_source}>{config.appName}</Text>
-                    <Text style={styles.item_time}>{item.mtime}</Text>
-                </View>
-                <Image
-                    style={styles.item_img}
-                    source={{uri: item.imgsrc}}/>
-            </TouchableOpacity>
+            <CarItem
+                name={item.name}
+                price={item.price}
+                id={item.id}
+                item={item}
+                savePKCars={this.savePKCars.bind(this)}
+                saveCollectCars={this.saveCollectCars.bind(this)}
+                deleteCollectCars={this.deleteCollectCars.bind(this)}
+
+                goToPage={this.goToPage.bind(this)}
+                isSelectedPK={this.getIsSelected('PK',item.id)}
+                isSelected={true}
+            />
         )
 
 
@@ -105,17 +180,29 @@ export default class historyPage extends Component {
             <Image style={styles.bg} source={require('../../imgs/pageBg/page_bg_2.png')}>
                 <View style={styles.container}>
                     <NavBar
-                        middleText={'阅读历史'}
+                        middleText={'赛车收藏'}
                         leftFn={this.goBack.bind(this)}
-                        rightText={'清除记录'}
+                        rightText={'清除收藏'}
                         rightFn={this.clearAll.bind(this)}
                     />
                     <FlatList
                         data={this.state.data}
                         renderItem={this.renderItem.bind(this)}
                         keyExtractor={this._keyExtractor}
-                        ListEmptyComponent={<Text style={styles.emptyText}>暂无阅读记录</Text>}
+                        ListEmptyComponent={<Text style={styles.emptyText}>暂无收藏记录</Text>}
+                        ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
                     />
+                    <View style={styles.btnContainer}>
+                        <View style={styles.numContainer}>
+                            <Text style={styles.numText}>已加{this.state.PKData.length}量</Text>
+                        </View>
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('PKList',{update: this.update.bind(this)})}
+                            style={styles.btn}>
+                            <Text style={styles.btnText}>查看PK赛车列表</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </Image>
         )
@@ -137,40 +224,31 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:cfn.deviceHeight()/2 - 50
     },
-    item_container: {
-        width: cfn.deviceWidth(),
-        height: cfn.picHeight(160),
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: 'rgba(0,0,0,0.3)'
+    btnContainer: {
+        width:cfn.deviceWidth(),
+        height:cfn.picHeight(100),
+        flexDirection:'row',
+        justifyContent:'space-between',
+        borderTopColor:'#666',
+        borderTopWidth:1
     },
-    item_text_container: {
-        flexWrap: 'wrap',
-        width: cfn.deviceWidth() - cfn.picWidth(180 + 40),
-        paddingLeft: cfn.picWidth(20),
-        height: cfn.picHeight(120),
+    btn: {
+        width:cfn.deviceWidth()-cfn.picWidth(200),
+        height:cfn.picHeight(100),
+        backgroundColor:'#666',
+        alignItems:'center',
+        justifyContent:'center'
     },
-    item_source: {
-        fontSize: 13,
-        color: '#666',
-        position: 'absolute',
-        left: cfn.picWidth(20),
-        bottom: 0
+    btnText: {
+        color:'#fff'
     },
-    item_time: {
-        fontSize: 13,
-        color: '#666',
-        position: 'absolute',
-        right: cfn.picWidth(20),
-        bottom: 0
+    numContainer: {
+        width:cfn.picWidth(200),
+        height:cfn.picHeight(100),
+        alignItems:'center',
+        justifyContent:'center'
     },
-    item_title: {
-        color: '#aaa'
-    },
-    item_img: {
-        width: cfn.picWidth(180),
-        height: cfn.picHeight(120),
-        marginLeft: cfn.picWidth(20),
+    numText: {
+        color:'#eee'
     }
 });

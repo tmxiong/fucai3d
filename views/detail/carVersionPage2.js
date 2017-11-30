@@ -30,7 +30,8 @@ export default class carVersionPage2 extends Component {
         this.name = props.navigation.state.params.name;
         this.state={
             data:[],
-            loader: '正在加载...',
+            isError:false,
+            isLoading:true,
             PKData:[],
             collectData:[],
         };
@@ -46,15 +47,37 @@ export default class carVersionPage2 extends Component {
         fetchp(urls.getCarVersion2(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .catch((err)=>this.setError(err))
     }
 
     setData(data) {
         let enginelist = data.result.enginelist;
+        let stateData = {data:[]};
         if(enginelist.length > 0) {
             data = this.changeObjKey(enginelist[0].yearspeclist);
-            this.setState({data:data})
-        } else {
-            this.setState({loader:'暂无数据'});
+            stateData.data = data;
+        }
+        stateData.isError = false;
+        stateData.isLoading = false;
+
+        this.setState(stateData)
+
+    }
+
+    setError(err) {
+        this.setState({
+            isError: true,
+            isLoading:false,
+        })
+    }
+
+    reload() {
+
+        if(this.state.isError) {
+            this.setState({
+                isError:false,
+                isLoading:false,
+            },()=>this.getData())
         }
 
     }
@@ -189,17 +212,28 @@ export default class carVersionPage2 extends Component {
                     <View style={styles.PKNumberContainer}>
                         <Text style={styles.PKNumber}>{this.state.PKData.length}</Text>
                     </View>
-                    {this.state.data.length == 0 ?
-                        <Text style={styles.loader}>{this.state.loader}</Text> :
-                        <SectionList
+
+                    <SectionList
                         sections={this.state.data}
                         extraData={this.state} // 设置不同的数据，以保证界面能刷新
                         renderItem={this.renderItem.bind(this)}
                         renderSectionHeader={this.renderSectionHeader.bind(this)}
                         keyExtractor={this._keyExtractor}
+                        ListEmptyComponent={
+                            <TouchableOpacity
+                                style={styles.loaderContainer}
+                                activeOpacity={0.8}
+                                onPress={()=>this.reload()}
+                            >
+                                <Text style={styles.loader}>
+                                    {this.state.isError ? '加载错误，点击重试' : this.state.isLoading ? '正在加载...' : '暂无数据'}
+                                    </Text>
+                            </TouchableOpacity>
+
+                        }
                         ListHeaderComponent={()=><Image source={{uri:this.img.replace('/s_','/u_')}} style={styles.img}/>}
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
-                    />}
+                    />
                 </View>
             </Image>
         )
@@ -211,11 +245,15 @@ const styles = StyleSheet.create({
        height:cfn.deviceHeight(),
        alignItems:'center'
    } ,
+    loaderContainer: {
+        alignSelf:'center',
+        marginTop:cfn.picHeight(200)
+    },
+
     loader: {
-        position:'absolute',
-        top:cfn.deviceHeight()/2,
+
         fontSize:14,
-        color:'#555'
+        color:'#aaa'
 
     },
     PKNumberContainer: {

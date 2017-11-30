@@ -1,3 +1,4 @@
+
 /**
  * Created by xiongtm on 2017/9/7.
  */
@@ -21,7 +22,7 @@ var RNFS = require('react-native-fs');
 import { NativeModules } from 'react-native';
 import cfn from '../tools/commonFun'
 import CountDown from './countDown'
-export default class loadingModal extends PureComponent {
+export default class updateModal extends PureComponent {
     static navigationOptions = {header: null};
 
     static defaultProps={
@@ -83,15 +84,23 @@ export default class loadingModal extends PureComponent {
 
         this.state = {
             animating: false,
-            updateState: 2,// 0->是否更新；1->正在更新；2->更新失败
+            updateState: 1,// 0->是否更新；1->正在更新；2->更新失败
         };
-        this.isConnected = true;
-        this.isDownloading = false;
         this.url = this.props.url;
     }
 
     componentDidMount() {
+        this.isConnected = true;
+        this.isDownloading = false;
+
         NetInfo.isConnected.addEventListener('change', this._handleConnectionInfoChange.bind(this));
+        //setTimeout(()=>{
+        if(this.props.modalVisible) {
+            this.update();
+        }
+
+        //},2*1000);
+
     }
     componentWillUnmount() {
         NetInfo.removeEventListener('change', this._handleConnectionInfoChange.bind(this));
@@ -122,9 +131,12 @@ export default class loadingModal extends PureComponent {
                     this.isDownloading = true;
                     this.setState({
                         updateState: 1,
+                    },()=>{
+                        this.setProgress("正在准备下载...");
+                        this.downloadFile(downloadUrl, downloadDest);
                     });
-                    this.setProgress("正在准备下载...");
-                    this.downloadFile(downloadUrl, downloadDest);
+
+
                 }
             } else {
                 this.onError();
@@ -208,26 +220,6 @@ export default class loadingModal extends PureComponent {
     }
 
     setProgress(text, result) {
-        //console.log(this.countDown);
-        // if(this.isDownloading) {
-        //
-        //     let temp = result;
-        //     if(this.timer) {
-        //         clearTimeout(this.timer);
-        //     }
-        //
-        //     this.timer = setTimeout(()=>{
-        //         if(temp && temp == result) {
-        //             this.isDownloading = false;
-        //             this.setState({
-        //                 modalVisible:false,
-        //             })
-        //         }
-        //         this.cancelDownDload();
-        //         Alert.alert("错误：","下载失败，请检查后重试！")
-        //     },8*1000);
-        //
-        // }
 
         try{
             this.countDown._startCountDown(text)

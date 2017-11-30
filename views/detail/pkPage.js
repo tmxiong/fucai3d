@@ -19,6 +19,7 @@ import cfn from '../../tools/commonFun'
 import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
+import Spinner from 'react-native-loading-spinner-overlay'
 
 const colors = {
     titleColor:'#ccc',
@@ -49,6 +50,8 @@ export default class jieshaoPage extends Component {
             carName:[['',''],['','']],
             carPrice:[['',''],['','']],
             carItems:null,
+            visible:true,
+            isError:false,
         }
     }
 
@@ -65,6 +68,7 @@ export default class jieshaoPage extends Component {
         fetchp(urls.getPK(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .catch((error)=>this.setError(error))
     }
 
     setData(data) {
@@ -73,6 +77,8 @@ export default class jieshaoPage extends Component {
 
 
         this.setState({
+            visible:false,
+            isError:false,
             carImg:[data.result[0].specinfo.carsimage,data.result[1].specinfo.carsimage],
             carName:[[data.result[0].specinfo.serisename,data.result[0].specinfo.specname],
                 [data.result[1].specinfo.serisename,data.result[1].specinfo.specname]],
@@ -80,6 +86,24 @@ export default class jieshaoPage extends Component {
                 [data.result[1].dealerinfo.allprice,data.result[1].dealerinfo.price]],
             carItems: carItems
         });
+    }
+
+    setError(error) {
+        this.setState({
+            isError:true,
+            visible:false,
+        });
+    }
+
+    reload() {
+        if(this.state.isError) {
+            this.setState({
+                isError:false,
+                visible:true
+            },()=>this.getData());
+
+        }
+
     }
 
     renderItems(carItems) {
@@ -235,7 +259,14 @@ export default class jieshaoPage extends Component {
                         <View style={styles.sectionHeader}>
                             <Text style={styles.pkTitle}>—— PK配置 ——</Text>
                         </View>
-                        {this.state.carItems}
+                        {this.state.carItems ||
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={()=>this.reload()}
+                            style={{alignSelf:'center',marginTop:cfn.picHeight(200)}}
+                        >
+                            <Text style={{color:'#ddd'}}>{this.state.isError ? '加载错误，点击重试':'正在加载...'}</Text>
+                        </TouchableOpacity>}
                         {/*<Text style={styles.pkSubTitle}>动力性能</Text>*/}
                         {/*<View style={[styles.itemContainer,{flexDirection:'row'}]}>*/}
                         {/*<View style={styles.chayiContainer}>*/}
@@ -251,6 +282,13 @@ export default class jieshaoPage extends Component {
 
                     </ScrollView>
                 </View>
+                <Spinner
+                    visible={this.state.visible}
+                    textContent={"正在PK..."}
+                    overlayColor="rgba(0,0,0,0.7)"
+                    animation="fade"
+                    color="#f55"
+                    textStyle={{color: '#f55'}} />
             </Image>
 
 

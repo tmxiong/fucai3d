@@ -40,7 +40,7 @@ export default class carVersionPage extends Component {
         fetchp(urls.getCarVersion(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
-            .then((error)=>this.setError())
+            .catch((error)=>this.setError())
     }
     setData(data) {
         let data1 = this.changeObjKey(data.result.fctlist);
@@ -95,6 +95,7 @@ export default class carVersionPage extends Component {
                     <Text style={styles.name}>{item.name}</Text>
                     <Text style={styles.price}>{item.price}</Text>
                 </View>
+                <Image style={styles.r_icon} source={require('../../imgs/more_r_icon.png')}/>
             </TouchableOpacity>
         )
     }
@@ -167,5 +168,12 @@ const styles = StyleSheet.create({
         width:cfn.deviceHeight(),
         justifyContent:'center',
         backgroundColor:'#464646',
+    },
+    r_icon: {
+        width:cfn.picWidth(50),
+        height:cfn.picWidth(50),
+        resizeMode:'contain',
+        position:'absolute',
+        right:cfn.picWidth(20)
     }
 });

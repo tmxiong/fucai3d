@@ -16,6 +16,8 @@ import ShopPage from './views/detail/shopPage';
 import PKListPage from './views/detail/pkListPage'
 import PKPage from './views/detail/pkPage';
 import HistoryPage from './views/detail/historyPage';
+import CollectCarPage from './views/detail/collectCarPage'
+import CollectShopPage from './views/detail/collectShopPage'
 
 const routers = StackNavigator({
     launch: {screen: launchPage},
@@ -38,7 +40,10 @@ const routers = StackNavigator({
     Welcome: {screen: welcomePage},
     // 阅读历史
     History: {screen: HistoryPage, navigationOptions: {header:null}},
-
+    // 收藏赛车
+    CollectCar: {screen: CollectCarPage, navigationOptions: {header:null}},
+    // 收藏店铺
+    CollectShop: {screen: CollectShopPage, navigationOptions: {header:null}},
     // 彩票网站web页面
     CPWebView: {screen:CPWebViewPage},
 

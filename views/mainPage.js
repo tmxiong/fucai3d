@@ -45,7 +45,7 @@ const mainPage = TabNavigator({
             tabBarLabel: '赛车头条',
             tabBarIcon: ({ tintColor }) => (
                 <Image
-                    source={require('../imgs/order_icon.png')}
+                    source={require('../imgs/toutiao_icon.png')}
                     style={[styles.icon,{tintColor: tintColor} ]}
                 />
             ),

@@ -29,8 +29,8 @@ export default class loadingModal extends Component {
     constructor(props) {
         super(props);
 
-        this.showWebView = this.props.navigation.state.params.showWebView;
-        this.url = this.props.navigation.state.params.url;
+        // this.showWebView = this.props.navigation.state.params.showWebView;
+        // this.url = this.props.navigation.state.params.url;
     }
 
     componentDidMount() {
@@ -38,12 +38,12 @@ export default class loadingModal extends Component {
     }
     goToPage() {
         // let route = this.showWebView ? 'CPWebView' : 'Draw';
-        let route = 'Draw';
+        let route = 'Main';
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
                 NavigationActions.navigate({ routeName: route,
-                    params:{url:this.url, showWebView:this.showWebView}})
+                    params:{}})
             ]
         });
 

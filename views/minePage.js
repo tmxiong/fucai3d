@@ -122,7 +122,7 @@ export default class MinePage extends Component {
 
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToDetail('ReadHistory')}
+                            onPress={()=>this.goToDetail('CollectCar',{isFromMinePage:true})}
                             style={[styles.item_container, {marginTop: cfn.picWidth(30)}]}>
                             <Text style={styles.item_text}>收藏的赛车</Text>
                             <Image
@@ -131,7 +131,7 @@ export default class MinePage extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={()=>this.goToDetail('ArticleCollection')}
+                            onPress={()=>this.goToDetail('CollectShop')}
                             style={styles.item_container}>
                             <Text style={styles.item_text}>收藏的店铺</Text>
                             <Image

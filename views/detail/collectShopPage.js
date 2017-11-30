@@ -18,17 +18,16 @@ import Global from '../../global/global'
 import cfn from '../../tools/commonFun'
 import config from '../../config/config'
 import CarItem from '../../component/carItem'
-import urls from '../../config/urls';
+import ShopItem from '../../component/shopItem'
 
-export default class collectCarPage extends Component {
+
+export default class collectShopPage extends Component {
 
 
     constructor(props) {
         super(props);
         this.state = {
             data:[],
-            PKData:[],
-            collectData:[],
         };
 
     }
@@ -36,22 +35,30 @@ export default class collectCarPage extends Component {
     static defaultProps = {};
 
     componentDidMount() {
-        this.getPKCars();
-        this.getCollect();
+        this.collectShops();
     }
 
-    getPKCars() {
-        // isFirst  true:首次加载  false:刷新
-        Global.storage.getAllDataForKey('PKCars')
-            .then((data)=>this.setState({PKData:data}));
-    }
 
-    getCollect() {
-        // 获取某个key下的所有数据
-        Global.storage.getAllDataForKey('collectCars').then((data) => {
-            this.setState({data:data});
-        });
+    collectShops(type,data) {
+        if(type == 'delete') {
+            Global.storage.remove({
+                key: 'collectShops',
+                id: data.id
+            });
+        } else if(type == 'save'){
+            Global.storage.save({
+                key: 'collectShops',  // 注意:请不要在key中使用_下划线符号!
+                id: data.id, //获取所有数据时，id 必须写
+                data: data,
 
+                // 如果不指定过期时间，则会使用defaultExpires参数
+                // 如果设为null，则永不过期
+                expires: null
+            }).then(()=>{});
+        } else {
+            Global.storage.getAllDataForKey('collectShops')
+                .then((data)=>this.setState({data:data}));
+        }
     }
 
     goBack() {
@@ -64,16 +71,16 @@ export default class collectCarPage extends Component {
             return;
         }
         Alert.alert( '提示:',
-            '确定要清除所有赛车收藏？',
+            '确定要清除所有商店收藏？',
             [
                 {text: '取消', onPress: ()=> {}},
                 {text: '确定', onPress: ()=> this.clearAllOk()},
             ]);
     }
     clearAllOk() {
-        Global.storage.clearMapForKey('collectCars');
+        Global.storage.clearMapForKey('collectShops');
         // Global.storage.clearMapForKey('welcome');
-        this.getCollect();
+        this.collectShops();
     }
 
     goToPage(route, params) {
@@ -81,88 +88,19 @@ export default class collectCarPage extends Component {
     }
 
 
-
-    savePKCars(data) {
-        if(this.state.PKData.length == 10) {
-            Alert.alert('提示：','已添加10量PK赛车，若要添加请先删除！');
-            return;
-        }
-        Global.storage.save({
-            key: 'PKCars',  // 注意:请不要在key中使用_下划线符号!
-            id: data.id, //获取所有数据时，id 必须写
-            data: data,
-
-            // 如果不指定过期时间，则会使用defaultExpires参数
-            // 如果设为null，则永不过期
-            expires: null
-        }).then(()=>this.getPKCars());
-    }
-
-    saveCollectCars(data) {
-        Global.storage.save({
-            key: 'collectCars',  // 注意:请不要在key中使用_下划线符号!
-            id: data.id, //获取所有数据时，id 必须写
-            data: data,
-
-            // 如果不指定过期时间，则会使用defaultExpires参数
-            // 如果设为null，则永不过期
-            expires: null
-        }).then(()=>{});
-    }
-
-    deleteCollectCars(data) {
-        Global.storage.remove({
-            key: 'collectCars',
-            id: data.id
-        });
-    }
-
-    getIsSelected(type, id) {
-        let isSelected = false;
-        if(type == 'collect') {
-            let data = this.state.collectData;
-            for(let i = 0; i < data.length; i++) {
-                if(data[i].id == id) {
-                    isSelected = true;
-                    break;
-                }
-            }
-        } else {
-            let data = this.state.PKData;
-            for(let i = 0; i < data.length; i++) {
-                if(data[i].id == id) {
-                    isSelected = true;
-                    break;
-                }
-            }
-        }
-        return isSelected;
-    }
-
-    update() {
-        this.getPKCars();
-    }
-
     _keyExtractor=(item, index) => index;
 
     renderItem({item, index}) {
-        return(
-            <CarItem
-                name={item.name}
-                price={item.price}
-                id={item.id}
-                item={item}
-                savePKCars={this.savePKCars.bind(this)}
-                saveCollectCars={this.saveCollectCars.bind(this)}
-                deleteCollectCars={this.deleteCollectCars.bind(this)}
-
-                goToPage={this.goToPage.bind(this)}
-                isSelectedPK={this.getIsSelected('PK',item.id)}
-                isSelected={true}
-            />
-        )
-
-
+        return<ShopItem
+            item={item}
+            name={item.name}
+            address={item.address}
+            newstitle={item.newstitle}
+            phone={item.phone}
+            price={item.price}
+            isSelected={true}
+            collectShops={this.collectShops.bind(this)}
+        />;
     }
 
     render() {
@@ -170,7 +108,7 @@ export default class collectCarPage extends Component {
             <Image style={styles.bg} source={require('../../imgs/pageBg/page_bg_2.png')}>
                 <View style={styles.container}>
                     <NavBar
-                        middleText={'赛车收藏'}
+                        middleText={'店铺收藏'}
                         leftFn={this.goBack.bind(this)}
                         rightText={'清除收藏'}
                         rightFn={this.clearAll.bind(this)}
@@ -182,17 +120,6 @@ export default class collectCarPage extends Component {
                         ListEmptyComponent={<Text style={styles.emptyText}>暂无收藏记录</Text>}
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#666'}}/>}
                     />
-                    <View style={styles.btnContainer}>
-                        <View style={styles.numContainer}>
-                            <Text style={styles.numText}>已加{this.state.PKData.length}量</Text>
-                        </View>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={()=>this.goToPage('PKList',{update: this.update.bind(this)})}
-                            style={styles.btn}>
-                            <Text style={styles.btnText}>查看PK赛车列表</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </Image>
         )
@@ -214,31 +141,4 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:cfn.deviceHeight()/2 - 50
     },
-    btnContainer: {
-        width:cfn.deviceWidth(),
-        height:cfn.picHeight(100),
-        flexDirection:'row',
-        justifyContent:'space-between',
-        borderTopColor:'#666',
-        borderTopWidth:1
-    },
-    btn: {
-        width:cfn.deviceWidth()-cfn.picWidth(200),
-        height:cfn.picHeight(100),
-        backgroundColor:'#666',
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    btnText: {
-        color:'#fff'
-    },
-    numContainer: {
-        width:cfn.picWidth(200),
-        height:cfn.picHeight(100),
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    numText: {
-        color:'#eee'
-    }
 });

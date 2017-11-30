@@ -20,7 +20,7 @@ import cfn from '../../tools/commonFun'
 import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill';
 import urls from '../../config/urls';
-import ShopList from '../../component/shopItem'
+import ShopItem from '../../component/shopItem'
 import Global from '../../global/global'
 export default class jieshaoPage extends Component {
 
@@ -110,7 +110,7 @@ export default class jieshaoPage extends Component {
     _keyExtractor=(item, index)=> item.id;
 
     renderItem({item, index}) {
-        return<ShopList
+        return<ShopItem
             item={item}
             name={item.name}
             address={item.address}

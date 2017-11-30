@@ -29,6 +29,15 @@ export default class pkListPage extends Component {
         this.getData();
     }
 
+    componentWillUnmount() {
+        try{
+            let params = this.props.navigation.state.params;
+            if(params.update) {
+                params.update();
+            }
+        }catch(e){}
+    }
+
     goBack() {
         this.props.navigation.goBack();
     }
@@ -111,13 +120,6 @@ export default class pkListPage extends Component {
             }
         }
         this.getData();
-        try{
-            let params = this.props.navigation.state.params;
-            if(params.update) {
-                params.update();
-            }
-        }catch(e){}
-
 
     }
 
@@ -222,6 +224,7 @@ export default class pkListPage extends Component {
                             <Text style={styles.btnText}>开始PK赛车</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
+                            onPress={()=>this.goToPage('CollectCar',{isFromMinePage:false,update:()=>this.getData()})}
                             activeOpacity={0.8}
                             style={styles.addBtn}>
                             <Text style={styles.btnText}>添加</Text>

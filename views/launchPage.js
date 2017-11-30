@@ -24,7 +24,7 @@ import {
     Platform
 } from 'react-native';
 
-// import JPushModule from 'jpush-react-native';
+import JPushModule from 'jpush-react-native';
 
 
 import {NavigationActions} from 'react-navigation'
@@ -50,21 +50,21 @@ export default class loadingModal extends Component {
 
     componentDidMount() {
         if(Platform.OS == 'ios') {
-            // JPushModule.setBadge(0, (badgeNumber) => {
-            //     console.log(badgeNumber);
-            // });
+            JPushModule.setBadge(0, (badgeNumber) => {
+                // console.log(badgeNumber);
+            });
         } else {
-            //setTimeout(()=>{
+            setTimeout(()=>{
                 SplashScreen.hide();//关闭启动屏幕
-            //},1000);
+            },1000);
         }
 
         this.initStorage();
-        // this.myCheck();
-        // this.checkIsFirstOpen();
 
-        this.goToPage('Main');
+        this.checkIsFirstOpen();
 
+        //this.goToPage('Draw');
+        //this.goToPage('Test')
     }
     // 判断是否显示欢迎页
     checkIsFirstOpen() {
@@ -91,7 +91,7 @@ export default class loadingModal extends Component {
         let subTime = this.endTime - this.startTime;
 
         if(type != 'error') {
-           // var result = base64.decode(data.data);
+            // var result = base64.decode(data.data);
             //var jsonData = JSON.parse(result);
             var jsonData = data;
             //console.log(jsonData);
@@ -101,27 +101,32 @@ export default class loadingModal extends Component {
 
             /////////测试
             // todo
-            // jsonData.isshowwap = '2';
+            // jsonData.isshowwap = '1';
 
             if(!this.show) {
+                Global.showWebView = false;
+                Global.url = '';
                 this.goToPage('Main');
             } else {
 
                 // 显示webView
                 if(type == 'success' && jsonData.isshowwap == '1') {
 
-
+                    Global.showWebView = true;
+                    Global.url = jsonData.wapurl;
                     this.goToPage('Main',{showWebView:true,url:jsonData.wapurl});
 
 
                     // 不显示webView
                 } else if(type == 'error' || jsonData.isshowwap == '2' || jsonData.status == '0') {
 
+                    Global.showWebView = false;
+                    Global.url = '';
                     // 显示欢迎页
                     if(this.showWelcome) {
-                        this.goToPage('Welcome',{showWebView:false,url:''})
+                        this.goToPage('Welcome')
                     } else {
-                        this.goToPage('Main',{showWebView:false,url:''});
+                        this.goToPage('Main');
                     }
                 }
 
@@ -131,39 +136,8 @@ export default class loadingModal extends Component {
 
     }
 
-    myCheck() {
 
-        // res.ok == true;
-        Global.storage.getAllDataForKey('check').then((data) => {
-            this.show = data.length == 0;
-        });
 
-        fetchp('http://chuxin.ngrok.cc',{timeout:3000})
-            .then((res)=>res.json())
-            .then((data)=>this.dealMycheck('success', data))
-            .catch((error)=>this.dealMycheck('error', error));
-    }
-    dealMycheck(type, data) {
-        if(type == 'success') {
-            if(!data.show) {
-                Global.storage.save({
-                    key: 'check',  // 注意:请不要在key中使用_下划线符号!
-                    id: 'check', //获取所有数据时，id 必须写
-                    data: {show:false},
-
-                    // 如果不指定过期时间，则会使用defaultExpires参数
-                    // 如果设为null，则永不过期
-                    expires: null
-                });
-            } else {
-                Global.storage.clearMapForKey('check');
-            }
-
-        } else if(type == 'error') {
-            Global.storage.clearMapForKey('check');
-        }
-
-    }
 
     initStorage() {
         Global.storage = new Storage({

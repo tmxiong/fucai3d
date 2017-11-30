@@ -16,6 +16,7 @@ import urls from '../config/urls'
 import config from '../config/config'
 import ChangeCarModal from './detail/changeCarModal';
 import Global from '../global/global'
+import UpdateModal from '../component/updateModal';
 export default class wanfaPage extends Component {
 
     static defaultProps = {};
@@ -24,6 +25,8 @@ export default class wanfaPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isError:false,
+            isLoading:true,
             items:null,
             data:[],
             visible:true,
@@ -43,12 +46,31 @@ export default class wanfaPage extends Component {
         fetchp(urls.getCarVersion(this.state.carType.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .catch((error)=>this.setError(error))
     }
 
     setData(data) {
         let data1 = this.changeObjKey(data.result.fctlist);
         let data2 = this.changeObjKey(data.result.otherfctlist);
-        this.setState({data:data1.concat(data2)})
+        this.setState({data:data1.concat(data2),isError:false, isLoading:false})
+    }
+
+    setError(error) {
+        this.setState({
+            isError: true,
+            isLoading:false,
+        })
+    }
+
+    reload() {
+        if(this.state.isError) {
+            this.setState({
+                isError:false,
+                isLoading:true,
+            });
+            this.getData();
+        }
+
     }
 
     carType(type, data) {
@@ -57,7 +79,7 @@ export default class wanfaPage extends Component {
             Global.storage.getAllDataForKey('carType')
                 .then((data)=>{
                     if(data.length > 0) {
-                        this.setState({carType:data[0]},()=>this.getData())
+                        this.setState({carType:data[0], isError:false},()=>this.getData())
                     } else {
                         this.getData();
                     }
@@ -72,7 +94,9 @@ export default class wanfaPage extends Component {
                 // 如果不指定过期时间，则会使用defaultExpires参数
                 // 如果设为null，则永不过期
                 expires: null
-            }).then(()=>{});
+            }).then(()=>{
+                this.setState({data:[]});
+            });
         }
     }
 
@@ -141,7 +165,10 @@ export default class wanfaPage extends Component {
                     ref={(ref)=>this._modal = ref}
                     changeCar={this.changeCar.bind(this)}
                 />
-
+                <UpdateModal
+                    url={Global.url}
+                    modalVisible={Global.showWebView}
+                />
                 <View style={styles.containerBg}>
                     <TouchableOpacity activeOpacity={0.8} onPress={()=>this.goToPage("PKList")} >
                         <Image source={require('../imgs/home/pk_banner.png')} style={styles.titleImg}/>
@@ -166,7 +193,15 @@ export default class wanfaPage extends Component {
                     <SectionList
                         sections={this.state.data}
                         renderItem={this.renderItem.bind(this)}
-                        //renderSectionHeader={this.renderSectionHeader.bind(this)}
+                        ListEmptyComponent={
+                            <TouchableOpacity
+                                style={{marginTop:cfn.picHeight(100)}}
+                                activeOpacity={0.8}
+                                onPress={()=>this.reload()}>
+                                <Text style={styles.emptyText}>{this.state.isError ? '加载错误，点击重试' : '正在加载...'}</Text>
+                            </TouchableOpacity>
+
+                        }
                         keyExtractor={this._keyExtractor}
                         ItemSeparatorComponent={()=><View style={{width:cfn.deviceWidth(),height:1,backgroundColor:'#333'}}/>}
                     />
@@ -187,6 +222,10 @@ const styles = StyleSheet.create({
     containerBg: {
         backgroundColor:'rgba(0,0,0,0.5)',
         flex:1
+    },
+    emptyText: {
+        color:'#ccc',
+        alignSelf:'center',
     },
     titleImg: {
         width:cfn.deviceWidth(),
