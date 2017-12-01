@@ -236,10 +236,12 @@ export default class updateModal extends PureComponent {
                 visible={this.props.modalVisible}
                 onRequestClose={() => {}}
             >
-                <StatusBar hidden={false}  translucent= {true} backgroundColor={'rgba(0,0,0,0.7)'} barStyle={'light-content'}/>
+                <Image style={styles.bg} source={require('../imgs/update/update_bg.png')}/>
                 <View style={styles.container}>
                     {this.updateView[this.state.updateState]}
                 </View>
+                <StatusBar hidden={false}  translucent= {false} backgroundColor={'#000'}/>
+
             </Modal>
         )
     }
@@ -264,4 +266,10 @@ const styles = StyleSheet.create({
         height:cfn.picHeight(100),
         marginBottom:cfn.picHeight(40)
     },
+    bg: {
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+        resizeMode:'stretch',
+        position:'absolute',
+    }
 });
