@@ -1,6 +1,7 @@
 /**
  * Created by xiongtm on 2017/9/6.
  */
+import {Platform} from 'react-native'
 var appid = {
 
     sx: 2834699,
@@ -14,7 +15,7 @@ var appid = {
     hw: 100152235,
     sll: 100152233,
     sg: 100152234,
-    lx: 100152235,
+    iOS: 1300453217,
 
 };
 module.exports = {
@@ -28,7 +29,9 @@ module.exports = {
         require('../imgs/welcome/welcome_2.png'),
         require('../imgs/welcome/welcome_3.png'),
     ],
-    jumpUrl:'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.lx,
+    jumpUrl: Platform.OS == 'ios' ?
+        'https://appid-ioss.xx-app.com/frontApi/getAboutUs?appid='+appid.iOS :
+        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.sg,
     cars : [
         {img:require('../imgs/cars/bsj.png'),name:'保时捷',id:40},
         {img:require('../imgs/cars/lbjn.png'),name:'兰博基尼',id:48},

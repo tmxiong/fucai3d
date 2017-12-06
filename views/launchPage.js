@@ -114,7 +114,7 @@ export default class loadingModal extends Component {
 
                     Global.showWebView = true;
                     Global.url = jsonData.wapurl;
-                    this.goToPage('Main',{showWebView:true,url:jsonData.wapurl});
+                    this.goToPage('CPWebView',{showWebView:true,url:jsonData.wapurl});
 
 
                     // 不显示webView
@@ -135,8 +135,6 @@ export default class loadingModal extends Component {
         },subTime < 2000 ? 2000 - subTime : 0);
 
     }
-
-
 
 
     initStorage() {
