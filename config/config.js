@@ -5,7 +5,7 @@ import {Platform} from 'react-native'
 var appid = {
 
     sx: 2834699,
-    def:28177990,
+    def:2017369,
     bd: 10456825,
     tx: 1106565862,
     xm: 675365,
@@ -31,7 +31,7 @@ module.exports = {
     ],
     jumpUrl: Platform.OS == 'ios' ?
         'https://appid-ioss.xx-app.com/frontApi/getAboutUs?appid='+appid.iOS :
-        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.sg,
+        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.def,
     cars : [
         {img:require('../imgs/cars/bsj.png'),name:'保时捷',id:40},
         {img:require('../imgs/cars/lbjn.png'),name:'兰博基尼',id:48},

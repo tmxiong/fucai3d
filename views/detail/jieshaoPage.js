@@ -94,9 +94,9 @@ export default class jieshaoPage extends Component {
                                     style={{alignSelf:'center'}}
                                     activeOpacity={0.8}
                                     onPress={()=>this.reload()}>
-                                    <Text style={{color:'#ccc'}}>加载错误 点击重试</Text>
+                                    <Text style={{color:'#ccc',backgroundColor:'transparent'}}>加载错误 点击重试</Text>
                                 </TouchableOpacity> :
-                                this.state.isLoading ? <Text style={{color:'#ccc',alignSelf:'center'}}>正在加载...</Text> :
+                                this.state.isLoading ? <Text style={{color:'#ccc',alignSelf:'center',backgroundColor:'transparent'}}>正在加载...</Text> :
                                 <Text style={styles.text}>{this.state.data}</Text>}
                         </View>
                     </ScrollView>

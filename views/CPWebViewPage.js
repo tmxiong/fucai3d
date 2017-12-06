@@ -74,8 +74,7 @@ export default class tipsDetailPage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
-                <View style={styles.statusBar}/>
+                {/*<View style={styles.statusBar}/>*/}
 
 
                 <Spinner visible={this.state.isLoading}
@@ -92,7 +91,10 @@ export default class tipsDetailPage extends Component {
                     onLoadStart={()=>this._onLoadStart()}
                     onLoadEnd={()=>this._onLoadEnd()}
                     onNavigationStateChange={this.onNavigationStateChange}//在WebView中注册该回调方法
+                    scalesPageToFit={false}
                 />
+                <StatusBar translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
+
             </View>
         )
     }
