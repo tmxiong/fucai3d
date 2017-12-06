@@ -31,7 +31,9 @@ export default class jieshaoPage extends Component {
         this.name = this.props.navigation.state.params.name;
         this.img = this.props.navigation.state.params.img;
         this.state={
-            data:[]
+            data:[],
+            isError:false,
+            isLoading:true,
         }
     }
 
@@ -47,10 +49,33 @@ export default class jieshaoPage extends Component {
         fetchp(urls.getJieshao(this.id),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
+            .catch((err)=>this.setError(err))
     }
 
     setData(data) {
-        this.setState({data:data.result.list[0].decription})
+        this.setState({
+            data:data.result.list[0].decription,
+            isError:false,
+            isLoading:false,
+        })
+    }
+
+    setError(err) {
+        this.setState({
+            isLoading:false,
+            isError:true,
+        })
+    }
+
+    reload() {
+        if(this.state.isError) {
+            this.setState({
+                isError:false,
+                isLoading:true,
+            },()=>this.getData());
+        }
+
+
     }
 
     render() {
@@ -64,7 +89,15 @@ export default class jieshaoPage extends Component {
                     <Image style={styles.logo} source={this.img}/>
                     <ScrollView style={styles.bg}>
                         <View style={styles.content}>
-                            <Text style={styles.text}>{this.state.data}</Text>
+                            {this.state.isError ?
+                                <TouchableOpacity
+                                    style={{alignSelf:'center'}}
+                                    activeOpacity={0.8}
+                                    onPress={()=>this.reload()}>
+                                    <Text style={{color:'#ccc'}}>加载错误 点击重试</Text>
+                                </TouchableOpacity> :
+                                this.state.isLoading ? <Text style={{color:'#ccc',alignSelf:'center'}}>正在加载...</Text> :
+                                <Text style={styles.text}>{this.state.data}</Text>}
                         </View>
                     </ScrollView>
                 </View>
@@ -88,7 +121,8 @@ const styles = StyleSheet.create({
     text: {
        color:'#ddd',
         lineHeight:25,
-        fontSize:14
+        fontSize:14,
+        backgroundColor:'transparent'
     },
     logo: {
         width:cfn.picWidth(400),

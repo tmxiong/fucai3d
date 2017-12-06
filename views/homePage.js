@@ -110,7 +110,7 @@ export default class wanfaPage extends Component {
         return data;
     }
 
-    _keyExtractor=(item,index)=>item.id;
+    _keyExtractor=(item,index)=>item.name + index;
 
     renderLogos() {
         let views = [];
@@ -184,7 +184,7 @@ export default class wanfaPage extends Component {
                         <View style={styles.titleIcon}/>
                         <Text style={styles.titleText}>当前展示车型：{this.state.carType.name}</Text>
                         <TouchableOpacity activeOpacity={0.8}
-                            style={{position:'absolute',right:5}}
+                            style={{position:'absolute',right:5,height:cfn.picHeight(60),justifyContent:'center'}}
                                           onPress={()=>this._modal.openModal()}
                         >
                             <Text style={styles.titleText}>切换车型>></Text>

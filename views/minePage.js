@@ -94,7 +94,9 @@ export default class MinePage extends Component {
                 <Image
                     style={styles.icon}
                     source={require('../imgs/appIcon/cp_icon.png')}/>
-                <Text style={{marginTop: cfn.picHeight(20), color: '#888',alignSelf:'center'}}>{config.appName}</Text>
+                <Text
+                    style={{marginTop: cfn.picHeight(20),
+                        color: '#888',alignSelf:'center',backgroundColor:'transparent'}}>{config.appName}</Text>
                 <ScrollView style={[styles.container,]}>
 
 

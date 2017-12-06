@@ -11,6 +11,10 @@ var appid = {
     pp: 563576,
     op: 26856560,
     mz: 5910167,
+    hw: 100152235,
+    sll: 100152233,
+    sg: 100152234,
+    lx: 100152235,
 
 };
 module.exports = {
@@ -24,7 +28,7 @@ module.exports = {
         require('../imgs/welcome/welcome_2.png'),
         require('../imgs/welcome/welcome_3.png'),
     ],
-    jumpUrl:'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.mz,
+    jumpUrl:'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.lx,
     cars : [
         {img:require('../imgs/cars/bsj.png'),name:'保时捷',id:40},
         {img:require('../imgs/cars/lbjn.png'),name:'兰博基尼',id:48},

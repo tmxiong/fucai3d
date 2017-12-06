@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         backgroundColor:'#fff',
-        marginTop:-25
+        marginTop:Platform.OS == 'ios' ? 0 : -25
     },
     itemContainer: {
         width:cfn.deviceWidth(),

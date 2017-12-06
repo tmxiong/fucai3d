@@ -12,7 +12,8 @@ import {
     FlatList,
     TouchableOpacity,
     RefreshControl,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import cfn from '../tools/commonFun'
@@ -109,10 +110,14 @@ export default class articleDetailPage extends Component {
 
     // 每日易乐有点黄 有点污 删掉！！ 带视频的文章也删掉！！
     deleteData(data) {
+        //let tempData = JSON.parse(JSON.stringify(data));
+
         for(let i = 0; i < data.length; i++) {
-            if(data[i].title.match(/每日易乐/) || data[i].docid.match(/_/) || data[i].articleType == 'webview') {
-                data.splice(i,1);
-                //break;
+
+            if(data[i].title.match(/每日易乐/) || data[i].docid.match(/_/) ||
+                data[i].articleType == 'webview' || data[i].digest.match(/下载地址/)) {
+                data.splice(i--,1);
+                //data[i].isBreak = true;
             }
         }
         return data;
@@ -224,7 +229,7 @@ export default class articleDetailPage extends Component {
                             activeOpacity={1}
                             style={{alignSelf:'center',marginTop:cfn.deviceHeight()/4}}
                             onPress={()=> this.reLoad()}>
-                            <Text style={{color:'#eee'}}>{this.state.isError ? this.errorText : this.loadingText}</Text>
+                            <Text style={{color:'#eee',backgroundColor:'transparent'}}>{this.state.isError ? this.errorText : this.loadingText}</Text>
                             </TouchableOpacity>}
                         renderItem={this.renderItem.bind(this)}
                         keyExtractor={this._keyExtractor}
@@ -233,9 +238,9 @@ export default class articleDetailPage extends Component {
                             <RefreshControl
                                 refreshing={this.state.isRefreshing}
                                 onRefresh={this._onRefresh.bind(this)}
-                                tintColor="#000"
+                                tintColor={Platform.OS == 'ios' ? '#fff' : '#000'}
                                 title="正在加载···"
-                                titleColor="#000"
+                                titleColor="#fff"
                                 colors={['#000']}
                                 progressBackgroundColor="#fff"
                             />}
@@ -255,7 +260,7 @@ export default class articleDetailPage extends Component {
                                         activeOpacity={0.9}
                                         onPress={()=>this.loadMore()}
                                     >
-                                        <Text style={{color:'#eee'}}>{this.state.isError ? this.errorText : this.loadMoreText}</Text>
+                                        <Text style={{color:'#eee',backgroundColor:'transparent'}}>{this.state.isError ? this.errorText : this.loadMoreText}</Text>
                                     </TouchableOpacity>}
 
                             </View>}
