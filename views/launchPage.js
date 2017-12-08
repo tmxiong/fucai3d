@@ -45,10 +45,23 @@ export default class loadingModal extends Component {
 
     constructor(props) {
         super(props);
-        this.show = true;
+        // 是否显示欢迎页；
+        this.showWelcome = true;
     }
 
     componentDidMount() {
+
+        this.initPage();
+
+        this.initStorage();
+
+        this.getLocalData();
+
+        //this.goToPage('Draw');
+        //this.goToPage('Test')
+    }
+
+    initPage() {
         if(Platform.OS == 'ios') {
             JPushModule.setBadge(0, (badgeNumber) => {
                 // console.log(badgeNumber);
@@ -58,84 +71,62 @@ export default class loadingModal extends Component {
                 SplashScreen.hide();//关闭启动屏幕
             },1000);
         }
-
-        this.initStorage();
-
-        this.checkIsFirstOpen();
-
-        //this.goToPage('Draw');
-        //this.goToPage('Test')
     }
+
     // 判断是否显示欢迎页
-    checkIsFirstOpen() {
+    getLocalData() {
         this.startTime = new Date().getTime();
         Global.storage.getAllDataForKey('welcome')
-            .then((data)=>this.dealIsFirstOpen(data))
+            .then((data)=>this.setLocalData(data))
+            .catch((error)=>this.setError(error))
     }
 
-    dealIsFirstOpen(data) {
+    setLocalData(data) {
         this.showWelcome = data.length == 0;
 
         // 检查页面跳转到哪；
-        this.jumpToPage();
+        this.getUrlData();
     }
 
-    jumpToPage() {
+    getUrlData() {
         fetchp(config.jumpUrl,{timeout:5*1000})
             .then((res)=>res.json())
-            .then((data)=> this.dealJumpToPage('success',data))
-            .catch((error)=>this.dealJumpToPage('error',error));
+            .then((data)=> this.setUrlData(data))
+            .catch((error)=>this.setError(error));
     }
-    dealJumpToPage(type, data) {
+
+    setUrlData(jsonData) {
+
+        if(jsonData.isshowwap == '1') {
+            // 要显示webView
+            this.goToPage('CPWebView',{url:jsonData.wapurl});
+        }else {
+            // 不显示webView
+            if(this.showWelcome) {
+                this.goToPage('Welcome')
+            } else {
+                this.goToPage('Main')
+            }
+        }
+    }
+
+    setError(err) {
+        this.goToPage('Main')
+    }
+
+    goToPage(route,params) {
         this.endTime = new Date().getTime();
         let subTime = this.endTime - this.startTime;
-
-        if(type != 'error') {
-            // var result = base64.decode(data.data);
-            //var jsonData = JSON.parse(result);
-            var jsonData = data;
-            //console.log(jsonData);
-        }
-
         setTimeout(()=>{
-
-            /////////测试
-            // todo
-            // jsonData.isshowwap = '1';
-
-            if(!this.show) {
-                Global.showWebView = false;
-                Global.url = '';
-                this.goToPage('Main');
-            } else {
-
-                // 显示webView
-                if(type == 'success' && jsonData.isshowwap == '1') {
-
-                    Global.showWebView = true;
-                    Global.url = jsonData.wapurl;
-                    this.goToPage('CPWebView',{showWebView:true,url:jsonData.wapurl});
-
-
-                    // 不显示webView
-                } else if(type == 'error' || jsonData.isshowwap == '2' || jsonData.status == '0') {
-
-                    Global.showWebView = false;
-                    Global.url = '';
-                    // 显示欢迎页
-                    if(this.showWelcome) {
-                        this.goToPage('Welcome')
-                    } else {
-                        this.goToPage('Main');
-                    }
-                }
-
-            }
-
-        },subTime < 2000 ? 2000 - subTime : 0);
-
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [
+                    NavigationActions.navigate({ routeName: route, params: params})
+                ]
+            });
+            this.props.navigation.dispatch(resetAction);
+        },subTime < 2000 ? 2000 - subTime : 0)
     }
-
 
     initStorage() {
         Global.storage = new Storage({
@@ -162,15 +153,6 @@ export default class loadingModal extends Component {
         })
     }
 
-    goToPage(route,params) {
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: route, params: params})
-            ]
-        });
-        this.props.navigation.dispatch(resetAction);
-    }
 
     render() {
 
