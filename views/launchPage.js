@@ -21,7 +21,9 @@ import {
     ScrollView,
     AsyncStorage,
     StatusBar,
-    Platform
+    Platform,
+    ActivityIndicator
+
 } from 'react-native';
 
 import JPushModule from 'jpush-react-native';
@@ -57,8 +59,6 @@ export default class loadingModal extends Component {
 
         this.getLocalData();
 
-        //this.goToPage('Draw');
-        //this.goToPage('Test')
     }
 
     initPage() {
@@ -160,6 +160,15 @@ export default class loadingModal extends Component {
             <View style={{flex:1}}>
                 <StatusBar translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
                 <Image style={styles.img} source={config.launchImg}/>
+                <View style={styles.indicator}>
+                    <ActivityIndicator
+                        animating={true}
+                        color="#eee"
+                        size="large"
+                    />
+                    <Text style={{color:'#ddd',marginTop:20}}>正在加载数据...</Text>
+                </View>
+
             </View>
 
         )
@@ -174,4 +183,12 @@ const styles = StyleSheet.create({
         height:cfn.deviceHeight(),
         resizeMode:'cover'
     },
+    indicator: {
+        height: cfn.picHeight(100),
+        width:cfn.deviceWidth(),
+        alignItems:'center',
+        justifyContent:'center',
+        position:'absolute',
+        bottom:cfn.deviceWidth()/2
+    }
 });
