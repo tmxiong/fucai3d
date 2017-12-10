@@ -5,7 +5,7 @@ import {Platform} from 'react-native'
 var appid = {
 
     sx: 2834699,
-    def:2017369,
+    def:872640703,
     bd: 10456825,
     tx: 1106565862,
     xm: 675365,

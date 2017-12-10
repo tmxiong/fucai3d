@@ -28,12 +28,19 @@ export default class updateModal extends PureComponent {
     static defaultProps={
         url:'',
         modalVisible:false,
-        update: ()=>{},
-        cancel: ()=>{},
+        updateEnd: ()=>{}, // 更新成功或失败的回调
     };
+
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            animating: false,
+            updateState: 1,// 0->是否更新；1->正在更新；2->更新失败
+        };
+        //this.url = this.props.url;
+        this._updateStart = this.update.bind(this);
 
         this.updateView = [
             /*是否更新*/
@@ -81,12 +88,6 @@ export default class updateModal extends PureComponent {
             </Image>
 
         ];
-
-        this.state = {
-            animating: false,
-            updateState: 1,// 0->是否更新；1->正在更新；2->更新失败
-        };
-        this.url = this.props.url;
     }
 
     componentDidMount() {
@@ -104,9 +105,6 @@ export default class updateModal extends PureComponent {
     }
     componentWillUnmount() {
         NetInfo.removeEventListener('change', this._handleConnectionInfoChange.bind(this));
-        if(this.timer) {
-            clearTimeout(this.timer);
-        }
     }
     _handleConnectionInfoChange (isConnected) {
         if(!this.props.modalVisible) return;
@@ -117,8 +115,8 @@ export default class updateModal extends PureComponent {
             this.onError();
         }
     }
-    update(){
-        let downloadUrl = this.url;
+    update(downloadUrl){
+        //let downloadUrl = this.url;
         if(downloadUrl.match(/\.apk/)) {
             let appName = downloadUrl.split('/');
             // 文件名；
@@ -142,6 +140,7 @@ export default class updateModal extends PureComponent {
                 this.onError();
             }
         } else {
+            this.props.updateEnd('error');
             alert('下载网址有误！')
         }
 
@@ -178,7 +177,7 @@ export default class updateModal extends PureComponent {
                 this.jobId = res.jobId;
                 //console.log(res.bytesWritten);
                 let result = Math.floor((res.bytesWritten / res.contentLength)*100);
-                this.setProgress("正在更新版本，请稍后... "+ result +"%", result);
+                this.setProgress("正在努力下载，请稍后... "+ result +"%", result);
                 //console.log(result);
             }
         };
@@ -191,21 +190,19 @@ export default class updateModal extends PureComponent {
                 this.setState({
                     updateState:0,
                 });
+                // 下载成功
                 this.isDownloading = false;
-                if(this.timer) {
-                    clearTimeout(this.timer);
-                }
+                this.props.updateEnd('success');
 
             }).catch(err => {
                 //console.log('err', err);
+                // 下载失败
                 this.onError();
             });
         }
         catch (e) {
             //console.log(error);
-            this.setState({
-                updateState:2,
-            });
+            this.onError();
         }
     }
 
@@ -217,6 +214,7 @@ export default class updateModal extends PureComponent {
     cancelDownDload(jobId) {
         this.isDownloading = false;
         RNFS.stopDownload(jobId);
+        this.props.updateEnd('error');
     }
 
     setProgress(text, result) {
@@ -236,7 +234,7 @@ export default class updateModal extends PureComponent {
                 visible={this.props.modalVisible}
                 onRequestClose={() => {}}
             >
-                <Image style={styles.bg} source={require('../imgs/update/update_bg.png')}/>
+                {/*<Image style={styles.bg} source={require('../imgs/update/update_bg.png')}/>*/}
                 <View style={styles.container}>
                     {this.updateView[this.state.updateState]}
                 </View>

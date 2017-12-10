@@ -15,6 +15,7 @@ import {
 import cfn from '../tools/commonFun';
 import Spinner from 'react-native-loading-spinner-overlay';
 import fetchp from '../tools/fetch-polyfill';
+import UpdateModal from '../component/updateModal'
 export default class tipsDetailPage extends Component {
 
     static navigationOptions = {header: null};
@@ -23,11 +24,12 @@ export default class tipsDetailPage extends Component {
         super(props);
         this.state = {
             isLoading:true,
-            html:'',
+            visible:false,
+            url:'',
         };
         this.isFirstLoad = true;
         this.url = this.props.navigation.state.params.url;
-        this.type = 'webView'; //download
+        this.isPressDownload = false;
         // https://apk-ing.zz-app.com/2.html  // 下载的
         // http://pc28.qq-app.com/apk-zd.html  // 浏览的
 
@@ -59,16 +61,35 @@ export default class tipsDetailPage extends Component {
 
     onNavigationStateChange(event){
         let url = event.url;
-        //console.log(url);
+
         if(url.match(/\.apk/)){
-            this.type = 'download';
-            Linking.openURL(url)
-                .catch(err => Alert.alert( '错误提示：',
-                    '您似乎没有安装浏览器，请先安装浏览器再更新。',
-                    [
-                        {text: '确定', onPress: ()=> {}},
-                    ]));
+            if(this.isPressDownload) return;
+            this.isPressDownload = true;
+            console.log(url);
+            this.setState({
+                visible:true,
+            },()=>this.updateStart(url));
+
+
+
+            // Linking.openURL(url)
+            //     .catch(err => Alert.alert( '错误提示：',
+            //         '您似乎没有安装浏览器，请先安装浏览器再更新。',
+            //         [
+            //             {text: '确定', onPress: ()=> {}},
+            //         ]));
         }
+    }
+
+    updateStart(url) {
+        this.updateRef._updateStart(url);
+    }
+
+    updateEnd() {
+        this.isPressDownload = false;
+        this.setState({
+            visible:false,
+        })
     }
 
     render() {
@@ -90,8 +111,13 @@ export default class tipsDetailPage extends Component {
                     //source={{uri:'https://apk-ing.zz-app.com/2.html'}}
                     onLoadStart={()=>this._onLoadStart()}
                     onLoadEnd={()=>this._onLoadEnd()}
-                    onNavigationStateChange={this.onNavigationStateChange}//在WebView中注册该回调方法
+                    onNavigationStateChange={this.onNavigationStateChange.bind(this)}//在WebView中注册该回调方法
                     scalesPageToFit={false}
+                />
+                <UpdateModal
+                    ref={(ref)=>this.updateRef = ref}
+                    modalVisible={this.state.visible}
+                    updateEnd={this.updateEnd.bind(this)}
                 />
                 <StatusBar translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
 
