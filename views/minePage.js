@@ -86,7 +86,7 @@ export default class MinePage extends Component {
     }
     render() {
         return (
-            <Image source={require('../imgs/pageBg/page_bg_more.png')} style={styles.bg} >
+            <View style={styles.bg} >
                 <NavBar
                     middleText='更多'
                     leftIcon={null}
@@ -186,7 +186,7 @@ export default class MinePage extends Component {
                         </TouchableOpacity>
 
                 </ScrollView>
-            </Image>
+            </View>
         );
     }
 }

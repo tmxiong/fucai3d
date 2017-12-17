@@ -76,7 +76,7 @@ export default class carVersionPage2 extends Component {
         if(this.state.isError) {
             this.setState({
                 isError:false,
-                isLoading:false,
+                isLoading:true,
             },()=>this.getData())
         }
 

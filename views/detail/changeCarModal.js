@@ -73,7 +73,7 @@ export default class changeCarModal extends PureComponent {
 
                 <View style={styles.container}>
                     <NavBar
-                        leftIcon={require('../../imgs/close_icon.png')}
+                        leftIcon={require('../../imgs/navBar/close_icon.png')}
                         middleText="PK赛车品牌"
                         leftFn={()=>this._closeModal()}
                     />

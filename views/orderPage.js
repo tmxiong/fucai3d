@@ -210,7 +210,7 @@ export default class articleDetailPage extends Component {
 
     render() {
         return(
-            <Image source={require('../imgs/pageBg/page_bg_4.png')} style={styles.container}>
+            <View style={styles.container}>
                 <NavBar
                     middleText='赛车资讯'
                     leftFn={()=>this.goBack()}
@@ -266,7 +266,7 @@ export default class articleDetailPage extends Component {
                             </View>}
                     />
                     <View style={{height:cfn.picHeight(100)}}/>
-            </Image>)
+            </View>)
     }
 }
 
@@ -277,7 +277,6 @@ const styles = StyleSheet.create({
         height:cfn.deviceHeight(),
         //backgroundColor:'#fff',
         alignItems:'center',
-        resizeMode:'stretch'
     },
     flatListStyle: {
         width: cfn.deviceWidth(),

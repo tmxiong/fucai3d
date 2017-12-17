@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 
-import HomePage from './homePage';
+import HomePage from './home/homePage';
 import OrderPage from './orderPage';
 import MinePage from './minePage';
 import cfn from '../tools/commonFun'
