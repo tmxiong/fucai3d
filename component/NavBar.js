@@ -24,7 +24,7 @@ export default class navBar extends PureComponent {
     };
 
     static defaultProps = {
-        bgColor: '#464646',
+        bgColor: '#d81e06',
         bgImg: require('../imgs/navBar/nav_bg_transparent.png'),
         leftText: null,
         leftIcon: require('../imgs/navBar/navbar_back.png'),

@@ -1,3 +1,5 @@
+//http://www.zcool.com.cn/work/ZMjAwNTI5NTY=.html
+
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -11,6 +13,8 @@ import {
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import cfn from '../../tools/commonFun'
+import NavBar from '../../component/NavBar'
+import config from '../../config/config'
 import fetchp from '../../tools/fetch-polyfill'
 var parseString = require('react-native-xml2js').parseString;
 import CardView from 'react-native-cardview'
@@ -47,6 +51,8 @@ export default class wanfaPage extends Component {
 
         return (
             <View>
+                <NavBar
+                    middleText="首页"/>
                 <View>
                     <CardView
                         style={[styles.testStyle,{width:100,height:100,backgroundColor:'#fff',marginLeft:20}]}

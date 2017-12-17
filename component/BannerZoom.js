@@ -20,7 +20,7 @@ export default class Banner extends PureComponent {
         this.state = {
 
         };
-        this.nextPage = 2;
+        this.nextPage = 1;
         this.isAutoScroll = true;
     };
 
@@ -36,7 +36,10 @@ export default class Banner extends PureComponent {
     };
 
     componentDidMount() {
-        this.startScroll();
+        setTimeout(()=>{
+            this.startScroll(false);
+        },500)
+
 
     }
 
@@ -63,6 +66,7 @@ export default class Banner extends PureComponent {
                 }
 
                 arr.push(<View
+                        key={i}
                         style={{width:pageWidth,height:pageHeight,backgroundColor:'#0a0',...marginStyle}}>
                         <Text>{bannerData[i]}</Text>
                     </View>);
@@ -83,8 +87,8 @@ export default class Banner extends PureComponent {
         const {pageWidth,pageGap} = this.props;
         this.nextPage = Math.round(offsetX / (pageWidth + pageGap));
         this.nextPagePixel = offsetX / commonFn.deviceWidth();
-        offsetX > this.oldOffsetX ? console.log('左') : console.log('右');
-        this.oldOffsetX = offsetX;
+        //offsetX > this.oldOffsetX ? console.log('左') : console.log('右');
+        //this.oldOffsetX = offsetX;
         //console.log(this.nextPage);
         //指示器滚动效果--自动滚动
         // if (this.isAutoScroll) {
@@ -100,17 +104,14 @@ export default class Banner extends PureComponent {
     }
 
     onTouchStart(e) {
-        this.isAutoScroll = false;
-        if (this.scrollTimer) {
-            clearInterval(this.scrollTimer);
-        }
+
     }
 
 
-    startScroll() {
+    startScroll(showAnim) {
         const {pageWidth,pageGap} = this.props;
         //console.log(this.nextPage);
-        this.scrollView.scrollTo({x: this.nextPage * (pageWidth+pageGap)}, true);
+        this.scrollView.scrollTo({x: this.nextPage * (pageWidth+pageGap)}, showAnim);
     }
 
     render() {
@@ -122,7 +123,7 @@ export default class Banner extends PureComponent {
                     pagingEnabled={false}
                     onScroll={this.onScroll.bind(this)}
                     onTouchStart={()=>this.onTouchStart()}
-                    onScrollEndDrag={()=>this.startScroll()}
+                    onScrollEndDrag={()=>this.startScroll(true)}
                     ref={(ref)=>this.scrollView = ref}
                 >
                     {/*<View style={[styles.pageStyle,{backgroundColor:'#a00',marginLeft:commonFn.picWidth(50)}]}>*/}
