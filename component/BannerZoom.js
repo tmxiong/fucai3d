@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import commonFn from '../tools/commonFun';
-
+import CardView from 'react-native-cardview'
 export default class Banner extends PureComponent {
 
     constructor(props) {
@@ -22,6 +22,7 @@ export default class Banner extends PureComponent {
         };
         this.nextPage = 1;
         this.isAutoScroll = true;
+        this.oldOffsetX = 0;
     };
 
     static defaultProps = {
@@ -30,8 +31,8 @@ export default class Banner extends PureComponent {
         // 页面宽度
         pageWidth: commonFn.deviceWidth()-commonFn.picWidth(120),
         // 两个页面之间的宽度
-        pageGap: commonFn.picWidth(20),
-        bannerData: [1,2,3]
+        pageGap: commonFn.picWidth(10),
+        bannerData: [null,null,null]
         //bannerList:[{imgsrc:require('../imgs/banner/banner_default.png'),title:'数据正在加载...'}],
     };
 
@@ -39,8 +40,6 @@ export default class Banner extends PureComponent {
         setTimeout(()=>{
             this.startScroll(false);
         },500)
-
-
     }
 
     componentWillUnmount() {
@@ -65,11 +64,17 @@ export default class Banner extends PureComponent {
                     marginStyle.marginRight = margin;
                 }
 
-                arr.push(<View
+                arr.push(
+                    <CardView
                         key={i}
-                        style={{width:pageWidth,height:pageHeight,backgroundColor:'#0a0',...marginStyle}}>
-                        <Text>{bannerData[i]}</Text>
-                    </View>);
+                        style={{width:pageWidth,height:pageHeight,backgroundColor:'#fff',...marginStyle}}
+                        cardElevation={6}
+                        cardMaxElevation={6}
+                        cornerRadius={6}>
+
+                        {bannerData[i]}
+
+                    </CardView>);
             }
             return arr;
 
@@ -85,10 +90,12 @@ export default class Banner extends PureComponent {
     onScroll(event) {
         let offsetX = event.nativeEvent.contentOffset.x;
         const {pageWidth,pageGap} = this.props;
-        this.nextPage = Math.round(offsetX / (pageWidth + pageGap));
+        //this.nextPage = Math.round(offsetX / (pageWidth + pageGap)*2);
         this.nextPagePixel = offsetX / commonFn.deviceWidth();
-        //offsetX > this.oldOffsetX ? console.log('左') : console.log('右');
-        //this.oldOffsetX = offsetX;
+        offsetX > this.oldOffsetX ?
+            this.nextPage = Math.round(offsetX / (pageWidth + pageGap)*2) :
+            this.nextPage = Math.round(offsetX / (pageWidth + pageGap)/2);
+        this.oldOffsetX = offsetX;
         //console.log(this.nextPage);
         //指示器滚动效果--自动滚动
         // if (this.isAutoScroll) {
@@ -126,15 +133,6 @@ export default class Banner extends PureComponent {
                     onScrollEndDrag={()=>this.startScroll(true)}
                     ref={(ref)=>this.scrollView = ref}
                 >
-                    {/*<View style={[styles.pageStyle,{backgroundColor:'#a00',marginLeft:commonFn.picWidth(50)}]}>*/}
-                        {/*<Text>hahahaha</Text>*/}
-                    {/*</View>*/}
-                    {/*<View style={[styles.pageStyle,{backgroundColor:'#0a0'}]}>*/}
-                        {/*<Text>hahahaha</Text>*/}
-                    {/*</View>*/}
-                    {/*<View style={[styles.pageStyle,{backgroundColor:'#00a',marginRight:commonFn.picWidth(50)}]}>*/}
-                        {/*<Text>hahahaha</Text>*/}
-                    {/*</View>*/}
                     {this.renderBanner()}
                 </ScrollView>
             </View>
@@ -149,19 +147,7 @@ module.exports = Banner;
 const styles = StyleSheet.create({
     container: {
         width: commonFn.deviceWidth(),
-        height: commonFn.picHeight(365),
-        borderBottomColor:'rgba(255,255,255,0.7)',
-        borderBottomWidth:1,
+        //height: commonFn.picHeight(365),
         // marginBottom:-1
     },
-    imageStyle: {
-        width: commonFn.deviceWidth(),
-        height: commonFn.picWidth(365),
-    },
-    pageStyle: {
-        width:commonFn.deviceWidth()-commonFn.picWidth(120),
-        height: commonFn.picWidth(365),
-        marginLeft:commonFn.picWidth(10),
-        marginRight:commonFn.picWidth(10)
-    }
 });

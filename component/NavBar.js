@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import styles from'../styles/NavBarStyle';
 import cfn from '../tools/commonFun'
+import CardView from 'react-native-cardview'
 export default class navBar extends PureComponent {
     constructor(props) {
         super();
@@ -141,25 +142,30 @@ export default class navBar extends PureComponent {
         const{navBarHeight}=this.props;
         if(this.props.modalState && Platform.OS == 'android') statusBarHeight = 0;
         return (
-            <Image
-                source={this.props.bgImg}
-                style={[
-                {backgroundColor: props.bgColor,width:cfn.deviceWidth(),
-                    height:cfn.picHeight(navBarHeight) + statusBarHeight,
-                    justifyContent:'flex-end'
-                },
-            ]}>
-                <StatusBar hidden={false}  translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
-                <View style={{height:cfn.picHeight(navBarHeight),width:cfn.deviceWidth(),
-                    flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
+            <CardView
+                cardElevation={8}
+                cardMaxElevation={0}
+                cornerRadius={0}>
+                <Image
+                    source={this.props.bgImg}
+                    style={[
+                    {backgroundColor: props.bgColor,width:cfn.deviceWidth(),
+                        height:cfn.picHeight(navBarHeight) + statusBarHeight,
+                        justifyContent:'flex-end'
+                    },
+                ]}>
+                    <StatusBar hidden={false}  translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
+                    <View style={{height:cfn.picHeight(navBarHeight),width:cfn.deviceWidth(),
+                        flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
 
-                    {this.renderLeft()}
-                    {this.renderMiddle()}
-                    {this.renderRight()}
+                        {this.renderLeft()}
+                        {this.renderMiddle()}
+                        {this.renderRight()}
 
-                </View>
+                    </View>
 
-            </Image>
+                </Image>
+            </CardView>
         );
     }
 }

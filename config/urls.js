@@ -1,3 +1,12 @@
+// 福彩3D开奖号码列表
+exports.getOpenCodeList = function (listNum, page) {
+    return 'http://www.zjt-cp.com/lot/getLotByPage?param={"pageSize":'+ listNum +',"clientId":"suma-tech.pc.zjt","lotteryCategory":"Magic3_Fc3D","pageNum":1}'
+};
+
+
+
+
+
 // 获取车型列表
 exports.getCarVersion = function (id) {
   return 'https://cars.app.autohome.com.cn/cars_v8.5.5/cars/seriesprice-pm2-b'+id+'-t16-v8.5.5-c110100.json'
