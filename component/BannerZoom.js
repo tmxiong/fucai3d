@@ -29,7 +29,7 @@ export default class Banner extends PureComponent {
         // 页面高度
         pageHeight: commonFn.picHeight(300),
         // 页面宽度
-        pageWidth: commonFn.deviceWidth()-commonFn.picWidth(120),
+        pageWidth: commonFn.deviceWidth()-commonFn.picWidth(80),
         // 两个页面之间的宽度
         pageGap: commonFn.picWidth(10),
         bannerData: [null,null,null]
@@ -68,8 +68,8 @@ export default class Banner extends PureComponent {
                     <CardView
                         key={i}
                         style={{width:pageWidth,height:pageHeight,backgroundColor:'#fff',...marginStyle}}
-                        cardElevation={6}
-                        cardMaxElevation={6}
+                        cardElevation={4}
+                        cardMaxElevation={0}
                         cornerRadius={6}>
 
                         {bannerData[i]}
@@ -123,7 +123,7 @@ export default class Banner extends PureComponent {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this.props.style]}>
                 <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -147,6 +147,8 @@ module.exports = Banner;
 const styles = StyleSheet.create({
     container: {
         width: commonFn.deviceWidth(),
+        alignItems:'center',
+        justifyContent:'center'
         //height: commonFn.picHeight(365),
         // marginBottom:-1
     },

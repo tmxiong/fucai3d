@@ -107,34 +107,68 @@ export default class wanfaPage extends Component {
         </View>;
 
         return [bannerView_0,bannerView_1,bannerView_2]
+
     }
 
     render() {
 
         return (
-            <View>
+            <View style={styles.container}>
                 <NavBar
-                    middleText="首页"/>
+                    middleText="首页"
+                    leftIcon={null}
+                />
                 <BannerZoom
                     bannerData={this.bannerView()}
+                    style={{marginTop:cfn.picHeight(10),
+                        height:cfn.picHeight(310),}}
                 />
-                <View>
+                <ScrollView style={{width:cfn.deviceWidth()}}>
+
                     <CardView
-                        style={[styles.testStyle,{width:100,height:100,backgroundColor:'#fff',marginLeft:20}]}
-                        cardElevation={4}
-                        cardMaxElevation={4}
-                        cornerRadius={5}>
+                        style={styles.热门彩种容器}
+                        cardElevation={2}
+                        cardMaxElevation={0}
+                        cornerRadius={6}>
+                        <View style={styles.remen_title_container}>
+                            <Text style={styles.remen_title}>热门彩种</Text>
+                            <Text>查看所有>></Text>
+                        </View>
+                    </CardView>
+
+                    <CardView
+                        style={styles.tools_container}
+                        cardElevation={2}
+                        cardMaxElevation={0}
+                        cornerRadius={6}>
+                        <View style={styles.remen_title_container}>
+                            <Text style={styles.remen_title}>实用工具</Text>
+                            <Text>查看所有>></Text>
+                        </View>
+                        <View style={styles.tools_menu}>
+                            <View style={styles.tools_content}>
+                                <Text>3D走势图</Text>
+                            </View>
+                            <View style={styles.tools_content}>
+                                <Text>3D走势图</Text>
+                            </View>
+                            <View style={styles.tools_content}>
+                                <Text>3D走势图</Text>
+                            </View>
+                            <View style={styles.tools_content}>
+                                <Text>3D走势图</Text>
+                            </View>
+                            <View style={styles.tools_content}>
+                                <Text>3D走势图</Text>
+                            </View>
+                            <View style={styles.tools_content}>
+                                <Text>3D走势图</Text>
+                            </View>
+                        </View>
 
                     </CardView>
-                </View>
-                <View style={{marginTop:20}}>
-                    <CardView
-                        cardElevation={6}
-                        cardMaxElevation={6}
-                        cornerRadius={0}>
-                        <View style={{width:100,height:100,backgroundColor:'#fff'}}/>
-                    </CardView>
-                </View>
+                </ScrollView>
+
 
             </View>
         )
@@ -144,13 +178,66 @@ export default class wanfaPage extends Component {
 
 
 const styles = StyleSheet.create({
-    testStyle: {
-        marginLeft:20
+    container: {
+        flex:1,
+        alignItems:'center'
     },
+    热门彩种容器: {
+        width: cfn.deviceWidth()-cfn.picWidth(40),
+        height:cfn.picHeight(200),
+        backgroundColor:'#fff',
+        //marginTop:cfn.picHeight(10),
+        alignSelf:'center'
+    },
+    remen_title_container: {
+      flexDirection:'row',
+        width: cfn.deviceWidth()-cfn.picWidth(40),
+        height:cfn.picHeight(60),
+        justifyContent:'space-between',
+        borderBottomColor:'#eee',
+        borderBottomWidth:1,
+        alignItems:'center',
+        paddingLeft: cfn.picWidth(20),
+        paddingRight: cfn.picWidth(20)
+    },
+    remen_title: {
+        color:'#333'
+    },
+
+
+    tools_container: {
+        width: cfn.deviceWidth()-cfn.picWidth(40),
+        minHeight:cfn.picHeight(300),
+        backgroundColor:'#fff',
+        marginTop: cfn.picHeight(10),
+        alignItems:'center',
+        alignSelf:'center'
+    },
+
+    tools_content: {
+        width:(cfn.deviceWidth()-cfn.picWidth(40+40+20)) /2,
+        height:100,
+        backgroundColor:'#f44',
+        borderRadius:5,
+        marginTop:cfn.picHeight(20)
+        //marginLeft:cfn.picWidth(20),
+
+    },
+    tools_menu: {
+        flexDirection:'row',
+        marginLeft:-3,width:cfn.deviceWidth()-cfn.picWidth(40),
+        justifyContent:'space-between',
+        paddingLeft:cfn.picWidth(20),
+        paddingRight:cfn.picWidth(20),
+        marginTop:cfn.picHeight(20),
+        paddingBottom:cfn.picHeight(20),
+        flexWrap:'wrap'
+    },
+
     banner_container: {
         padding: cfn.picWidth(20),
         justifyContent:'space-between',
-        height:cfn.picHeight(300)-24
+        height:cfn.picHeight(300),
     },
     banner_icon_3d: {
         width:cfn.picWidth(100),
@@ -160,6 +247,8 @@ const styles = StyleSheet.create({
     banner_icon_container: {
         flexDirection:'row',
         alignItems:'center',
+        // borderBottomColor:'#eee',
+        // borderBottomWidth:1
     },
     banner_title_container: {
         marginLeft:cfn.picWidth(20)
