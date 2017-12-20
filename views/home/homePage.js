@@ -19,6 +19,7 @@ import fetchp from '../../tools/fetch-polyfill'
 var parseString = require('react-native-xml2js').parseString;
 import CardView from 'react-native-cardview'
 import BannerZoom from '../../component/BannerZoom'
+import BannerMini from '../../component/BannerMini'
 export default class wanfaPage extends Component {
 
     static defaultProps = {};
@@ -47,7 +48,7 @@ export default class wanfaPage extends Component {
         this.props.navigation.navigate(router,params)
     }
 
-    bannerView() {
+    bannerZoomView() {
         let bannerView_0 = <View>
             <Text>1</Text>
         </View>;
@@ -110,6 +111,11 @@ export default class wanfaPage extends Component {
 
     }
 
+    bannerMiniView() {
+        let views = [
+            <View></View>
+        ]
+    }
     render() {
 
         return (
@@ -118,29 +124,33 @@ export default class wanfaPage extends Component {
                     middleText="首页"
                     leftIcon={null}
                 />
-                <BannerZoom
-                    bannerData={this.bannerView()}
-                    style={{marginTop:cfn.picHeight(10),
-                        height:cfn.picHeight(310),}}
-                />
                 <ScrollView style={{width:cfn.deviceWidth()}}>
-
-                    <CardView
-                        style={styles.热门彩种容器}
-                        cardElevation={2}
-                        cardMaxElevation={0}
-                        cornerRadius={6}>
+                    <BannerZoom
+                        bannerData={this.bannerZoomView()}
+                        style={{marginTop:cfn.picHeight(10),
+                            height:cfn.picHeight(310),}}
+                    />
+                    <View
+                        style={[styles.热门彩种容器]}>
+                        <View style={styles.remen_title_container}>
+                            <Text style={styles.remen_title}>热门咨询</Text>
+                            <Text>查看所有>></Text>
+                        </View>
+                        <BannerMini
+                            bannerData={[<Text>1</Text>,<Text>1</Text>,<Text>1</Text>]}
+                            style={{borderRadius:10}}
+                        />
+                    </View>
+                    <View
+                        style={styles.热门彩种容器}>
                         <View style={styles.remen_title_container}>
                             <Text style={styles.remen_title}>热门彩种</Text>
                             <Text>查看所有>></Text>
                         </View>
-                    </CardView>
+                    </View>
 
-                    <CardView
-                        style={styles.tools_container}
-                        cardElevation={2}
-                        cardMaxElevation={0}
-                        cornerRadius={6}>
+                    <View
+                        style={styles.tools_container}>
                         <View style={styles.remen_title_container}>
                             <Text style={styles.remen_title}>实用工具</Text>
                             <Text>查看所有>></Text>
@@ -166,7 +176,7 @@ export default class wanfaPage extends Component {
                             </View>
                         </View>
 
-                    </CardView>
+                    </View>
                 </ScrollView>
 
 
@@ -186,8 +196,9 @@ const styles = StyleSheet.create({
         width: cfn.deviceWidth()-cfn.picWidth(40),
         height:cfn.picHeight(200),
         backgroundColor:'#fff',
-        //marginTop:cfn.picHeight(10),
-        alignSelf:'center'
+        borderRadius:6,
+        alignSelf:'center',
+        marginTop:cfn.picHeight(10)
     },
     remen_title_container: {
       flexDirection:'row',
@@ -211,7 +222,8 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         marginTop: cfn.picHeight(10),
         alignItems:'center',
-        alignSelf:'center'
+        alignSelf:'center',
+        borderRadius:6
     },
 
     tools_content: {
@@ -220,12 +232,11 @@ const styles = StyleSheet.create({
         backgroundColor:'#f44',
         borderRadius:5,
         marginTop:cfn.picHeight(20)
-        //marginLeft:cfn.picWidth(20),
 
     },
     tools_menu: {
         flexDirection:'row',
-        marginLeft:-3,width:cfn.deviceWidth()-cfn.picWidth(40),
+        width:cfn.deviceWidth()-cfn.picWidth(40),
         justifyContent:'space-between',
         paddingLeft:cfn.picWidth(20),
         paddingRight:cfn.picWidth(20),
