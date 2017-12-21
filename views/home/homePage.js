@@ -20,6 +20,7 @@ var parseString = require('react-native-xml2js').parseString;
 import CardView from 'react-native-cardview'
 import BannerZoom from '../../component/BannerZoom'
 import BannerMini from '../../component/BannerMini'
+import urls from '../../config/urls';
 export default class wanfaPage extends Component {
 
     static defaultProps = {};
@@ -28,20 +29,40 @@ export default class wanfaPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            allFCData:null,
+            FCData:{
+                lotDate:[1,1],
+                sjh:[[1,1,1],[2,2,2]],
+                lottery:[[3,3,3],[4,4,4]],
+                qiHao:[1,1],
+            }
         };
     }
 
     componentDidMount() {
         SplashScreen.hide();
+        this.getFCData();
         //this.carType('get');
-        fetchp('http://android.weicaicaipiao.com/trade/list.go?gid=03&ps=15&pn=1',{timeout:10*1000})
-            .then((res)=>res.text())
-            .then((data)=>{
-                parseString(data, function (err, result) {
-                    console.log(result);
-                });
-            })
+
+    }
+
+    getFCData() {
+        fetchp(urls.getOpenCodeList(2,1),{timeout:10*1000})
+            .then((res)=>res.json())
+            .then((data)=>this.setFCData(data));
+
+    }
+
+    setFCData(data) {
+        this.setState({
+            allFCData:data,
+            FCData:{
+                lotDate:[data.items[1].lotDate,data.items[0].lotDate],
+                sjh:[data.items[1].sjh.split(' '),data.items[0].sjh.split(' ')],
+                lottery:[data.items[1].lottery.split(','),data.items[0].lottery.split(',')],
+                qiHao:[data.items[1].qiHao,data.items[0].qiHao],
+            }
+        },()=>this._bannerZoom._startScroll(true));
     }
 
     goToPage(router,params) {
@@ -49,8 +70,55 @@ export default class wanfaPage extends Component {
     }
 
     bannerZoomView() {
-        let bannerView_0 = <View>
-            <Text>1</Text>
+        const {FCData} = this.state;
+        let bannerView_0 = <View style={styles.banner_container}>
+            <View style={styles.banner_icon_container}>
+                <Image
+                    style={styles.banner_icon_3d}
+                    source={require('../../imgs/lotteryIcons/fc3d.png')}/>
+                <View style={styles.banner_title_container}>
+                    <Text style={styles.banner_title_1}>福彩3D</Text>
+                    <Text style={styles.banner_title_2}>第{FCData.qiHao[1]}期  {FCData.lotDate[1]}</Text>
+                </View>
+
+            </View>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+                <View>
+                    <Text style={styles.banner_code_title}>开奖号:</Text>
+                    <View style={styles.banner_code_container}>
+                        <View style={styles.banner_code_content_kj}>
+                            <Text style={styles.banner_code_text_kj}>{FCData.lottery[1][0]}</Text>
+                        </View>
+                        <View style={styles.banner_code_content_kj}>
+                            <Text style={styles.banner_code_text_kj}>{FCData.lottery[1][1]}</Text>
+                        </View>
+                        <View style={styles.banner_code_content_kj}>
+                            <Text style={styles.banner_code_text_kj}>{FCData.lottery[1][2]}</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={styles.banner_code_border}/>
+                <View>
+                    <Text style={styles.banner_code_title}>试机号:</Text>
+                    <View style={styles.banner_code_container}>
+                        <View style={styles.banner_code_content_sj}>
+                            <Text style={styles.banner_code_text_sj}>{FCData.sjh[1][0]}</Text>
+                        </View>
+                        <View style={styles.banner_code_content_sj}>
+                            <Text style={styles.banner_code_text_sj}>{FCData.sjh[1][1]}</Text>
+                        </View>
+                        <View style={styles.banner_code_content_sj}>
+                            <Text style={styles.banner_code_text_sj}>{FCData.sjh[1][2]}</Text>
+                        </View>
+                    </View>
+                </View>
+                <Text style={styles.detail_text}>详细>></Text>
+            </View>
+
+            <View style={styles.banner_title_border}>
+                <Text style={styles.banner_title_3}>当前开奖</Text>
+            </View>
+
         </View>;
 
         let bannerView_1 = <View style={styles.banner_container}>
@@ -60,7 +128,7 @@ export default class wanfaPage extends Component {
                     source={require('../../imgs/lotteryIcons/fc3d.png')}/>
                 <View style={styles.banner_title_container}>
                     <Text style={styles.banner_title_1}>福彩3D</Text>
-                    <Text style={styles.banner_title_2}>第2017344期  2017年12月12日</Text>
+                    <Text style={styles.banner_title_2}>第{FCData.qiHao[0]}期  {FCData.lotDate[0]}</Text>
                 </View>
 
             </View>
@@ -69,13 +137,13 @@ export default class wanfaPage extends Component {
                     <Text style={styles.banner_code_title}>开奖号:</Text>
                     <View style={styles.banner_code_container}>
                         <View style={styles.banner_code_content_kj}>
-                            <Text style={styles.banner_code_text_kj}>1</Text>
+                            <Text style={styles.banner_code_text_kj}>{FCData.lottery[0][0]}</Text>
                         </View>
                         <View style={styles.banner_code_content_kj}>
-                            <Text style={styles.banner_code_text_kj}>1</Text>
+                            <Text style={styles.banner_code_text_kj}>{FCData.lottery[0][1]}</Text>
                         </View>
                         <View style={styles.banner_code_content_kj}>
-                            <Text style={styles.banner_code_text_kj}>1</Text>
+                            <Text style={styles.banner_code_text_kj}>{FCData.lottery[0][2]}</Text>
                         </View>
                     </View>
                 </View>
@@ -84,13 +152,13 @@ export default class wanfaPage extends Component {
                     <Text style={styles.banner_code_title}>试机号:</Text>
                     <View style={styles.banner_code_container}>
                         <View style={styles.banner_code_content_sj}>
-                            <Text style={styles.banner_code_text_sj}>1</Text>
+                            <Text style={styles.banner_code_text_sj}>{FCData.sjh[0][0]}</Text>
                         </View>
                         <View style={styles.banner_code_content_sj}>
-                            <Text style={styles.banner_code_text_sj}>1</Text>
+                            <Text style={styles.banner_code_text_sj}>{FCData.sjh[0][1]}</Text>
                         </View>
                         <View style={styles.banner_code_content_sj}>
-                            <Text style={styles.banner_code_text_sj}>1</Text>
+                            <Text style={styles.banner_code_text_sj}>{FCData.sjh[0][2]}</Text>
                         </View>
                     </View>
                 </View>
@@ -107,7 +175,7 @@ export default class wanfaPage extends Component {
             <Text>3</Text>
         </View>;
 
-        return [bannerView_0,bannerView_1,bannerView_2]
+        return [bannerView_1,bannerView_0,bannerView_2]
 
     }
 
@@ -126,6 +194,7 @@ export default class wanfaPage extends Component {
                 />
                 <ScrollView style={{width:cfn.deviceWidth()}}>
                     <BannerZoom
+                        ref={(ref)=>this._bannerZoom = ref}
                         bannerData={this.bannerZoomView()}
                         style={{marginTop:cfn.picHeight(10),
                             height:cfn.picHeight(310),}}

@@ -23,6 +23,7 @@ export default class Banner extends PureComponent {
         this.nextPage = 1;
         this.isAutoScroll = true;
         this.oldOffsetX = 0;
+        this._startScroll = this.startScroll.bind(this);
     };
 
     static defaultProps = {
@@ -37,9 +38,7 @@ export default class Banner extends PureComponent {
     };
 
     componentDidMount() {
-        setTimeout(()=>{
-            this.startScroll(false);
-        },500)
+
     }
 
     componentWillUnmount() {

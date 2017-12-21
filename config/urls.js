@@ -1,6 +1,6 @@
 // 福彩3D开奖号码列表
 exports.getOpenCodeList = function (listNum, page) {
-    return 'http://www.zjt-cp.com/lot/getLotByPage?param={"pageSize":'+ listNum +',"clientId":"suma-tech.pc.zjt","lotteryCategory":"Magic3_Fc3D","pageNum":1}'
+    return 'http://www.zjt-cp.com/lot/getLotByPage?param={"pageSize":'+ listNum +',"clientId":"suma-tech.pc.zjt","lotteryCategory":"Magic3_Fc3D","pageNum":'+ page +'}'
 };
 
 
