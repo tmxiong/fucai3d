@@ -14,4 +14,4 @@ import {
 import App from './router';
 
 
-AppRegistry.registerComponent('donut', () => App);
+AppRegistry.registerComponent('cupcake', () => App);

@@ -39,13 +39,34 @@ export default class Banner extends PureComponent {
         if (bannerData) {
             let arr = [];
             for (let i = 0; i < bannerData.length; i++) {
-                arr.push(
+                let item = bannerData[i];
+                let view = (
                     <View key={i} style={styles.container}>
                         <View style={styles.content}>
-                            {bannerData[i]}
-                        </View>
 
-                </View>);
+                        </View>
+                    </View>
+                );
+
+                if(bannerData[i].imageList) {
+                    view = (
+                        <View key={i} style={styles.container}>
+                            <View style={styles.content}>
+                                <Image
+                                    style={styles.item_img}
+                                    source={{uri: item.imageList[0]}}/>
+                                <Text
+                                    style={styles.item_title}>{item.title}</Text>
+                                <View style={styles.line_col}/>
+                                <TouchableOpacity style={styles.more_btn}>
+                                    <Text style={styles.more_text}>更多>></Text>
+                                </TouchableOpacity>
+                                <Text></Text>
+                            </View>
+                        </View>
+                    )
+                }
+                arr.push(view);
             }
             return arr;
         }
@@ -89,7 +110,7 @@ export default class Banner extends PureComponent {
         }
         this.isAutoScroll = true;
         this.scrollTimer = setInterval(()=> {
-            this.scrollView.scrollTo({x: this.nextPage * commonFn.deviceWidth()-commonFn.picWidth(40)}, true);
+            this.scrollView.scrollTo({x: this.nextPage * (commonFn.deviceWidth()-commonFn.picWidth(40))}, true);
             this.nextPage++;
             if (this.nextPage >= this.props.bannerData.length) {
                 this.nextPage = 0;
@@ -126,12 +147,41 @@ const styles = StyleSheet.create({
         width: commonFn.deviceWidth()-commonFn.picWidth(40),
         height: commonFn.picHeight(140),
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        alignSelf:'center'
     },
     content: {
         width:commonFn.deviceWidth()-commonFn.picWidth(80),
         height:commonFn.picHeight(120),
         borderRadius:commonFn.picHeight(60),
-        backgroundColor:'#f89'
+        backgroundColor:'#f3d5d5',
+        flexDirection: 'row',
+        alignItems:'center'
+    },
+    item_img: {
+        width: commonFn.picWidth(80),
+        height:commonFn.picWidth(80),
+        borderRadius:commonFn.picWidth(40),
+        marginLeft:commonFn.picWidth(20)
+    },
+    item_title: {
+        width:commonFn.deviceWidth()-commonFn.picWidth(80 + 10 + 10 + 100 + 100),
+        marginLeft:commonFn.picWidth(10),
+        color:'#be5457'
+    },
+    line_col: {
+        height:commonFn.picHeight(80),
+        width:1,
+        backgroundColor:'#e5b9ba',
+        marginLeft:commonFn.picWidth(10)
+    },
+    more_btn: {
+        height:commonFn.picHeight(100),
+        justifyContent:'center'
+    },
+    more_text: {
+        fontSize: 12,
+        marginLeft:commonFn.picWidth(10),
+        color:'#e8a3a5'
     }
 });

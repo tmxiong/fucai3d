@@ -35,17 +35,20 @@ export default class wanfaPage extends Component {
                 sjh:[[1,1,1],[2,2,2]],
                 lottery:[[3,3,3],[4,4,4]],
                 qiHao:[1,1],
-            }
+            },
+            GLData:['','',''],
         };
     }
 
     componentDidMount() {
         SplashScreen.hide();
         this.getFCData();
+        this.getGLData();
         //this.carType('get');
 
     }
 
+    // 福彩开奖号码
     getFCData() {
         fetchp(urls.getOpenCodeList(2,1),{timeout:10*1000})
             .then((res)=>res.json())
@@ -63,6 +66,21 @@ export default class wanfaPage extends Component {
                 qiHao:[data.items[1].qiHao,data.items[0].qiHao],
             }
         },()=>this._bannerZoom._startScroll(true));
+    }
+
+    // 福彩攻略
+    getGLData() {
+        fetchp(urls.getPlayTips('fc',15),{timeout:5*1000})
+            .then((res)=>res.text())
+            .then((data)=>this.setGLData(data))
+    }
+    setGLData(data) {
+        data = data.substring(7,data.length-1);
+        data = JSON.parse(data);
+        this.setState({
+            GLData:data.data.dataConfig.data
+        })
+        console.log(data)
     }
 
     goToPage(router,params) {
@@ -200,23 +218,45 @@ export default class wanfaPage extends Component {
                             height:cfn.picHeight(310),}}
                     />
                     <View
-                        style={[styles.热门彩种容器]}>
-                        <View style={styles.remen_title_container}>
-                            <Text style={styles.remen_title}>热门咨询</Text>
-                            <Text>查看所有>></Text>
-                        </View>
+                        style={{width:cfn.deviceWidth()-cfn.picWidth(40),alignItems:'center',alignSelf:'center'}}>
                         <BannerMini
-                            bannerData={[<Text>1</Text>,<Text>1</Text>,<Text>1</Text>]}
+                            bannerData={this.state.GLData}
                             style={{borderRadius:10}}
                         />
                     </View>
+
                     <View
-                        style={styles.热门彩种容器}>
+                        style={[styles.热门彩种容器]}>
                         <View style={styles.remen_title_container}>
                             <Text style={styles.remen_title}>热门彩种</Text>
-                            <Text>查看所有>></Text>
+                            <Text>查看更多>></Text>
                         </View>
+                        <View style={styles.remen_lottery_contaner}>
+                            <View style={styles.remen_lottery}>
+                                <Image style={styles.remen_icon} source={require('../../imgs/lotteryIcons/fc3d.png')}/>
+                                <View>
+                                    <Text style={styles.remen_lottery_name}>福彩3D</Text>
+                                    <Text style={styles.remen_lottery_subName}>轻松赢千元</Text>
+                                </View>
+                            </View>
+                            <View style={styles.remen_lottery}>
+                                <Image style={styles.remen_icon} source={require('../../imgs/lotteryIcons/jsks.png')}/>
+                                <View>
+                                    <Text style={styles.remen_lottery_name}>江苏快3</Text>
+                                    <Text style={styles.remen_lottery_subName}>天天有奖</Text>
+                                </View>
+                            </View>
+                            <View style={[styles.remen_lottery,{borderRightWidth:0}]}>
+                                <Image style={styles.remen_icon} source={require('../../imgs/lotteryIcons/cqssc.png')}/>
+                                <View>
+                                    <Text style={styles.remen_lottery_name}>时时彩</Text>
+                                    <Text style={styles.remen_lottery_subName}>超多玩法</Text>
+                                </View>
+                            </View>
+                        </View>
+
                     </View>
+
 
                     <View
                         style={styles.tools_container}>
@@ -283,13 +323,39 @@ const styles = StyleSheet.create({
     remen_title: {
         color:'#333'
     },
-
+    remen_lottery_contaner: {
+        flexDirection:'row',
+        height:cfn.picHeight(140),
+        alignItems:'center'
+    },
+    remen_lottery: {
+        flexDirection:'row',
+        width:(cfn.deviceWidth()-cfn.picWidth(40))/3,
+        height:cfn.picHeight(100),
+        alignItems:'center',
+        borderRightColor:'#eee',
+        borderRightWidth:1
+    },
+    remen_icon: {
+        width: cfn.picWidth(80),
+        height: cfn.picWidth(80),
+        resizeMode:'contain',
+        margin:cfn.picWidth(10)
+    },
+    remen_lottery_name: {
+        fontSize:15,
+        color:'#222'
+    },
+    remen_lottery_subName: {
+        fontSize:10,
+        color:'#999'
+    },
 
     tools_container: {
         width: cfn.deviceWidth()-cfn.picWidth(40),
         minHeight:cfn.picHeight(300),
         backgroundColor:'#fff',
-        marginTop: cfn.picHeight(10),
+        marginTop: cfn.picHeight(20),
         alignItems:'center',
         alignSelf:'center',
         borderRadius:6
