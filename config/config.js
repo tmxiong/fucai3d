@@ -21,7 +21,7 @@ var appid = {
 };
 module.exports = {
 
-    appName: '赛车PK10平台',
+    appName: '福彩3D',
     baseColor:'#d81e06',
     myCheck: 'http://aite.ngrok.cc',
     launchImg:require('../imgs/launch/launch.png'),

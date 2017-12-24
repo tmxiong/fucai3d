@@ -13,10 +13,10 @@ import {
     Alert
 } from 'react-native';
 
-import NavBar from '../component/NavBar';
-import cfn from '../tools/commonFun'
-import config from '../config/config'
-import fetchp from '../tools/fetch-polyfill';
+import NavBar from '../../component/NavBar';
+import cfn from '../../tools/commonFun'
+import config from '../../config/config'
+import fetchp from '../../tools/fetch-polyfill';
 
 export default class MinePage extends Component {
 
@@ -93,7 +93,7 @@ export default class MinePage extends Component {
                 />
                 <Image
                     style={styles.icon}
-                    source={require('../imgs/appIcon/cp_icon.png')}/>
+                    source={require('../../imgs/appIcon/cp_icon.png')}/>
                 <Text
                     style={{marginTop: cfn.picHeight(20),
                         color: '#888',alignSelf:'center',backgroundColor:'transparent'}}>{config.appName}</Text>
@@ -109,7 +109,7 @@ export default class MinePage extends Component {
                             <Text style={styles.item_text}>我的欢迎页</Text>
                             <Image
                                 style={styles.icon_r}
-                                source={require('../imgs/more_r_icon.png')}/>
+                                source={require('../../imgs/more_r_icon.png')}/>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -119,7 +119,7 @@ export default class MinePage extends Component {
                             <Text style={styles.item_text}>阅读历史</Text>
                             <Image
                                 style={styles.icon_r}
-                                source={require('../imgs/more_r_icon.png')}/>
+                                source={require('../../imgs/more_r_icon.png')}/>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -129,7 +129,7 @@ export default class MinePage extends Component {
                             <Text style={styles.item_text}>收藏的赛车</Text>
                             <Image
                                 style={styles.icon_r}
-                                source={require('../imgs/more_r_icon.png')}/>
+                                source={require('../../imgs/more_r_icon.png')}/>
                         </TouchableOpacity>
                         <TouchableOpacity
                             activeOpacity={0.8}
@@ -138,7 +138,7 @@ export default class MinePage extends Component {
                             <Text style={styles.item_text}>收藏的店铺</Text>
                             <Image
                                 style={styles.icon_r}
-                                source={require('../imgs/more_r_icon.png')}/>
+                                source={require('../../imgs/more_r_icon.png')}/>
                         </TouchableOpacity>
                         {/*<TouchableOpacity*/}
                             {/*activeOpacity={0.8}*/}

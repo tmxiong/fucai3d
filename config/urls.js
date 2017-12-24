@@ -1,6 +1,7 @@
 let timeStamp = function () {
     return new Date().getTime();
 };
+let secret = 'eb7f104bd5c44f5fb6862b3b9a4b31af';
 
 // 福彩3D开奖号码列表
 exports.getOpenCodeList = function (listNum, page) {
@@ -18,44 +19,30 @@ exports.getPlayTipsDetail = function (id) {
     return 'https://m.qmcai.com/zixun/detail.html?_id=' + id +'&time=' + timeStamp();
 };
 
-
-
-
-
-// 获取车型列表
-exports.getCarVersion = function (id) {
-  return 'https://cars.app.autohome.com.cn/cars_v8.5.5/cars/seriesprice-pm2-b'+id+'-t16-v8.5.5-c110100.json'
-};
-// 品牌介绍
-exports.getJieshao = function (id) {
-    return 'https://cars.app.autohome.com.cn/cars_v8.5.5/cars/getbrandinfo-pm2-b'+id+'.json'
+// 彩票显示所有彩票最新一期开奖号码
+exports.getNewestLotteryCode = function (id) {
+    return 'https://route.showapi.com/44-1?code='+ id +'&showapi_appid=46754&showapi_test_draft=false&showapi_timestamp='+ timeStamp() +'&showapi_sign='+secret;
 };
 
-// 获取车型列表2
-exports.getCarVersion2 = function (id) {
-   return 'https://cars.app.autohome.com.cn/carinfo_v8.5.0/cars/seriessummary-pm2-s'+id+'-t-c110100-v8.5.5.json'
+// 显示近20期开奖号码
+exports.getHistoryLotteryCode = function (id) {
+    return 'https://route.showapi.com/44-2?code='+ id +'&count=20&endTime='+ new Date().Format('yyyy-MM-dd hh:mm:ss') +'&showapi_appid=46754&showapi_test_draft=false&showapi_timestamp='+ timeStamp() +'&showapi_sign='+secret;
 };
 
-// 获取所售车型商店
-exports.getShop = function (id) {
-  return 'https://cars.app.autohome.com.cn/dealer_v8.4.5/dealer/pddealers-pm2-sp'+id+'-ss771-c110100-sc0-p1-s5-o0-lon0.0-lat0.0-pid110000.json'
-};
-// 获取车型详情
-exports.getCarDetail = function (id) {
-    return 'https://cars.app.autohome.com.cn/cfg_v8.5.0/cars/speccompare.ashx?pm=2&type=1&specids='+id+'&cityid=110100&site=2&pl=2'
-};
-// 获取PK的数据
-exports.getPK = function (ids) {
-    // 23370,21620
-    return 'https://cars.app.autohome.com.cn/compare_v8.4.5/cars/speccomparefirstpage.ashx?pm=2&specids='+ids+'&cityid=110100';
+// 3d奖金计算
+exports.getBonusCalculate = function () {
+    return 'https://api.icaipiao123.com/api/v6/bonus_calculate/bonuscalculate?lottery=fucai3d&code=normal'
 };
 
-// 获取新闻列表
-exports.getCarNews = function (page) {
-    let list = page*20;
-    return "http://c.m.163.com/nc/auto/districtcode/list/110000/"+list+"-20.html";
+// 彩票玩法介绍
+exports.getJieshao = function (type) {
+    return 'http://pimg1.126.net/swdp/game_rule/'+ type +'.html?time='+timeStamp();
 };
 
-exports.getCarNewsDetail = function (id) {
-    return 'http://c.m.163.com/nc/article/'+id+'/full.html';
+// 福彩3D开奖走势
+exports.getTrend = function () {
+    return 'https://api.icaipiao123.com/api/v6/lottery/trendgroup?lotteryKey=fucai3d&trendGroup=fucai3d-base&amount=30'
 };
+
+
+

@@ -9,8 +9,8 @@ import {
 import {TabNavigator} from "react-navigation";
 
 import HomePage from './home/homePage';
-import OrderPage from './orderPage';
-import MinePage from './minePage';
+import LotteryPage from './lottery/lotteryPage';
+import MorePage from './more/morePage';
 import cfn from '../tools/commonFun'
 const navBar = {
     headerTitleStyle: {
@@ -26,8 +26,8 @@ const mainPage = TabNavigator({
     Home: {
         screen: HomePage,
         navigationOptions: {
-            //title: 'PK赛车',
-            tabBarLabel: 'PK赛车',
+
+            tabBarLabel: '首页',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/home_icon.png')}
@@ -38,11 +38,11 @@ const mainPage = TabNavigator({
         }
     },
 
-    Order: {
-        screen: OrderPage,
+    Lottery: {
+        screen: LotteryPage,
         navigationOptions: {
-            //title: '赛车头条',
-            tabBarLabel: '赛车头条',
+
+            tabBarLabel: '开奖大厅',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/toutiao_icon.png')}
@@ -50,18 +50,13 @@ const mainPage = TabNavigator({
                 />
             ),
             header:null,
-            headerRight:<TouchableOpacity
-                onPress={()=>this.props.navigation.navigate('Kaijiang')}
-            >
-                <Text>查询</Text>
-            </TouchableOpacity>
         }
     },
-    Mine: {
-        screen: MinePage,
+    More: {
+        screen: MorePage,
         //以下参数也可放置在MinePage.js页面
         navigationOptions: {
-            title: '更多',
+
             tabBarLabel: '更多',
             tabBarIcon: ({ tintColor }) => (
                 <Image
@@ -84,7 +79,7 @@ const mainPage = TabNavigator({
         showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
         indicatorStyle: {height: 0}, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
         style: {
-            backgroundColor: 'rgba(0,0,0,0.7)', // TabBar 背景色
+            backgroundColor: '#eee', // TabBar 背景色
             height:cfn.picHeight(100)
         },
         labelStyle: {

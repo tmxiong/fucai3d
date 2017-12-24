@@ -21,6 +21,7 @@ import CardView from 'react-native-cardview'
 import BannerZoom from '../../component/BannerZoom'
 import BannerMini from '../../component/BannerMini'
 import urls from '../../config/urls';
+import lotterys from '../../config/lotterys';
 export default class wanfaPage extends Component {
 
     static defaultProps = {};
@@ -229,30 +230,56 @@ export default class wanfaPage extends Component {
                         style={[styles.热门彩种容器]}>
                         <View style={styles.remen_title_container}>
                             <Text style={styles.remen_title}>热门彩种</Text>
-                            <Text>查看更多>></Text>
+                            <TouchableOpacity activeOpacity={0.8}
+                                onPress={()=>this.goToPage('Lottery')}
+                            >
+                                <Text>查看更多>></Text>
+                            </TouchableOpacity>
+
                         </View>
                         <View style={styles.remen_lottery_contaner}>
-                            <View style={styles.remen_lottery}>
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={()=>this.goToPage('lotteryDetail',{id:lotterys[0].id,
+                                    icon:lotterys[0].icon,
+                                    jieshao:lotterys[0].jieshao,
+                                    title: lotterys[0].name
+                                })}
+                                style={styles.remen_lottery}>
                                 <Image style={styles.remen_icon} source={require('../../imgs/lotteryIcons/fc3d.png')}/>
                                 <View>
                                     <Text style={styles.remen_lottery_name}>福彩3D</Text>
                                     <Text style={styles.remen_lottery_subName}>轻松赢千元</Text>
                                 </View>
-                            </View>
-                            <View style={styles.remen_lottery}>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={()=>this.goToPage('lotteryDetail',{id:lotterys[1].id,
+                                    icon:lotterys[1].icon,
+                                    jieshao:lotterys[1].jieshao,
+                                    title: lotterys[1].name
+                                })}
+                                style={styles.remen_lottery}>
                                 <Image style={styles.remen_icon} source={require('../../imgs/lotteryIcons/jsks.png')}/>
                                 <View>
                                     <Text style={styles.remen_lottery_name}>江苏快3</Text>
                                     <Text style={styles.remen_lottery_subName}>天天有奖</Text>
                                 </View>
-                            </View>
-                            <View style={[styles.remen_lottery,{borderRightWidth:0}]}>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={()=>this.goToPage('lotteryDetail',{id:lotterys[2].id,
+                                    icon:lotterys[2].icon,
+                                    jieshao:lotterys[2].jieshao,
+                                    title: lotterys[2].name
+                                })}
+                                style={[styles.remen_lottery,{borderRightWidth:0}]}>
                                 <Image style={styles.remen_icon} source={require('../../imgs/lotteryIcons/cqssc.png')}/>
                                 <View>
                                     <Text style={styles.remen_lottery_name}>时时彩</Text>
                                     <Text style={styles.remen_lottery_subName}>超多玩法</Text>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         </View>
 
                     </View>
@@ -262,15 +289,27 @@ export default class wanfaPage extends Component {
                         style={styles.tools_container}>
                         <View style={styles.remen_title_container}>
                             <Text style={styles.remen_title}>实用工具</Text>
-                            <Text>查看所有>></Text>
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={()=>this.goToPage('allTools',{})}
+                            >
+                                <Text>查看所有>></Text>
+                            </TouchableOpacity>
+
                         </View>
                         <View style={styles.tools_menu}>
-                            <View style={styles.tools_content}>
+                            <TouchableOpacity
+                                actvieOpacity={0.8}
+                                onPress={()=>this.goToPage('bonusCalculate',{})}
+                                style={styles.tools_content}>
                                 <Text>3D走势图</Text>
-                            </View>
-                            <View style={styles.tools_content}>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={()=>this.goToPage('trend',{})}
+                                style={styles.tools_content}>
                                 <Text>3D走势图</Text>
-                            </View>
+                            </TouchableOpacity>
                             <View style={styles.tools_content}>
                                 <Text>3D走势图</Text>
                             </View>

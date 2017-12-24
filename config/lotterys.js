@@ -12,11 +12,11 @@ const data = [
     //     des:'超多比赛通宵玩'
     // },
     {
-        icon:require('../imgs/lotteryIcons/bjkl8.png'),
-        name:'北京快乐8',
-        id:'bjkl8',
-        des:'火热高频游戏',
-        jieshao:'kl8'
+        icon:require('../imgs/lotteryIcons/fc3d.png'),
+        name:'福彩3D',
+        id:'fc3d',
+        des:'轻松赢千元',
+        jieshao:'x3d'
     },
     {
         icon:require('../imgs/lotteryIcons/jsks.png'),
@@ -25,6 +25,22 @@ const data = [
         des:'玩色子轻松上手',
         jieshao:'kuai3'
     },
+    {
+        icon:require('../imgs/lotteryIcons/cqssc.png'),
+        name:'重庆时时彩',
+        id:'cqssc',
+        des:'超多玩法 超高人气',
+        jieshao:'ssc'
+    },
+
+    {
+        icon:require('../imgs/lotteryIcons/bjkl8.png'),
+        name:'北京快乐8',
+        id:'bjkl8',
+        des:'火热高频游戏',
+        jieshao:'kl8'
+    },
+
     // {
     //     icon:require('../imgs/lotteryIcons/hbk3.png'),
     //     name:'湖北快3',
@@ -39,13 +55,7 @@ const data = [
     //     des:'超多玩法 超高人气'
     // },
 
-    {
-        icon:require('../imgs/lotteryIcons/cqssc.png'),
-        name:'重庆时时彩',
-        id:'cqssc',
-        des:'超多玩法 超高人气',
-        jieshao:'ssc'
-    },
+
     {
         icon:require('../imgs/lotteryIcons/xjssc.png'),
         name:'新疆时时彩',
@@ -86,13 +96,7 @@ const data = [
     //     des:'以小搏大 买房靠它'
     // },
 
-    {
-        icon:require('../imgs/lotteryIcons/fc3d.png'),
-        name:'福彩3D',
-        id:'fc3d',
-        des:'轻松赢千元',
-        jieshao:'x3d'
-    },
+
     {
         icon:require('../imgs/lotteryIcons/tcpl5.png'),
         name:'体彩排列3',
