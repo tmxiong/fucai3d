@@ -20,7 +20,8 @@ import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar'
 import TrendPage_1 from './trendPage_1'
 import {TabView} from "react-navigation";
-
+import urls from '../../config/urls';
+import fetchp from '../../tools/fetch-polyfill'
 export default class articleDetailPage extends Component {
     static navigationOptions = {header: null};
 
@@ -36,12 +37,14 @@ export default class articleDetailPage extends Component {
     };
 
     componentDidMount() {
-        //this.getData();
+        this.getData();
     }
 
     goBack() {
         this.props.navigation.goBack();
     }
+
+
 
     render() {
         return(
