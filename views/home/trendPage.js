@@ -37,7 +37,7 @@ export default class articleDetailPage extends Component {
     };
 
     componentDidMount() {
-        this.getData();
+
     }
 
     goBack() {

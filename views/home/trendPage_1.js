@@ -9,7 +9,8 @@ import {
     View,
     Image,
     WebView,
-    ScrollView
+    ScrollView,
+    FlatList
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 
@@ -47,36 +48,63 @@ export default class articleDetailPage extends PureComponent {
     getData() {
         fetchp(urls.getTrend(),{timeout:5*1000})
             .then((res)=>res.json())
-            .then((data)=>console.log(data))
+            .then((data)=>this.setData(data));
+        // data=[
+        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
+        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
+        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
+        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
+        // ]
     }
 
     setData(data) {
+        data = this.formatData(data, 2);
+
         this.setState({
-            data:data.sub
+            data: data,
         })
     }
 
-    renderItem({rowData,index}) {
+    formatData(data,weishu) {
+        data = data.data.sub;
+        // 百位2  十位3  个位4
+        let newData = data[weishu].data;
+        for(let i = 0; i < newData.length; i++) {
+            // 开奖号
+            newData[i].unshift(data[1].data[i][0]);
+            // 期号
+            newData[i].unshift(data[0].data[i][0]);
+        }
+       return newData;
+
+    }
+
+    renderCode(item) {
+        let codes = [];
+        for(let i = 0; i < 10; i++) {
+            let codeStyle = {};
+            if(item[i+2][1] == 1) {
+                codeStyle = styles.codeStyle;
+            }
+            codes.push(
+                <View style={styles.weishu}><Text style={[styles.weishuText,codeStyle]}>{item[i+2][0]}</Text></View>
+            )
+        }
+        return codes;
+    }
+
+    renderItem({item,index}) {
         return(
             <View style={styles.item_row}>
                 <View style={styles.qihao}>
-                    <Text>2017323</Text>
+                    <Text style={{fontSize:10}}>{item[0][0]}</Text>
                 </View>
                 <View style={styles.kaijiang}>
-                    <Text>666</Text>
+                    <Text style={{fontSize:10,color:'#f00'}}>{item[1][0].replace(/,/g,'  ')}</Text>
                 </View>
 
                 <View style={styles.code_row}>
-                    <View style={styles.weishu}><Text>0</Text></View>
-                    <View style={styles.weishu}><Text>1</Text></View>
-                    <View style={styles.weishu}><Text>2</Text></View>
-                    <View style={styles.weishu}><Text>3</Text></View>
-                    <View style={styles.weishu}><Text>4</Text></View>
-                    <View style={styles.weishu}><Text>5</Text></View>
-                    <View style={styles.weishu}><Text>6</Text></View>
-                    <View style={styles.weishu}><Text>7</Text></View>
-                    <View style={styles.weishu}><Text>8</Text></View>
-                    <View style={styles.weishu}><Text>9</Text></View>
+                    {this.renderCode(item)}
                 </View>
 
             </View>
@@ -100,16 +128,16 @@ export default class articleDetailPage extends PureComponent {
                            <Text style={{fontSize:12}}>个位</Text>
                        </View>
                        <View style={[styles.code_row,{height:cfn.picHeight(50)}]}>
-                           <View style={styles.weishu}><Text>0</Text></View>
-                           <View style={styles.weishu}><Text>1</Text></View>
-                           <View style={styles.weishu}><Text>2</Text></View>
-                           <View style={styles.weishu}><Text>3</Text></View>
-                           <View style={styles.weishu}><Text>4</Text></View>
-                           <View style={styles.weishu}><Text>5</Text></View>
-                           <View style={styles.weishu}><Text>6</Text></View>
-                           <View style={styles.weishu}><Text>7</Text></View>
-                           <View style={styles.weishu}><Text>8</Text></View>
-                           <View style={styles.weishu}><Text>9</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>0</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>1</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>2</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>3</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>4</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>5</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>6</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>7</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>8</Text></View>
+                           <View style={styles.weishu}><Text style={styles.weishuText}>9</Text></View>
                        </View>
                    </View>
                 </View>
@@ -119,6 +147,7 @@ export default class articleDetailPage extends PureComponent {
                     keyExtractor={this._keyExtractor}
 
                 />
+                {/*<View style={{height:cfn.picHeight(100),width:1}}/>*/}
 
             </View>)
     }
@@ -126,8 +155,7 @@ export default class articleDetailPage extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        width:cfn.deviceWidth(),
-        height:cfn.deviceHeight(),
+        flex:1,
         alignItems: 'center',
         //backgroundColor:'#fff'
     },
@@ -182,8 +210,22 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         borderRightWidth:1,
-        borderRightColor:'#eee'
+        borderRightColor:'#eee',
+
     },
+    codeStyle: {
+        width:cfn.deviceWidth()/16 - 3,
+        height:cfn.deviceWidth()/16 - 3,
+        backgroundColor:'#f00',
+        color:'#fff',
+        borderRadius:cfn.deviceWidth()/32 - 1.5,
+        textAlign:'center',
+        lineHeight:17
+    },
+
+    weishuText: {
+        fontSize:10,
+    }
 
 
 });
