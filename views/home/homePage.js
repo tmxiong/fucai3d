@@ -134,17 +134,17 @@ export default class wanfaPage extends Component {
                 <Text style={styles.detail_text}>详细>></Text>
             </View>
 
-            <View style={styles.banner_title_border}>
-                <Text style={styles.banner_title_3}>当前开奖</Text>
-            </View>
+
+            <Image style={styles.banner_icon} source={require('../../imgs/home/dangqiankj.png')}/>
+
 
         </View>;
 
         let bannerView_1 = <View style={styles.banner_container}>
             <View style={styles.banner_icon_container}>
-                <Image
-                    style={styles.banner_icon_3d}
-                    source={require('../../imgs/lotteryIcons/fc3d.png')}/>
+                {/*<Image*/}
+                    {/*style={styles.banner_icon_3d}*/}
+                    {/*source={require('../../imgs/lotteryIcons/fc3d.png')}/>*/}
                 <View style={styles.banner_title_container}>
                     <Text style={styles.banner_title_1}>福彩3D</Text>
                     <Text style={styles.banner_title_2}>第{FCData.qiHao[0]}期  {FCData.lotDate[0]}</Text>
@@ -184,14 +184,22 @@ export default class wanfaPage extends Component {
                 <Text style={styles.detail_text}>详细>></Text>
             </View>
 
-            <View style={styles.banner_title_border}>
-                <Text style={styles.banner_title_3}>当前开奖</Text>
-            </View>
+            <Image style={styles.banner_icon} source={require('../../imgs/home/shangqikj.png')}/>
 
         </View>;
 
-        let bannerView_2 = <View>
-            <Text>3</Text>
+        let bannerView_2 = <View style={styles.banner_container}>
+            <View style={styles.banner_icon_container}>
+                {/*<Image*/}
+                {/*style={styles.banner_icon_3d}*/}
+                {/*source={require('../../imgs/lotteryIcons/fc3d.png')}/>*/}
+                <View style={styles.banner_title_container}>
+                    <Text style={styles.banner_title_1}>福彩3D</Text>
+                    <Text style={styles.banner_title_2}>第{parseInt(FCData.qiHao[1])+1}期  开奖号码预测</Text>
+                </View>
+
+            </View>
+            <Image style={styles.banner_icon} source={require('../../imgs/home/kaijiangyc.png')}/>
         </View>;
 
         return [bannerView_1,bannerView_0,bannerView_2]
@@ -298,28 +306,23 @@ export default class wanfaPage extends Component {
 
                         </View>
                         <View style={styles.tools_menu}>
-                            <TouchableOpacity
-                                actvieOpacity={0.8}
-                                onPress={()=>this.goToPage('bonusCalculate',{})}
-                                style={styles.tools_content}>
-                                <Text>3D走势图</Text>
-                            </TouchableOpacity>
+
                             <TouchableOpacity
                                 activeOpacity={0.8}
                                 onPress={()=>this.goToPage('trend',{})}
-                                style={styles.tools_content}>
+                                style={[styles.tools_content,{backgroundColor:'#fb667a'}]}>
                                 <Text>3D走势图</Text>
                             </TouchableOpacity>
-                            <View style={styles.tools_content}>
+                            <TouchableOpacity
+                                actvieOpacity={0.8}
+                                onPress={()=>this.goToPage('bonusCalculate',{})}
+                                style={[styles.tools_content,{backgroundColor:'#01cad4'}]}>
+                                <Text>奖金计算器</Text>
+                            </TouchableOpacity>
+                            <View style={[styles.tools_content,{backgroundColor:'#f48221'}]}>
                                 <Text>3D走势图</Text>
                             </View>
-                            <View style={styles.tools_content}>
-                                <Text>3D走势图</Text>
-                            </View>
-                            <View style={styles.tools_content}>
-                                <Text>3D走势图</Text>
-                            </View>
-                            <View style={styles.tools_content}>
+                            <View style={[styles.tools_content,{backgroundColor:'#1bc266'}]}>
                                 <Text>3D走势图</Text>
                             </View>
                         </View>
@@ -423,11 +426,13 @@ const styles = StyleSheet.create({
         padding: cfn.picWidth(20),
         justifyContent:'space-between',
         height:cfn.picHeight(300),
+        paddingBottom:cfn.picHeight(30)
     },
     banner_icon_3d: {
         width:cfn.picWidth(100),
         height:cfn.picWidth(100),
-        resizeMode:'contain'
+        resizeMode:'contain',
+        marginRight:cfn.picWidth(20)
     },
     banner_icon_container: {
         flexDirection:'row',
@@ -436,7 +441,7 @@ const styles = StyleSheet.create({
         // borderBottomWidth:1
     },
     banner_title_container: {
-        marginLeft:cfn.picWidth(20)
+        //marginLeft:cfn.picWidth(20)
     },
     banner_title_1: {
         color:'#333',
@@ -446,6 +451,15 @@ const styles = StyleSheet.create({
         color: '#999',
         fontSize:12,
         marginTop:cfn.picHeight(10)
+    },
+    banner_icon: {
+        width:cfn.picWidth(200),
+        height:cfn.picWidth(200),
+        resizeMode:'contain',
+        position:'absolute',
+        right:0,
+        top:0,
+        opacity:0.4
     },
     banner_title_border: {
         borderColor: config.baseColor,

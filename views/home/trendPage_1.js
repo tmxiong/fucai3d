@@ -30,39 +30,31 @@ export default class articleDetailPage extends PureComponent {
         super(props);
 
         this.state={
-
+            data:[],
         }
     }
     static defaultProps = {
-
+        data:[],
+        weishu:'',
     };
 
+    componentWillReceiveProps(props) {
+        //console.log(props.data);
+        //return;
+        if(this.state.data.length != 0) return;
+        let data = this.formatData(props.data,props.weiIndex);
+        this.setState({
+            data:data,
+        })
+
+    }
+
     componentDidMount() {
-        this.getData();
+
     }
 
     goBack() {
         this.props.navigation.goBack();
-    }
-
-    getData() {
-        fetchp(urls.getTrend(),{timeout:5*1000})
-            .then((res)=>res.json())
-            .then((data)=>this.setData(data));
-        // data=[
-        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
-        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
-        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
-        //     ['2017213','123','0','1','2','3','4','5','6','7','8','9'],
-        // ]
-    }
-
-    setData(data) {
-        data = this.formatData(data, 2);
-
-        this.setState({
-            data: data,
-        })
     }
 
     formatData(data,weishu) {
@@ -75,7 +67,7 @@ export default class articleDetailPage extends PureComponent {
             // 期号
             newData[i].unshift(data[0].data[i][0]);
         }
-       return newData;
+        return newData;
 
     }
 
@@ -87,7 +79,7 @@ export default class articleDetailPage extends PureComponent {
                 codeStyle = styles.codeStyle;
             }
             codes.push(
-                <View style={styles.weishu}><Text style={[styles.weishuText,codeStyle]}>{item[i+2][0]}</Text></View>
+                <View key={'k'+i} style={styles.weishu}><Text style={[styles.weishuText,codeStyle]}>{item[i+2][0]}</Text></View>
             )
         }
         return codes;
@@ -116,7 +108,7 @@ export default class articleDetailPage extends PureComponent {
     render() {
         return(
             <View style={styles.container}>
-                <View style={styles.item_row}>
+                <View style={[styles.item_row,{backgroundColor:this.props.bgColor}]}>
                     <View style={[styles.qihao,{height:cfn.picHeight(100)}]}>
                         <Text>期号</Text>
                     </View>
@@ -125,7 +117,7 @@ export default class articleDetailPage extends PureComponent {
                     </View>
                    <View>
                        <View style={[styles.weishuTitle]}>
-                           <Text style={{fontSize:12}}>个位</Text>
+                           <Text style={{fontSize:12}}>{this.props.weishu}</Text>
                        </View>
                        <View style={[styles.code_row,{height:cfn.picHeight(50)}]}>
                            <View style={styles.weishu}><Text style={styles.weishuText}>0</Text></View>
@@ -157,20 +149,20 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         alignItems: 'center',
-        //backgroundColor:'#fff'
+        backgroundColor:'#fff'
     },
 
     trendContainer: {
         width:cfn.deviceWidth(),
         height:cfn.deviceHeight(),
-        backgroundColor:'#fff'
+        //backgroundColor:'#fff'
     },
 
     item_row: {
         flexDirection:'row',
         borderBottomColor:'#eee',
         borderBottomWidth:1,
-        backgroundColor:"#fff"
+        //backgroundColor:"#fff"
     },
     qihao: {
         width:cfn.deviceWidth()/16 * 3,
