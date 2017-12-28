@@ -12,6 +12,8 @@ import LotteryIntroducePage from './views/lottery/lotteryIntroducePage'
 import allToolsPage from './views/home/allToolsPage'
 import bonusCalculatePage from './views/home/bonusCalculatePage'
 import trendPage from './views/home/trendPage'
+import articleListPage from './views/home/articleListPage'
+import articleDetailPage from './views/home/articleDetailPage'
 const routers = StackNavigator({
     //launch: {screen: launchPage},
     // 欢迎页 引导页
@@ -29,6 +31,12 @@ const routers = StackNavigator({
     allTools: {screen: allToolsPage,navigationOptions: { header:null,}},
     // 3D走势图
     trend: {screen: trendPage,navigationOptions: { header:null,}},
+
+    // 福彩推荐/彩市新闻列表
+    ArticleList: {screen: articleListPage, navigationOptions: { header:null,}},
+
+    // 文章详情
+    ArticleDetail: {screen: articleDetailPage, navigationOptions: { header:null,}},
 
 
     // 彩票网站web页面

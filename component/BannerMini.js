@@ -50,7 +50,18 @@ export default class Banner extends PureComponent {
 
                 if(bannerData[i].imageList) {
                     view = (
-                        <View key={i} style={styles.container}>
+                        <TouchableOpacity
+                            key={i}
+                            activeOpacity={0.8}
+                            onPress={()=>this.goToPage('ArticleDetail', {
+                                    id: item.id,
+                                    //name: item.title,
+                                    name: '3D推荐',
+                                    rowData: item,
+                                    type:'fc'
+                                }
+                            )}
+                            style={styles.container}>
                             <View style={styles.content}>
                                 <Image
                                     style={styles.item_img}
@@ -58,12 +69,15 @@ export default class Banner extends PureComponent {
                                 <Text
                                     style={styles.item_title}>{item.title}</Text>
                                 <View style={styles.line_col}/>
-                                <TouchableOpacity style={styles.more_btn}>
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    onPress={()=>this.goToPage('ArticleList',{name:'3D推荐'})}
+                                    style={styles.more_btn}>
                                     <Text style={styles.more_text}>更多>></Text>
                                 </TouchableOpacity>
                                 <Text></Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )
                 }
                 arr.push(view);
@@ -74,9 +88,9 @@ export default class Banner extends PureComponent {
     }
 
     goToPage(route,params) {
-        if(params.docid) {
-            this.props.navigation.navigate(route,params);
-        }
+
+        this.props.navigation.navigate(route,params);
+
     }
 
     onScroll(event) {

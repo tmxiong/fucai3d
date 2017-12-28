@@ -45,6 +45,7 @@ export default class wanfaPage extends Component {
         SplashScreen.hide();
         this.getFCData();
         this.getGLData();
+        this.getYuce();
         //this.carType('get');
 
     }
@@ -82,6 +83,18 @@ export default class wanfaPage extends Component {
             GLData:data.data.dataConfig.data
         })
         console.log(data)
+    }
+
+    getYuce() {
+        fetchp(urls.getYuce(),{time:5*1000})
+            .then((res)=>res.json())
+            .then((data)=>this.setYuce(data))
+    }
+
+    setYuce(data) {
+        this.setState({
+            yuceData:data
+        })
     }
 
     goToPage(router,params) {
@@ -211,6 +224,27 @@ export default class wanfaPage extends Component {
             <View></View>
         ]
     }
+
+    renderMenu() {
+        let menuItem = [];
+        for(let i = 0; i < menuData.length; i++) {
+            menuItem.push(
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    key={'menu'+i}
+                    onPress={()=>this.goToPage(menuData[i].pageName,menuData[i].params)}
+                    style={[styles.tools_content,{backgroundColor:menuData[i].bg_color}]}>
+                    <Image style={styles.menu_icon} source={menuData[i].icon}/>
+                    <View>
+                        <Text style={styles.menu_title}>{menuData[i].title}</Text>
+                        <Text style={styles.menu_sub_title}>{menuData[i].sub_title}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+        return menuItem;
+    }
+
     render() {
 
         return (
@@ -229,6 +263,7 @@ export default class wanfaPage extends Component {
                     <View
                         style={{width:cfn.deviceWidth()-cfn.picWidth(40),alignItems:'center',alignSelf:'center'}}>
                         <BannerMini
+                            navigation={this.props.navigation}
                             bannerData={this.state.GLData}
                             style={{borderRadius:10}}
                         />
@@ -306,25 +341,7 @@ export default class wanfaPage extends Component {
 
                         </View>
                         <View style={styles.tools_menu}>
-
-                            <TouchableOpacity
-                                activeOpacity={0.8}
-                                onPress={()=>this.goToPage('trend',{})}
-                                style={[styles.tools_content,{backgroundColor:'#fb667a'}]}>
-                                <Text>3D走势图</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                actvieOpacity={0.8}
-                                onPress={()=>this.goToPage('bonusCalculate',{})}
-                                style={[styles.tools_content,{backgroundColor:'#01cad4'}]}>
-                                <Text>奖金计算器</Text>
-                            </TouchableOpacity>
-                            <View style={[styles.tools_content,{backgroundColor:'#f48221'}]}>
-                                <Text>3D走势图</Text>
-                            </View>
-                            <View style={[styles.tools_content,{backgroundColor:'#1bc266'}]}>
-                                <Text>3D走势图</Text>
-                            </View>
+                            {this.renderMenu()}
                         </View>
 
                     </View>
@@ -337,6 +354,40 @@ export default class wanfaPage extends Component {
 
 }
 
+const menuData = [
+    {
+        icon: require('../../imgs/home/trend_icon.png'),
+        title:'3D走势图',
+        sub_title: '个/十/百位走势图',
+        bg_color: '#fb667a',
+        pageName: 'trend',
+        params:{}
+    },
+    {
+        icon: require('../../imgs/home/calc_icon.png'),
+        title:'奖金计算器',
+        sub_title: '中奖金额 一目了然',
+        bg_color: '#01cad4',
+        pageName: 'bonusCalculate',
+        params:{}
+    },
+    {
+        icon: require('../../imgs/home/gonglue_icon.png'),
+        title:'3D推荐',
+        sub_title: '中奖，七分靠推荐',
+        bg_color: '#f48221',
+        pageName:'ArticleList',
+        params:{type:'fc',name:'3D推荐'}
+    },
+    {
+        icon: require('../../imgs/home/news_icon.png'),
+        title:'彩市喜讯',
+        sub_title: '看他们如何中奖',
+        bg_color: '#1bc266',
+        pageName:'ArticleList',
+        params:{type:'csxw',name:'彩市喜讯'}
+    }
+];
 
 const styles = StyleSheet.create({
     container: {
@@ -408,7 +459,9 @@ const styles = StyleSheet.create({
         height:100,
         backgroundColor:'#f44',
         borderRadius:5,
-        marginTop:cfn.picHeight(20)
+        marginTop:cfn.picHeight(20),
+        alignItems:'center',
+        flexDirection:'row'
 
     },
     tools_menu: {
@@ -420,6 +473,23 @@ const styles = StyleSheet.create({
         marginTop:cfn.picHeight(20),
         paddingBottom:cfn.picHeight(20),
         flexWrap:'wrap'
+    },
+    menu_icon: {
+        width:cfn.picWidth(80),
+        height:cfn.picHeight(80),
+        resizeMode:'contain',
+        marginLeft:cfn.picWidth(20)
+    },
+    menu_title: {
+        fontSize:16,
+        color:'#fff',
+        marginLeft:cfn.picHeight(20),
+        marginBottom:cfn.picHeight(10),
+    },
+    menu_sub_title: {
+        fontSize:10,
+        color:'#eee',
+        marginLeft:cfn.picHeight(20),
     },
 
     banner_container: {
@@ -522,7 +592,8 @@ const styles = StyleSheet.create({
         color:'#ccc',
         position:'absolute',
         right:cfn.picWidth(20)+6
-    }
+    },
+
 
 });
 
