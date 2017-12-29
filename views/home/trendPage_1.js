@@ -137,6 +137,7 @@ export default class articleDetailPage extends PureComponent {
                     data={this.state.data}
                     renderItem={this.renderItem.bind(this)}
                     keyExtractor={this._keyExtractor}
+                    ListEmptyComponent={<Text>数据加载中</Text>}
 
                 />
                 {/*<View style={{height:cfn.picHeight(100),width:1}}/>*/}

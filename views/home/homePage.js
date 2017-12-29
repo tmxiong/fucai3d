@@ -114,7 +114,9 @@ export default class wanfaPage extends Component {
                 </View>
 
             </View>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
+            <TouchableOpacity activeOpacity={0.8}
+                              onPress={()=>this.goToPage('KaijiangDetail',{FCData:this.state.allFCData.items[0]})}
+                              style={{flexDirection:'row',alignItems:'center'}}>
                 <View>
                     <Text style={styles.banner_code_title}>开奖号:</Text>
                     <View style={styles.banner_code_container}>
@@ -145,7 +147,7 @@ export default class wanfaPage extends Component {
                     </View>
                 </View>
                 <Text style={styles.detail_text}>详细>></Text>
-            </View>
+            </TouchableOpacity>
 
 
             <Image style={styles.banner_icon} source={require('../../imgs/home/dangqiankj.png')}/>
@@ -164,7 +166,9 @@ export default class wanfaPage extends Component {
                 </View>
 
             </View>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
+            <TouchableOpacity activeOpacity={0.8}
+                              onPress={()=>this.goToPage('KaijiangDetail',{FCData:this.state.allFCData.items[1]})}
+                              style={{flexDirection:'row',alignItems:'center'}}>
                 <View>
                     <Text style={styles.banner_code_title}>开奖号:</Text>
                     <View style={styles.banner_code_container}>
@@ -195,7 +199,7 @@ export default class wanfaPage extends Component {
                     </View>
                 </View>
                 <Text style={styles.detail_text}>详细>></Text>
-            </View>
+            </TouchableOpacity>
 
             <Image style={styles.banner_icon} source={require('../../imgs/home/shangqikj.png')}/>
 
@@ -212,6 +216,10 @@ export default class wanfaPage extends Component {
                 </View>
 
             </View>
+            <View style={{flexDirection:'row',
+                width:cfn.deviceWidth()-cfn.picWidth(150),flexWrap:'wrap'}}>
+                {this.renderYuceCode()}
+            </View>
             <Image style={styles.banner_icon} source={require('../../imgs/home/kaijiangyc.png')}/>
         </View>;
 
@@ -219,15 +227,40 @@ export default class wanfaPage extends Component {
 
     }
 
-    bannerMiniView() {
-        let views = [
-            <View></View>
-        ]
+    renderYuceCode() {
+        const {yuceData} = this.state;
+        try{
+            var codeData = yuceData.data
+        }catch (e) {}
+
+        if(!codeData) return <Text style={{marginBottom:cfn.picHeight(20)}}>正在智能预测...</Text>;
+
+        let codeList = [];
+        for(let i = 0; i < codeData.length; i++) {
+            let codes = codeData[i].split(',');
+            codeList.push(
+                <View key={i} style={[styles.banner_code_container,
+                    {marginRight:cfn.picWidth(20),marginTop:cfn.picHeight(10),marginBottom:cfn.picHeight(5)}]}>
+                    <View style={styles.banner_code_content_kj}>
+                        <Text style={styles.banner_code_text_kj}>{codes[0]}</Text>
+                    </View>
+                    <View style={styles.banner_code_content_kj}>
+                        <Text style={styles.banner_code_text_kj}>{codes[1]}</Text>
+                    </View>
+                    <View style={styles.banner_code_content_kj}>
+                        <Text style={styles.banner_code_text_kj}>{codes[2]}</Text>
+                    </View>
+                </View>
+            )
+        }
+
+        return codeList;
+
     }
 
     renderMenu() {
         let menuItem = [];
-        for(let i = 0; i < menuData.length; i++) {
+        for(let i = 0; i < 4; i++) {
             menuItem.push(
                 <TouchableOpacity
                     activeOpacity={0.8}
@@ -272,7 +305,11 @@ export default class wanfaPage extends Component {
                     <View
                         style={[styles.热门彩种容器]}>
                         <View style={styles.remen_title_container}>
-                            <Text style={styles.remen_title}>热门彩种</Text>
+                            <View style={{flexDirection:'row',alignItems:'center'}}>
+                                <View style={{width:3,height:14,backgroundColor:config.baseColor,marginRight:5}}/>
+                                <Text style={styles.remen_title}>热门彩种</Text>
+                            </View>
+
                             <TouchableOpacity activeOpacity={0.8}
                                 onPress={()=>this.goToPage('Lottery')}
                             >
@@ -331,10 +368,13 @@ export default class wanfaPage extends Component {
                     <View
                         style={styles.tools_container}>
                         <View style={styles.remen_title_container}>
-                            <Text style={styles.remen_title}>实用工具</Text>
+                            <View style={{flexDirection:'row',alignItems:'center'}}>
+                                <View style={{width:3,height:14,backgroundColor:config.baseColor,marginRight:5}}/>
+                                <Text style={styles.remen_title}>实用工具</Text>
+                            </View>
                             <TouchableOpacity
                                 activeOpacity={0.8}
-                                onPress={()=>this.goToPage('allTools',{})}
+                                onPress={()=>this.goToPage('allTools',{menuData:menuData})}
                             >
                                 <Text>查看所有>></Text>
                             </TouchableOpacity>
@@ -364,12 +404,16 @@ const menuData = [
         params:{}
     },
     {
-        icon: require('../../imgs/home/calc_icon.png'),
-        title:'奖金计算器',
-        sub_title: '中奖金额 一目了然',
+        icon: require('../../imgs/home/history_icon.png'),
+        title:'历史开奖',
+        sub_title: '历史开奖记录查看',
         bg_color: '#01cad4',
-        pageName: 'bonusCalculate',
-        params:{}
+        pageName: 'lotteryDetail',
+        params:{id:'fc3d',
+            icon:require('../../imgs/lotteryIcons/fc3d.png'),
+            jieshao:'x3d',
+            title: '福彩3D'
+        }
     },
     {
         icon: require('../../imgs/home/gonglue_icon.png'),
@@ -386,7 +430,15 @@ const menuData = [
         bg_color: '#1bc266',
         pageName:'ArticleList',
         params:{type:'csxw',name:'彩市喜讯'}
-    }
+    },
+    {
+        icon: require('../../imgs/home/calc_icon.png'),
+        title:'奖金计算器',
+        sub_title: '中奖金额 一目了然',
+        bg_color: '#0d8cac',
+        pageName: 'bonusCalculate',
+        params:{}
+    },
 ];
 
 const styles = StyleSheet.create({

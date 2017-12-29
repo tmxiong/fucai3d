@@ -71,11 +71,10 @@ export default class Banner extends PureComponent {
                                 <View style={styles.line_col}/>
                                 <TouchableOpacity
                                     activeOpacity={0.8}
-                                    onPress={()=>this.goToPage('ArticleList',{name:'3D推荐'})}
+                                    onPress={()=>this.goToPage('ArticleList',{type:'fc', name:'3D推荐'})}
                                     style={styles.more_btn}>
                                     <Text style={styles.more_text}>更多>></Text>
                                 </TouchableOpacity>
-                                <Text></Text>
                             </View>
                         </TouchableOpacity>
                     )

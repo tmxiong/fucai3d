@@ -14,14 +14,15 @@ import bonusCalculatePage from './views/home/bonusCalculatePage'
 import trendPage from './views/home/trendPage'
 import articleListPage from './views/home/articleListPage'
 import articleDetailPage from './views/home/articleDetailPage'
+import kaijiangDetailPage from './views/home/kaijiangDetailPage'
 const routers = StackNavigator({
-    //launch: {screen: launchPage},
+    launch: {screen: launchPage},
     // 欢迎页 引导页
-    //Welcome: {screen: welcomePage},
+    Welcome: {screen: welcomePage},
     Main:{screen: MainPage, navigationOptions: { header:null,}},
     Home: {screen: HomePage,navigationOptions: { header:null,}},
 
-    // 单个开奖号码
+    // 单个彩种开奖列表
     lotteryDetail: {screen: LotteryDetailPage,navigationOptions: { header:null,}},
     // 玩法介绍
     lotteryIntroduce: {screen: LotteryIntroducePage,navigationOptions: { header:null,}},
@@ -37,6 +38,9 @@ const routers = StackNavigator({
 
     // 文章详情
     ArticleDetail: {screen: articleDetailPage, navigationOptions: { header:null,}},
+
+    // 福彩开奖详情
+    KaijiangDetail: {screen: kaijiangDetailPage, navigationOptions: { header:null,}},
 
 
     // 彩票网站web页面

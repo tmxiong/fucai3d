@@ -30,37 +30,6 @@ export default class MinePage extends Component {
 
     static defaultProps = {};
 
-    getData() {
-        this.setState({
-            version: '正在检查更新'
-        });
-        fetchp('http://c.m.163.com', {
-            headers: {
-                'Accept': '*/*',
-                'Accept-Language': 'zh-CN,zh;q=0.8',
-                'Connection': 'keep-alive',
-                'Content-Type': 'application/json',
-                'Origin': 'http://c.m.163.com',
-                // 以下一条可防止出现403拒绝访问错误
-                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-            }
-        }, {timeout: 1000 * 10})
-            .then((data)=>this.setData())
-            .catch((error)=>this.setError(error))
-    }
-
-    setData() {
-        this.setState({
-            version: '已经是最新版本 '+config.version,
-        })
-    }
-
-    setError() {
-        this.setState({
-            version: '连接错误'
-        })
-    }
-
     cleanCache() {
         this.setState({
             cleanCache: '正在清除...'
@@ -78,7 +47,7 @@ export default class MinePage extends Component {
     }
 
     fankui() {
-        Alert.alert('意见反馈','如果您有好的意见和建议，\n或使用本软件时遇到问题，\n可以发送邮件至客服邮箱：\ntmxiong@foxmail.com\n感谢您对'+config.appName+'的支持！')
+        Alert.alert('反馈邮箱：','tmxiong@foxmail.com')
     }
 
     goBack() {
@@ -91,13 +60,18 @@ export default class MinePage extends Component {
                     middleText='更多'
                     leftIcon={null}
                 />
-                <Image
-                    style={styles.icon}
-                    source={require('../../imgs/appIcon/cp_icon.png')}/>
-                <Text
-                    style={{marginTop: cfn.picHeight(20),
-                        color: '#888',alignSelf:'center',backgroundColor:'transparent'}}>{config.appName}</Text>
-                <ScrollView style={[styles.container,]}>
+                <View style={{backgroundColor:'#fff',alignItems:'center',
+                    justifyContent:'center',height:cfn.picHeight(300),borderBottomColor: '#ddd',
+                    borderBottomWidth: 1,}}>
+                    <Image
+                        style={styles.icon}
+                        source={require('../../imgs/appIcon/cp_icon.png')}/>
+                    <Text
+                        style={{marginTop: cfn.picHeight(20),
+                            color: '#888',alignSelf:'center',backgroundColor:'transparent'}}>{config.appName}</Text>
+                </View>
+
+                <ScrollView>
 
 
 
@@ -111,44 +85,6 @@ export default class MinePage extends Component {
                                 style={styles.icon_r}
                                 source={require('../../imgs/more_r_icon.png')}/>
                         </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={()=>this.goToDetail('History')}
-                            activeOpacity={0.8}
-                            style={[styles.item_container]}>
-                            <Text style={styles.item_text}>阅读历史</Text>
-                            <Image
-                                style={styles.icon_r}
-                                source={require('../../imgs/more_r_icon.png')}/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={()=>this.goToDetail('CollectCar',{isFromMinePage:true})}
-                            style={[styles.item_container, {marginTop: cfn.picWidth(30)}]}>
-                            <Text style={styles.item_text}>收藏的赛车</Text>
-                            <Image
-                                style={styles.icon_r}
-                                source={require('../../imgs/more_r_icon.png')}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={()=>this.goToDetail('CollectShop')}
-                            style={styles.item_container}>
-                            <Text style={styles.item_text}>收藏的店铺</Text>
-                            <Image
-                                style={styles.icon_r}
-                                source={require('../../imgs/more_r_icon.png')}/>
-                        </TouchableOpacity>
-                        {/*<TouchableOpacity*/}
-                            {/*activeOpacity={0.8}*/}
-                            {/*onPress={()=>this.goToDetail('CpCollection')}*/}
-                            {/*style={styles.item_container}>*/}
-                            {/*<Text style={styles.item_text}>收藏的彩种</Text>*/}
-                            {/*<Image*/}
-                                {/*style={styles.icon_r}*/}
-                                {/*source={require('../imgs/more_r_icon.png')}/>*/}
-                        {/*</TouchableOpacity>*/}
 
                         <TouchableOpacity
                             onPress={()=>this.cleanCache()}
@@ -192,20 +128,17 @@ export default class MinePage extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        width:cfn.deviceWidth(),
-        marginTop:cfn.picHeight(40),
-        backgroundColor:'rgba(0,0,0,0.5)'
+        flex:1
     },
     bg: {
-        height: cfn.deviceHeight(),
-        width:cfn.deviceWidth(),
+        flex:1
         //resizeMode:'contain'
     },
     icon: {
         width: cfn.picWidth(130),
         height: cfn.picWidth(130),
         resizeMode: 'contain',
-        marginTop: cfn.picHeight(80),
+        //marginTop: cfn.picHeight(80),
         alignSelf:'center'
     },
     item_container: {
@@ -213,15 +146,15 @@ const styles = StyleSheet.create({
         width: cfn.deviceWidth(),
         height: cfn.picHeight(100),
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.7)',
-        borderBottomColor: '#333',
+        backgroundColor: '#fff',
+        borderBottomColor: '#ddd',
         borderBottomWidth: 1,
         paddingLeft: cfn.picWidth(20),
         paddingRight: cfn.picWidth(20)
     },
     item_text: {
         fontSize: 16,
-        color: '#ccc'
+        color: '#222'
     },
     icon_r: {
         width: cfn.picWidth(50),
