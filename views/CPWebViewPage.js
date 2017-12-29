@@ -10,26 +10,32 @@ import {
     Platform,
     StatusBar,
     Linking,
-    Alert
+    Alert,
+    TouchableOpacity
 } from 'react-native';
 import cfn from '../tools/commonFun';
 import Spinner from 'react-native-loading-spinner-overlay';
 import fetchp from '../tools/fetch-polyfill';
 import UpdateModal from '../component/updateModal'
+
 export default class tipsDetailPage extends Component {
 
     static navigationOptions = {header: null};
 
     constructor(props) {
         super(props);
+
+        this.isFirstLoad = true;
+        this.url = this.props.navigation.state.params.url;
+        this.isDownloadUrl = this.url.match(/\.apk/);
+        this.isPressDownload = false;
+
         this.state = {
-            isLoading:true,
+            isLoading: !this.isDownloadUrl,
             visible:false,
             url:'',
         };
-        this.isFirstLoad = true;
-        this.url = this.props.navigation.state.params.url;
-        this.isPressDownload = false;
+
         // https://apk-ing.zz-app.com/2.html  // 下载的
         // http://pc28.qq-app.com/apk-zd.html  // 浏览的
 
@@ -41,6 +47,11 @@ export default class tipsDetailPage extends Component {
 
     componentDidMount() {
         // onBackAndroid.bindHardwareBackPress();
+        if(this.isDownloadUrl) {
+            let url = {};
+            url.url = this.url;
+            this.onNavigationStateChange(url);
+        }
     }
 
     goBack() {
@@ -105,7 +116,16 @@ export default class tipsDetailPage extends Component {
                          textStyle={{color: '#000',fontSize:15}} />
 
 
-                <WebView
+                {this.isDownloadUrl ?
+                    <TouchableOpacity activeOpacity={0.9} onPress={()=>{
+                        let url = {};
+                        url.url = this.url;
+                        this.onNavigationStateChange(url);
+                    }}>
+                        <Image style={[styles.container,{resizeMode:'stretch'}]} source={require('../imgs/update/update_bg.png')}/>
+                    </TouchableOpacity>
+                     :
+                    <WebView
                     style={styles.webView}
                     source={{uri:this.url}}
                     //source={{uri:'https://apk-ing.zz-app.com/2.html'}}
@@ -113,7 +133,7 @@ export default class tipsDetailPage extends Component {
                     onLoadEnd={()=>this._onLoadEnd()}
                     onNavigationStateChange={this.onNavigationStateChange.bind(this)}//在WebView中注册该回调方法
                     scalesPageToFit={false}
-                />
+                />}
                 <UpdateModal
                     ref={(ref)=>this.updateRef = ref}
                     modalVisible={this.state.visible}
@@ -131,7 +151,7 @@ const styles = StyleSheet.create({
         height:cfn.deviceHeight(),
         width:cfn.deviceWidth(),
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
     },
     webView: {
         flex:1,

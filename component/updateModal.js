@@ -234,7 +234,7 @@ export default class updateModal extends PureComponent {
                 visible={this.props.modalVisible}
                 onRequestClose={() => {}}
             >
-                {/*<Image style={styles.bg} source={require('../imgs/update/update_bg.png')}/>*/}
+                <Image style={styles.bg} source={require('../imgs/update/update_bg.png')}/>
                 <View style={styles.container}>
                     {this.updateView[this.state.updateState]}
                 </View>
