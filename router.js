@@ -15,12 +15,16 @@ import trendPage from './views/home/trendPage'
 import articleListPage from './views/home/articleListPage'
 import articleDetailPage from './views/home/articleDetailPage'
 import kaijiangDetailPage from './views/home/kaijiangDetailPage'
+import historyPage from './views/home/historyPage'
 const routers = StackNavigator({
     launch: {screen: launchPage},
     // 欢迎页 引导页
     Welcome: {screen: welcomePage},
     Main:{screen: MainPage, navigationOptions: { header:null,}},
     Home: {screen: HomePage,navigationOptions: { header:null,}},
+
+    // 福彩历史开奖记录
+    history: {screen: historyPage, navigationOptions: { header:null,}},
 
     // 单个彩种开奖列表
     lotteryDetail: {screen: LotteryDetailPage,navigationOptions: { header:null,}},

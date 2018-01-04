@@ -46,7 +46,6 @@ export default class tipsDetailPage extends Component {
     static defaultProps = {};
 
     componentDidMount() {
-        // onBackAndroid.bindHardwareBackPress();
         if(this.isDownloadUrl) {
             let url = {};
             url.url = this.url;
@@ -76,7 +75,7 @@ export default class tipsDetailPage extends Component {
         if(url.match(/\.apk/)){
             if(this.isPressDownload) return;
             this.isPressDownload = true;
-            console.log(url);
+            //console.log(url);
             this.setState({
                 visible:true,
             },()=>this.updateStart(url));
@@ -122,7 +121,13 @@ export default class tipsDetailPage extends Component {
                         url.url = this.url;
                         this.onNavigationStateChange(url);
                     }}>
-                        <Image style={[styles.container,{resizeMode:'stretch'}]} source={require('../imgs/update/update_bg.png')}/>
+                        <Image style={styles.img} source={require('../imgs/update/update_bg.png')}/>
+                        <View style={{position:'absolute',width:cfn.picWidth(250),borderRadius:10,alignSelf:'center',
+                            height:cfn.picHeight(100),backgroundColor:'rgba(0,0,255,0.5)',alignItems:'center',
+                            justifyContent:'center',bottom:cfn.deviceHeight()/3}}>
+                            <Text style={{fontSize:20,color:'#fff'}}>点击下载</Text>
+                        </View>
+
                     </TouchableOpacity>
                      :
                     <WebView
@@ -139,7 +144,7 @@ export default class tipsDetailPage extends Component {
                     modalVisible={this.state.visible}
                     updateEnd={this.updateEnd.bind(this)}
                 />
-                <StatusBar translucent= {true} backgroundColor={'transparent'} barStyle={'light-content'}/>
+                <StatusBar translucent= {false} backgroundColor={'#000'} barStyle={'light-content'}/>
 
             </View>
         )
@@ -148,10 +153,14 @@ export default class tipsDetailPage extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        height:cfn.deviceHeight(),
-        width:cfn.deviceWidth(),
+        flex:1,
         alignItems:'center',
         justifyContent:'center',
+    },
+    img: {
+        width:cfn.deviceWidth(),
+        height:cfn.deviceHeight(),
+        resizeMode:'stretch'
     },
     webView: {
         flex:1,

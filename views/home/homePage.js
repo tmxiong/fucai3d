@@ -285,6 +285,8 @@ export default class wanfaPage extends Component {
                 <NavBar
                     middleText="首页"
                     leftIcon={null}
+                    rightText="玩法说明"
+                    rightFn={()=>this.goToPage('lotteryIntroduce',{jieshao:'x3d',title:'玩法说明'})}
                 />
                 <ScrollView style={{width:cfn.deviceWidth()}}>
                     <BannerZoom
@@ -408,12 +410,8 @@ const menuData = [
         title:'历史开奖',
         sub_title: '历史开奖记录查看',
         bg_color: '#01cad4',
-        pageName: 'lotteryDetail',
-        params:{id:'fc3d',
-            icon:require('../../imgs/lotteryIcons/fc3d.png'),
-            jieshao:'x3d',
-            title: '福彩3D'
-        }
+        pageName: 'history',
+        params:{}
     },
     {
         icon: require('../../imgs/home/gonglue_icon.png'),
@@ -508,7 +506,7 @@ const styles = StyleSheet.create({
 
     tools_content: {
         width:(cfn.deviceWidth()-cfn.picWidth(40+40+20)) /2,
-        height:100,
+        height:80,
         backgroundColor:'#f44',
         borderRadius:5,
         marginTop:cfn.picHeight(20),

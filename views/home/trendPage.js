@@ -89,22 +89,22 @@ export default class articleDetailPage extends Component {
                 />
                 <View style={styles.btnContainer}>
                     <TouchableOpacity
-                        style={[styles.btn,{backgroundColor:this.state.btnColor[0]}]}
+                        style={[styles.btn,{borderBottomColor:this.state.btnColor[0]}]}
                         onPress={()=>this.pressBtn(0)}
                         activeOpacity={0.8}>
-                        <Text style={{color:this.state.btnColor[0] == config.baseColor ? '#fff' : '#444'}}>百位</Text>
+                        <Text style={{color:this.state.btnColor[0] == config.baseColor ? config.baseColor : '#444'}}>百位</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.btn,{backgroundColor:this.state.btnColor[1]}]}
+                        style={[styles.btn,{borderBottomColor:this.state.btnColor[1]}]}
                         onPress={()=>this.pressBtn(1)}
                         activeOpacity={0.8}>
-                        <Text style={{color:this.state.btnColor[1] == config.baseColor ? '#fff' : '#444'}}>十位</Text>
+                        <Text style={{color:this.state.btnColor[1] == config.baseColor ? config.baseColor : '#444'}}>十位</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.btn,{backgroundColor:this.state.btnColor[2]}]}
+                        style={[styles.btn,{borderBottomColor:this.state.btnColor[2]}]}
                         onPress={()=>this.pressBtn(2)}
                         activeOpacity={0.8}>
-                        <Text style={{color:this.state.btnColor[2] == config.baseColor ? '#fff' : '#444'}}>个位</Text>
+                        <Text style={{color:this.state.btnColor[2] == config.baseColor ? config.baseColor : '#444'}}>个位</Text>
                     </TouchableOpacity>
                 </View>
                 <ScrollView
@@ -153,11 +153,11 @@ const styles = StyleSheet.create({
 
     },
     btn: {
-        width:(cfn.deviceWidth()-cfn.picWidth(80))/3,
+        width:cfn.deviceWidth()/3,
         height:cfn.picHeight(60),
-        borderRadius:cfn.picHeight(20),
+        borderBottomWidth:3,
+        borderBottomColor:'#fff',
         backgroundColor:'#fff',
-        marginLeft:cfn.picWidth(20),
         alignItems:'center',
         justifyContent:'center'
     },
