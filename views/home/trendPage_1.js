@@ -10,7 +10,10 @@ import {
     Image,
     WebView,
     ScrollView,
-    FlatList
+    FlatList,
+    RefreshControl,
+    Alert,
+    TouchableOpacity
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 
@@ -31,6 +34,7 @@ export default class articleDetailPage extends PureComponent {
 
         this.state={
             data:[],
+            isError:false,
         }
     }
     static defaultProps = {
@@ -41,11 +45,23 @@ export default class articleDetailPage extends PureComponent {
     componentWillReceiveProps(props) {
         //console.log(props.data);
         //return;
-        if(this.state.data.length != 0) return;
-        let data = this.formatData(props.data,props.weiIndex);
-        this.setState({
-            data:data,
-        })
+        try{
+            if(props.isError) {
+                this.setState({
+                    isError:true,
+                });
+                return;
+            }
+            else if(this.state.data.length != 0) return;
+            let data = this.formatData(props.data,props.weiIndex);
+            this.setState({
+                data:data,
+                isRefreshing:false,
+            })
+        }catch (e) {
+
+        }
+
 
     }
 
@@ -58,15 +74,20 @@ export default class articleDetailPage extends PureComponent {
     }
 
     formatData(data,weishu) {
-        data = data.data.sub;
-        // 百位2  十位3  个位4
-        let newData = data[weishu].data;
-        for(let i = 0; i < newData.length; i++) {
-            // 开奖号
-            newData[i].unshift(data[1].data[i][0]);
-            // 期号
-            newData[i].unshift(data[0].data[i][0]);
+        try{
+            data = data.data.sub;
+            // 百位2  十位3  个位4
+            var newData = data[weishu].data;
+            for(let i = 0; i < newData.length; i++) {
+                // 开奖号
+                newData[i].unshift(data[1].data[i][0]);
+                // 期号
+                newData[i].unshift(data[0].data[i][0]);
+            }
+        }catch (e) {
+
         }
+
         return newData;
 
     }
@@ -105,6 +126,15 @@ export default class articleDetailPage extends PureComponent {
 
     _keyExtractor=(item,index)=>index;
 
+    reload() {
+        if(!this.state.isError) return;
+        this.props.reload();
+
+        this.setState({
+            isError:false,
+        })
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -137,7 +167,14 @@ export default class articleDetailPage extends PureComponent {
                     data={this.state.data}
                     renderItem={this.renderItem.bind(this)}
                     keyExtractor={this._keyExtractor}
-                    ListEmptyComponent={<Text>数据加载中</Text>}
+                    ListEmptyComponent={
+                        <TouchableOpacity
+                            style={{marginTop:cfn.picHeight(50)}}
+                            activeOpacity={0.8} onPress={()=>this.reload()}>
+                            <Text>{this.state.isError ? "加载错误，点击重试" : "数据加载中..."}</Text>
+                        </TouchableOpacity>
+
+                    }
 
                 />
                 {/*<View style={{height:cfn.picHeight(100),width:1}}/>*/}

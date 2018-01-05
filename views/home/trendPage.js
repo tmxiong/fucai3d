@@ -32,6 +32,7 @@ export default class articleDetailPage extends Component {
 
         this.state={
             data:[],
+            isError:false,
             btnColor:[config.baseColor,'#fff','#fff']
         }
     }
@@ -48,15 +49,31 @@ export default class articleDetailPage extends Component {
     }
 
     getData() {
+        //console.log(urls.getTrend());
         fetchp(urls.getTrend(),{timeout:5*1000})
             .then((res)=>res.json())
-            .then((data)=>this.setData(data));
+            .then((data)=>this.setData(data))
+            .catch((err)=>this.setError(err))
     }
 
     setData(data) {
 
         this.setState({
             data: data,
+            isError:false,
+        })
+    }
+
+    reload() {
+        // this.setState({
+        //     isError:false,
+        // });
+        this.getData();
+    }
+
+    setError(err) {
+        this.setState({
+            isError: true
         })
     }
 
@@ -120,12 +137,16 @@ export default class articleDetailPage extends Component {
                         weiIndex={2}
                         weishu={'百位'}
                         bgColor="#c2eeff"
+                        reload={this.reload.bind(this)}
+                        isError={this.state.isError}
                     />
                     <TrendPage_1
                         data={this.state.data}
                         weiIndex={3}
                         weishu={'十位'}
                         bgColor="#c2fffa"
+                        reload={this.reload.bind(this)}
+                        isError={this.state.isError}
                     />
 
                     <TrendPage_1
@@ -133,6 +154,8 @@ export default class articleDetailPage extends Component {
                         weiIndex={4}
                         weishu={'个位'}
                         bgColor="#ffeec2"
+                        reload={this.reload.bind(this)}
+                        isError={this.state.isError}
                     />
                 </ScrollView>
 

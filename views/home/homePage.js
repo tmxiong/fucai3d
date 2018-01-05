@@ -10,6 +10,8 @@ import {
     ScrollView,
     SectionList,
     StatusBar,
+    RefreshControl,
+    Alert
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import cfn from '../../tools/commonFun'
@@ -31,6 +33,7 @@ export default class wanfaPage extends Component {
         super(props);
         this.state = {
             allFCData:null,
+            isRefreshing:true,
             FCData:{
                 lotDate:[1,1],
                 sjh:[[1,1,1],[2,2,2]],
@@ -43,11 +46,22 @@ export default class wanfaPage extends Component {
 
     componentDidMount() {
         SplashScreen.hide();
+        this.initData();
+        //this.carType('get');
+
+    }
+
+    initData() {
         this.getFCData();
         this.getGLData();
         this.getYuce();
-        //this.carType('get');
+    }
 
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        });
+        this.initData();
     }
 
     // 福彩开奖号码
@@ -75,14 +89,21 @@ export default class wanfaPage extends Component {
         fetchp(urls.getPlayTips('fc',15),{timeout:5*1000})
             .then((res)=>res.text())
             .then((data)=>this.setGLData(data))
+            .catch((err)=>{
+                this.setState({
+                    isRefreshing:false,
+                })
+                Alert.alert('错误',"加载错误，下拉刷新重试！")
+            })
     }
     setGLData(data) {
         data = data.substring(7,data.length-1);
         data = JSON.parse(data);
         this.setState({
-            GLData:data.data.dataConfig.data
+            GLData:data.data.dataConfig.data,
+            isRefreshing:false,
         })
-        console.log(data)
+        //console.log(data)
     }
 
     getYuce() {
@@ -288,7 +309,19 @@ export default class wanfaPage extends Component {
                     rightText="玩法说明"
                     rightFn={()=>this.goToPage('lotteryIntroduce',{jieshao:'x3d',title:'玩法说明'})}
                 />
-                <ScrollView style={{width:cfn.deviceWidth()}}>
+                <ScrollView style={{width:cfn.deviceWidth()}}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.isRefreshing}
+                                    onRefresh={this._onRefresh.bind(this)}
+                                    tintColor="#ff0000"
+                                    title="Loading..."
+                                    titleColor="#00ff00"
+                                    colors={['#ff0000', '#00ff00', '#0000ff']}
+                                    progressBackgroundColor="#fff"
+                                />
+                            }
+                >
                     <BannerZoom
                         ref={(ref)=>this._bannerZoom = ref}
                         bannerData={this.bannerZoomView()}
