@@ -9,8 +9,9 @@ import {
 import {TabNavigator} from "react-navigation";
 
 import HomePage from './home/homePage';
-import LotteryPage from './lottery/lotteryPage';
+import LotteryPage from './home/lotteryPage';
 import MorePage from './more/morePage';
+import TrendPageMenu from './trend/trendMenuPage'
 import cfn from '../tools/commonFun'
 const navBar = {
     headerTitleStyle: {
@@ -39,10 +40,10 @@ const mainPage = TabNavigator({
     },
 
     Lottery: {
-        screen: LotteryPage,
+        screen: TrendPageMenu,
         navigationOptions: {
 
-            tabBarLabel: '开奖大厅',
+            tabBarLabel: '走势图',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/toutiao_icon.png')}

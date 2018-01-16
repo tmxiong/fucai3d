@@ -14,9 +14,9 @@ import {
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 
-import HomePage from './../home/homePage';
-import LotteryPage from './../lottery/lotteryPage';
-import MorePage from './../more/morePage';
+import HomePage from '../home/homePage';
+import LotteryPage from '../home/lotteryPage';
+import MorePage from '../more/morePage';
 import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar'
 import TrendPage_1 from './trendPage_1'
@@ -83,7 +83,7 @@ export default class articleDetailPage extends Component {
         this.setState({
             btnColor: temp,
         },()=>{
-            this._scrollView.scrollTo({x:cfn.deviceWidth()*index},true);
+            this._scrollView.scrollTo({x:cfn.deviceWidth()*index},false);
         })
     }
     _onScroll(event) {
@@ -131,12 +131,14 @@ export default class articleDetailPage extends Component {
                     pagingEnabled={true}
                     showsHorizontalScrollIndicator={false}
                     onScrollEndDrag={()=>this._onScrollEndDrag()}
+
                 >
                     <TrendPage_1
                         data={this.state.data}
                         weiIndex={2}
                         weishu={'百位'}
-                        bgColor="#c2eeff"
+                        bgColor="#e5e5e5"
+                        codeColor="#8ab2ce"
                         reload={this.reload.bind(this)}
                         isError={this.state.isError}
                     />
@@ -144,7 +146,8 @@ export default class articleDetailPage extends Component {
                         data={this.state.data}
                         weiIndex={3}
                         weishu={'十位'}
-                        bgColor="#c2fffa"
+                        bgColor="#e5e5e5"
+                        codeColor="#ce8ac0"
                         reload={this.reload.bind(this)}
                         isError={this.state.isError}
                     />
@@ -153,7 +156,8 @@ export default class articleDetailPage extends Component {
                         data={this.state.data}
                         weiIndex={4}
                         weishu={'个位'}
-                        bgColor="#ffeec2"
+                        bgColor="#e5e5e5"
+                        codeColor="#ceb08a"
                         reload={this.reload.bind(this)}
                         isError={this.state.isError}
                     />
@@ -173,11 +177,10 @@ const styles = StyleSheet.create({
         height:cfn.picHeight(80),
         flexDirection:'row',
         alignItems:'center',
-
     },
     btn: {
         width:cfn.deviceWidth()/3,
-        height:cfn.picHeight(60),
+        height:cfn.picHeight(80),
         borderBottomWidth:3,
         borderBottomColor:'#fff',
         backgroundColor:'#fff',

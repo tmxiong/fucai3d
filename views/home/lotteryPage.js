@@ -180,7 +180,6 @@ export default class articleDetailPage extends Component {
                 <NavBar
                     middleText='开奖大厅'
                     leftFn={()=>this.goBack()}
-                    leftIcon={null}
                 />
 
                 {this.state.data.length == 0 ?
@@ -206,7 +205,6 @@ export default class articleDetailPage extends Component {
                                 progressBackgroundColor="#fff"
                             />}
                     />}
-                <View style={{height:cfn.picHeight(100)}}/>
             </View>)
     }
 }
@@ -223,6 +221,7 @@ const styles = StyleSheet.create({
         width: cfn.deviceWidth(),
         zIndex:2,
         backgroundColor:'#fff',
+        flex:1
     },
     item_container: {
         width:cfn.deviceWidth()-cfn.picWidth(40) ,

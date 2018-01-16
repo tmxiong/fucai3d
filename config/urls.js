@@ -49,6 +49,11 @@ exports.getTrend = function () {
     return 'https://api.icaipiao123.com/api/v6/lottery/trendgroup?lotteryKey=fucai3d&trendGroup=fucai3d-base&amount=30'
 };
 
+// 福彩3D所有走势图
+exports.getAllTrend = function (page) {
+    return 'http://www.zjt-cp.com/lot/getDataAnalysis.action?param=%7b%22type%22:%22byQiShu%22,%22productName%22:%22Magic3_Fc3D%22,%22clientId%22:%22suma-tech.pc.zjt%22,%22rowNumber%22:50%7d'
+};
+
 // 单期开奖详情
 exports.getKaijiang = function () {
     return 'http://www.zjt-cp.com/lot/getLotLevel.action?param=%7b%22clientId%22:%22suma-tech.pc.zjt%22,%22lotteryCategory%22:%22Magic3_Fc3D%22%7d'

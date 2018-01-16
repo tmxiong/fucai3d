@@ -17,9 +17,9 @@ import {
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 
-import HomePage from './../home/homePage';
-import LotteryPage from './../lottery/lotteryPage';
-import MorePage from './../more/morePage';
+import HomePage from '../home/homePage';
+import LotteryPage from '../home/lotteryPage';
+import MorePage from '../more/morePage';
 import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar'
 // import TrendTab from './trendTab'
@@ -62,7 +62,6 @@ export default class articleDetailPage extends PureComponent {
 
         }
 
-
     }
 
     componentDidMount() {
@@ -97,7 +96,16 @@ export default class articleDetailPage extends PureComponent {
         for(let i = 0; i < 10; i++) {
             let codeStyle = {};
             if(item[i+2][1] == 1) {
-                codeStyle = styles.codeStyle;
+                codeStyle = {
+                    width:cfn.deviceWidth()/16 - 3,
+                    height:cfn.deviceWidth()/16 - 3,
+                    backgroundColor:this.props.codeColor,
+                    color:'#fff',
+                    borderRadius:cfn.deviceWidth()/32 - 1.5,
+                    textAlign:'center',
+                    lineHeight:17
+                };
+                //codeStyle.backgroundColor = this.props.codeColor;
             }
             codes.push(
                 <View key={'k'+i} style={styles.weishu}><Text style={[styles.weishuText,codeStyle]}>{item[i+2][0]}</Text></View>
@@ -246,7 +254,7 @@ const styles = StyleSheet.create({
     codeStyle: {
         width:cfn.deviceWidth()/16 - 3,
         height:cfn.deviceWidth()/16 - 3,
-        backgroundColor:'#f00',
+        backgroundColor:'#8ab2ce',
         color:'#fff',
         borderRadius:cfn.deviceWidth()/32 - 1.5,
         textAlign:'center',

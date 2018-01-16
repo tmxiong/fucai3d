@@ -12,11 +12,11 @@ import {
 import {TabNavigator} from "react-navigation";
 
 import HomePage from './../home/homePage';
-import LotteryPage from './../lottery/lotteryPage';
+import LotteryPage from './lotteryPage';
 import MorePage from './../more/morePage';
 import cfn from '../../tools/commonFun'
 import NavBar from '../../component/NavBar'
-import TrendPage_1 from './trendPage_1'
+import TrendPage_1 from '../trend/trendPage_1'
 import {TabView} from "react-navigation";
 import urls from '../../config/urls';
 import fetchp from '../../tools/fetch-polyfill'

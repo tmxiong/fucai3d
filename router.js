@@ -7,11 +7,13 @@ import launchPage from './views/launchPage'
 import CPWebViewPage from './views/CPWebViewPage';
 import HomePage from './views/home/homePage'
 import MainPage from './views/mainPage'
-import LotteryDetailPage from './views/lottery/lotteryDetailPage'
-import LotteryIntroducePage from './views/lottery/lotteryIntroducePage'
+import lotteryPage from './views/home/lotteryPage'
+import LotteryDetailPage from './views/home/lotteryDetailPage'
+import LotteryIntroducePage from './views/home/lotteryIntroducePage'
 import allToolsPage from './views/home/allToolsPage'
 import bonusCalculatePage from './views/home/bonusCalculatePage'
-import trendPage from './views/home/trendPage'
+import trendPage from './views/trend/trendPage'
+import daxiaoPage from './views/trend/daxiaoPage'
 import articleListPage from './views/home/articleListPage'
 import articleDetailPage from './views/home/articleDetailPage'
 import kaijiangDetailPage from './views/home/kaijiangDetailPage'
@@ -26,6 +28,8 @@ const routers = StackNavigator({
     // 福彩历史开奖记录
     history: {screen: historyPage, navigationOptions: { header:null,}},
 
+    //所有彩种列表
+    lottery: {screen: lotteryPage, navigationOptions: { header:null,}},
     // 单个彩种开奖列表
     lotteryDetail: {screen: LotteryDetailPage,navigationOptions: { header:null,}},
     // 玩法介绍
@@ -36,6 +40,7 @@ const routers = StackNavigator({
     allTools: {screen: allToolsPage,navigationOptions: { header:null,}},
     // 3D走势图
     trend: {screen: trendPage,navigationOptions: { header:null,}},
+    daxiao: {screen: daxiaoPage, navigationOptions: { header:null,}},
 
     // 福彩推荐/彩市新闻列表
     ArticleList: {screen: articleListPage, navigationOptions: { header:null,}},
