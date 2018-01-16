@@ -69,6 +69,34 @@ export default class trendMenuPage extends Component{
                             </View>
                         </View>
                     </View>
+
+                    <View style={[styles.itemContainer,{height:cfn.picHeight(80)}]}>
+                        <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*2}]}>
+                            <Text>234</Text>
+                        </View>
+                        <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*3}]}>
+                            <Text>345</Text>
+                        </View>
+                        <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*4}]}>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>0:3</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>0:3</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>0:3</Text></View>
+                            <View style={[styles.itemCell_s,{borderRightWidth:0}]}><Text style={styles.text_s}>0:3</Text></View>
+                        </View>
+                        <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*3}]}>
+                            <Text>大小大</Text>
+                        </View>
+                        <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*8}]}>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>小</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>小</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>小</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>大</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>小</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>大</Text></View>
+                            <View style={styles.itemCell_s}><Text style={styles.text_s}>大</Text></View>
+                            <View style={[styles.itemCell_s,{borderRightWidth:0}]}><Text style={styles.text_s}>大</Text></View>
+                        </View>
+                    </View>
                 </View>
 
             </View>
@@ -87,7 +115,9 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         alignItems:'center',
         justifyContent:'center',
-        flexDirection:'row'
+        flexDirection:'row',
+        borderBottomColor:'#eee',
+        borderBottomWidth:1
     },
     itemCell: {
         borderRightWidth:1,
@@ -115,6 +145,15 @@ const styles = StyleSheet.create({
     text_s: {
         fontSize:12,
         textAlign:'center'
-    }
+    },
+    itemCell_row: {
+        borderRightWidth:1,
+        borderRightColor:'#eee',
+        backgroundColor:'#fff',
+        height:cfn.picHeight(80),
+        alignItems:'center',
+        justifyContent:'center',
+        flexDirection:'row'
+    },
 
 });
