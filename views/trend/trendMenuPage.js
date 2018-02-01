@@ -81,6 +81,10 @@ export default class trendMenuPage extends Component{
         )
     }
 
+    _reload() {
+
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -134,15 +138,16 @@ export default class trendMenuPage extends Component{
                         offset: cfn.picHeight(160) * index,
                         index
                     } )}
+                    ListEmptyComponent={
+                        <TouchableOpacity activeOpacity={0.8} onPress={()=>this._reload()} style={{marginTop:cfn.picHeight(30)}}>
+                            <Text>{this.state.error ? "加载失败,请检查网络" : '正在加载...'}</Text>
+                        </TouchableOpacity>
+                    }
+
 
                     //onEndReached={this._onEndReached.bind(this)}
                     //onEndReachedThreshold={0.8}
                 />
-                {this.state.isLoading ? <Loading
-                    isLoading={this.state.isLoading}
-                    isError={this.state.isError}
-                    reload={this.getData.bind(this)}
-                /> : null}
 
             </View>
         )

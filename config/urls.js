@@ -45,8 +45,8 @@ exports.getJieshao = function (type) {
 };
 
 // 福彩3D开奖走势
-exports.getTrend = function () {
-    return 'https://api.icaipiao123.com/api/v6/lottery/trendgroup?lotteryKey=fucai3d&trendGroup=fucai3d-base&amount=30'
+exports.getTrend = function (page) {
+    return 'https://api.icaipiao123.com/api/v6/lottery/trendgroup?lotteryKey=fucai3d&trendGroup=fucai3d-base&amount='+page
 };
 
 // 福彩3D所有走势图

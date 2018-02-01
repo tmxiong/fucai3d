@@ -211,6 +211,7 @@ export default class trendMenuPage extends Component{
                         data={this.state.data}
                         renderItem={this._renderItem.bind(this)}
                         keyExtractor={this._keyExtractor}
+                        legacyImplementation={true}
                         ListEmptyComponent={
                             <TouchableOpacity
                                 style={{marginTop:cfn.picHeight(50)}}

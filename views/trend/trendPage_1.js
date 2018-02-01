@@ -35,6 +35,7 @@ export default class articleDetailPage extends PureComponent {
         this.state={
             data:[],
             isError:false,
+            rawData:[]
         }
     }
     static defaultProps = {
@@ -52,11 +53,12 @@ export default class articleDetailPage extends PureComponent {
                 });
                 return;
             }
-            else if(this.state.data.length != 0) return;
+            else if(this.state.rawData === props.data) return;
             let data = this.formatData(props.data,props.weiIndex);
             this.setState({
                 data:data,
                 isRefreshing:false,
+                rawData:props.data
             })
         }catch (e) {
 
@@ -175,6 +177,7 @@ export default class articleDetailPage extends PureComponent {
                     data={this.state.data}
                     renderItem={this.renderItem.bind(this)}
                     keyExtractor={this._keyExtractor}
+                    legacyImplementation={true}
                     ListEmptyComponent={
                         <TouchableOpacity
                             style={{marginTop:cfn.picHeight(50)}}
@@ -185,7 +188,6 @@ export default class articleDetailPage extends PureComponent {
                     }
 
                 />
-                {/*<View style={{height:cfn.picHeight(100),width:1}}/>*/}
 
             </View>)
     }

@@ -24,6 +24,9 @@ import {TabView} from "react-navigation";
 import urls from '../../config/urls';
 import fetchp from '../../tools/fetch-polyfill'
 import config from '../../config/config'
+import GsbBtn from '../../component/gsbBtn'
+import QishuModal from '../../component/qishuModal'
+import Spinner from 'react-native-loading-spinner-overlay';
 export default class articleDetailPage extends Component {
     static navigationOptions = {header: null};
 
@@ -33,8 +36,11 @@ export default class articleDetailPage extends Component {
         this.state={
             data:[],
             isError:false,
-            btnColor:[config.baseColor,'#fff','#fff']
-        }
+            btnColor:[config.baseColor,'#fff','#fff'],
+            qiShu:30,
+            isLoading:true,
+        };
+        this.visible = false;
     }
     static defaultProps = {
 
@@ -50,7 +56,7 @@ export default class articleDetailPage extends Component {
 
     getData() {
         //console.log(urls.getTrend());
-        fetchp(urls.getTrend(),{timeout:5*1000})
+        fetchp(urls.getTrend(this.state.qiShu),{timeout:5*1000})
             .then((res)=>res.json())
             .then((data)=>this.setData(data))
             .catch((err)=>this.setError(err))
@@ -61,7 +67,12 @@ export default class articleDetailPage extends Component {
         this.setState({
             data: data,
             isError:false,
-        })
+        });
+        setTimeout(()=>{
+            this.setState({
+                isLoading:false,
+            })
+        },300)
     }
 
     reload() {
@@ -73,27 +84,44 @@ export default class articleDetailPage extends Component {
 
     setError(err) {
         this.setState({
-            isError: true
+            isError: true,
+            isLoading:false,
         })
     }
 
-    pressBtn(index) {
-        let temp = ['#fff', '#fff', '#fff'];
-        temp[index] = config.baseColor;
-        this.setState({
-            btnColor: temp,
-        },()=>{
-            this._scrollView.scrollTo({x:cfn.deviceWidth()*index},false);
-        })
+    setQishu() {
+        if(this.visible) {
+            this._qishuModal._closeModal();
+        }else {
+            this._qishuModal._showModal();
+        }
     }
+
+    _onClose(qishu) {
+        this.visible = false;
+        if(qishu) {
+            this.setState({
+                qiShu:qishu,
+                isLoading:true,
+            });
+            setTimeout(()=>{
+                this.getData()
+            },700)
+        }
+    }
+
     _onScroll(event) {
         let offsetX = event.nativeEvent.contentOffset.x;
         this.nextPage = Math.round(offsetX / cfn.deviceWidth());
         //this.nextPagePixel = offsetX / cfn.deviceWidth();
 
     }
-    _onScrollEndDrag() {
-        this.pressBtn(this.nextPage)
+    _scrollTo(x,animated) {
+        this._scrollView.scrollTo({x:x, animated: animated});
+    }
+    _onMomentumScrollEnd() {
+        //this.pressBtn(this.nextPage)
+        this._gsbBtn.pressBtn(this.nextPage);
     }
 
 
@@ -103,34 +131,41 @@ export default class articleDetailPage extends Component {
                 <NavBar
                     middleText='3D走势图'
                     leftFn={()=>this.goBack()}
+                    rightText={this.state.qiShu + "期"}
+                    rightFn={()=>this.setQishu()}
                 />
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity
-                        style={[styles.btn,{borderBottomColor:this.state.btnColor[0]}]}
-                        onPress={()=>this.pressBtn(0)}
-                        activeOpacity={0.8}>
-                        <Text style={{color:this.state.btnColor[0] == config.baseColor ? config.baseColor : '#444'}}>百位</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.btn,{borderBottomColor:this.state.btnColor[1]}]}
-                        onPress={()=>this.pressBtn(1)}
-                        activeOpacity={0.8}>
-                        <Text style={{color:this.state.btnColor[1] == config.baseColor ? config.baseColor : '#444'}}>十位</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.btn,{borderBottomColor:this.state.btnColor[2]}]}
-                        onPress={()=>this.pressBtn(2)}
-                        activeOpacity={0.8}>
-                        <Text style={{color:this.state.btnColor[2] == config.baseColor ? config.baseColor : '#444'}}>个位</Text>
-                    </TouchableOpacity>
-                </View>
+                {/*<View style={styles.btnContainer}>*/}
+                    {/*<TouchableOpacity*/}
+                        {/*style={[styles.btn,{borderBottomColor:this.state.btnColor[0]}]}*/}
+                        {/*onPress={()=>this.pressBtn(0)}*/}
+                        {/*activeOpacity={0.8}>*/}
+                        {/*<Text style={{color:this.state.btnColor[0] == config.baseColor ? config.baseColor : '#444'}}>百位</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<TouchableOpacity*/}
+                        {/*style={[styles.btn,{borderBottomColor:this.state.btnColor[1]}]}*/}
+                        {/*onPress={()=>this.pressBtn(1)}*/}
+                        {/*activeOpacity={0.8}>*/}
+                        {/*<Text style={{color:this.state.btnColor[1] == config.baseColor ? config.baseColor : '#444'}}>十位</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<TouchableOpacity*/}
+                        {/*style={[styles.btn,{borderBottomColor:this.state.btnColor[2]}]}*/}
+                        {/*onPress={()=>this.pressBtn(2)}*/}
+                        {/*activeOpacity={0.8}>*/}
+                        {/*<Text style={{color:this.state.btnColor[2] == config.baseColor ? config.baseColor : '#444'}}>个位</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                {/*</View>*/}
+                <GsbBtn
+                    ref={(ref)=>this._gsbBtn = ref}
+                    scrollTo={this._scrollTo.bind(this)}
+                />
                 <ScrollView
                     ref={(ref)=>this._scrollView = ref}
                     onScroll={(e)=>this._onScroll(e)}
                     horizontal={true}
                     pagingEnabled={true}
                     showsHorizontalScrollIndicator={false}
-                    onScrollEndDrag={()=>this._onScrollEndDrag()}
+                    //onScrollEndDrag={()=>this._onScrollEndDrag()}
+                    onMomentumScrollEnd={()=>this._onMomentumScrollEnd()}
 
                 >
                     <TrendPage_1
@@ -162,7 +197,15 @@ export default class articleDetailPage extends Component {
                         isError={this.state.isError}
                     />
                 </ScrollView>
-
+                <QishuModal
+                    ref={(ref)=>this._qishuModal = ref}
+                    onClose={(qishu)=>this._onClose(qishu)}
+                />
+                <Spinner visible={this.state.isLoading}
+                         textContent={"正在加载..."}
+                         overlayColor="rgba(0,0,0,0.5)"
+                         color="rgb(217,29,54)"
+                         textStyle={{color: 'rgb(217,29,54)',fontSize:12}} />
             </View>)
     }
 }
