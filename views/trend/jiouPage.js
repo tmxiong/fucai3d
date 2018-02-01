@@ -76,17 +76,17 @@ export default class trendMenuPage extends Component{
         // 大小
         let daxiao = [];
         for(let i = 0; i < code.length;i++){
-            if(code[i] > 4) {
+            if(code[i] % 2 == 0) {
                 da ++;
-                daxiao.push('大');
+                daxiao.push('偶');
             } else {
                 xiao ++;
-                daxiao.push('小')
+                daxiao.push('奇')
             }
         }
-        daxiaobi[da] = da + ':' + xiao;
+        daxiaobi[da] = xiao + ':' + da;
         // 大小分布
-        let daxiaofenbu = ['小小小','小小大', '小大小', '大小小', '小大大', '大小大', '大大小', '大大大'];
+        let daxiaofenbu = ['偶偶偶','偶偶奇', '偶奇偶', '奇偶偶', '偶奇奇', '奇偶奇', '奇奇偶', '奇奇奇'];
         let daxiaofenbu_1 = ['','','','','','','',''];
         for(let i = 0 ; i < daxiaofenbu.length; i++) {
             if(daxiaofenbu[i] == daxiao.join('')) {
@@ -109,9 +109,9 @@ export default class trendMenuPage extends Component{
                     <View style={[styles.itemCell_s,{borderRightWidth:0,backgroundColor:daxiaobi[3]==''?'#fff':'#f00'}]}><Text style={styles.text_s}>{daxiaobi[3]}</Text></View>
                 </View>
                 <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*3}]}>
-                    <Text style={{fontSize:12,color:daxiao[0] === '大'? '#000': '#aaa'}}>{daxiao[0]}</Text>
-                    <Text style={{fontSize:12,color:daxiao[1] === '大'? '#000': '#aaa'}}>{daxiao[1]}</Text>
-                    <Text style={{fontSize:12,color:daxiao[2] === '大'? '#000': '#aaa'}}>{daxiao[2]}</Text>
+                    <Text style={{fontSize:12,color:daxiao[0] === '奇'? '#000': '#aaa'}}>{daxiao[0]}</Text>
+                    <Text style={{fontSize:12,color:daxiao[1] === '奇'? '#000': '#aaa'}}>{daxiao[1]}</Text>
+                    <Text style={{fontSize:12,color:daxiao[2] === '奇'? '#000': '#aaa'}}>{daxiao[2]}</Text>
                 </View>
                 <View style={[styles.itemCell_row,{width:cfn.deviceWidth()/20*8}]}>
                     <View style={[styles.itemCell_s,{backgroundColor:daxiaofenbu_1[0]==''?'#fff':'#0d0'}]}><Text style={styles.text_s}>{daxiaofenbu_1[0]}</Text></View>
@@ -133,6 +133,8 @@ export default class trendMenuPage extends Component{
                 isError:false,
             },()=>this.getData());
         }
+
+
     }
 
     setQishu() {
@@ -160,7 +162,7 @@ export default class trendMenuPage extends Component{
         return (
             <View style={styles.container}>
                 <NavBar
-                    middleText='大小走势'
+                    middleText='奇偶比'
                     leftFn={()=>this.goBack()}
                     rightText={this.state.qiShu + "期"}
                     rightFn={()=>this.setQishu()}
@@ -175,7 +177,7 @@ export default class trendMenuPage extends Component{
                         </View>
                         <View style={styles.itemCell}>
                             <View style={styles.itemCell_h}>
-                                <Text style={styles.text_title}>大小比</Text>
+                                <Text style={styles.text_title}>奇偶比</Text>
                             </View>
                             <View style={{flexDirection:'row'}}>
                                 <View style={styles.itemCell_s}><Text style={styles.text_title}>0:3</Text></View>
@@ -186,21 +188,21 @@ export default class trendMenuPage extends Component{
 
                         </View>
                         <View style={[styles.itemCell,{width:cfn.deviceWidth()/20*3}]}>
-                            <Text style={styles.text_title}>大小</Text>
+                            <Text style={styles.text_title}>奇偶</Text>
                         </View>
                         <View style={[styles.itemCell,{width:cfn.deviceWidth()/20*8}]}>
                             <View style={[styles.itemCell_h,{width:cfn.deviceWidth()/20*8}]}>
-                                <Text style={styles.text_title}>大小分布</Text>
+                                <Text style={styles.text_title}>奇偶分布</Text>
                             </View>
                             <View style={{flexDirection:'row'}}>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>小小小</Text></View>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>小小大</Text></View>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>小大小</Text></View>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>大小小</Text></View>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>小大大</Text></View>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>大小大</Text></View>
-                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>大大小</Text></View>
-                                <View style={[styles.itemCell_s,{borderRightWidth:0}]}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>大大大</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>偶偶偶</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>偶偶奇</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>偶奇偶</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>奇偶偶</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>偶奇奇</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>奇偶奇</Text></View>
+                                <View style={styles.itemCell_s}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>奇奇偶</Text></View>
+                                <View style={[styles.itemCell_s,{borderRightWidth:0}]}><Text style={[styles.text_title,{height:cfn.picHeight(130)}]}>奇奇奇</Text></View>
                             </View>
                         </View>
                     </View>

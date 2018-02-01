@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         width:cfn.deviceWidth()-cfn.picWidth(40),
         height:cfn.picHeight(200),
         alignSelf:'center',
-        borderRadius:10,
+        borderRadius:5,
         marginTop:cfn.picHeight(20),
         //resizeMode:'stretch',
         flexDirection:'row',

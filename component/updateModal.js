@@ -5,7 +5,6 @@
 
 import React, {PureComponent} from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,

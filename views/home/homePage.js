@@ -11,7 +11,8 @@ import {
     SectionList,
     StatusBar,
     RefreshControl,
-    Alert
+    Alert,
+    DeviceEventEmitter
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import cfn from '../../tools/commonFun'
@@ -99,11 +100,13 @@ export default class wanfaPage extends Component {
     setGLData(data) {
         data = data.substring(7,data.length-1);
         data = JSON.parse(data);
+        data = data.data.dataConfig.data;
         this.setState({
-            GLData:data.data.dataConfig.data,
+            GLData:data,
             isRefreshing:false,
-        })
-        //console.log(data)
+        });
+        console.log(data);
+        DeviceEventEmitter.emit('yuce',data)
     }
 
     getYuce() {
@@ -115,7 +118,7 @@ export default class wanfaPage extends Component {
     setYuce(data) {
         this.setState({
             yuceData:data
-        })
+        });
     }
 
     goToPage(router,params) {
@@ -432,7 +435,7 @@ export default class wanfaPage extends Component {
 const menuData = [
     {
         icon: require('../../imgs/home/trend_icon.png'),
-        title:'3D走势图',
+        title:'综合走势图',
         sub_title: '个/十/百位走势图',
         bg_color: '#fb667a',
         pageName: 'trend',
@@ -468,6 +471,30 @@ const menuData = [
         sub_title: '中奖金额 一目了然',
         bg_color: '#0d8cac',
         pageName: 'bonusCalculate',
+        params:{}
+    },
+    {
+        icon: require('../../imgs/home/trend_icon.png'),
+        title:'大小走势',
+        sub_title: '大小比走势图',
+        bg_color: '#f48221',
+        pageName: 'daxiao',
+        params:{}
+    },
+    {
+        icon: require('../../imgs/home/trend_icon.png'),
+        title:'奇偶走势',
+        sub_title: '奇偶比走势图',
+        bg_color: '#fb667a',
+        pageName: 'daxiao',
+        params:{}
+    },
+    {
+        icon: require('../../imgs/home/trend_icon.png'),
+        title:'跨度走势',
+        sub_title: '跨度走势图',
+        bg_color: '#01cad4',
+        pageName: 'kuadu',
         params:{}
     },
 ];
@@ -519,8 +546,8 @@ const styles = StyleSheet.create({
         margin:cfn.picWidth(10)
     },
     remen_lottery_name: {
-        fontSize:15,
-        color:'#222'
+        fontSize:14,
+        color:'#555'
     },
     remen_lottery_subName: {
         fontSize:10,

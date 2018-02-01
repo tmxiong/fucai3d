@@ -43,7 +43,7 @@ const mainPage = TabNavigator({
         screen: TrendPageMenu,
         navigationOptions: {
 
-            tabBarLabel: '走势图',
+            tabBarLabel: '走势预测',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/toutiao_icon.png')}
