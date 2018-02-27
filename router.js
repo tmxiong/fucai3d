@@ -20,6 +20,7 @@ import articleListPage from './views/home/articleListPage'
 import articleDetailPage from './views/home/articleDetailPage'
 import kaijiangDetailPage from './views/home/kaijiangDetailPage'
 import historyPage from './views/home/historyPage'
+import gameDetailPage from './views/game/gameDetailPage'
 const routers = StackNavigator({
     launch: {screen: launchPage},
     // 欢迎页 引导页
@@ -58,6 +59,8 @@ const routers = StackNavigator({
     // 福彩开奖详情
     KaijiangDetail: {screen: kaijiangDetailPage, navigationOptions: { header:null,}},
 
+
+    gameDetail: {screen: gameDetailPage, navigationOptions: { header:null,}},
 
     // 彩票网站web页面
     CPWebView: {screen:CPWebViewPage},

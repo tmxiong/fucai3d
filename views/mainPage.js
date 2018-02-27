@@ -10,7 +10,7 @@ import {TabNavigator} from "react-navigation";
 
 import HomePage from './home/homePage';
 import LotteryPage from './home/lotteryPage';
-import Game from './game/game'
+import Game from './game/gamePage'
 import MorePage from './more/morePage';
 import TrendPageMenu from './trend/trendMenuPage'
 import cfn from '../tools/commonFun'
