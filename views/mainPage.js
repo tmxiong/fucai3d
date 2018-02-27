@@ -10,9 +10,11 @@ import {TabNavigator} from "react-navigation";
 
 import HomePage from './home/homePage';
 import LotteryPage from './home/lotteryPage';
+import Game from './game/game'
 import MorePage from './more/morePage';
 import TrendPageMenu from './trend/trendMenuPage'
 import cfn from '../tools/commonFun'
+
 const navBar = {
     headerTitleStyle: {
         //alignSelf:'center',
@@ -39,7 +41,7 @@ const mainPage = TabNavigator({
         }
     },
 
-    Lottery: {
+    Trend: {
         screen: TrendPageMenu,
         navigationOptions: {
 
@@ -53,12 +55,12 @@ const mainPage = TabNavigator({
             header:null,
         }
     },
-    More: {
-        screen: MorePage,
+    Lottery: {
+        screen: LotteryPage,
         //以下参数也可放置在MinePage.js页面
         navigationOptions: {
 
-            tabBarLabel: '更多',
+            tabBarLabel: '开奖大厅',
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={require('../imgs/mine_icon.png')}
@@ -69,6 +71,22 @@ const mainPage = TabNavigator({
 
         }
     },
+    Game: {
+        screen: Game,
+        //以下参数也可放置在MinePage.js页面
+        navigationOptions: {
+
+            tabBarLabel: '赛事',
+            tabBarIcon: ({ tintColor }) => (
+                <Image
+                    source={require('../imgs/mine_icon.png')}
+                    style={[styles.icon,{tintColor: tintColor} ]}
+                />
+            ),
+            header:null,
+
+        }
+    }
 }, {
     animationEnabled: true, // 切换页面时不显示动画
     tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
@@ -80,7 +98,7 @@ const mainPage = TabNavigator({
         showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
         indicatorStyle: {height: 0}, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
         style: {
-            backgroundColor: '#eee', // TabBar 背景色
+            backgroundColor: '#fff', // TabBar 背景色
             height:cfn.picHeight(100)
         },
         labelStyle: {

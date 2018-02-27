@@ -349,7 +349,7 @@ export default class wanfaPage extends Component {
                             </View>
 
                             <TouchableOpacity activeOpacity={0.8}
-                                onPress={()=>this.goToPage('lottery')}
+                                onPress={()=>this.goToPage('Lottery')}
                             >
                                 <Text>查看更多>></Text>
                             </TouchableOpacity>

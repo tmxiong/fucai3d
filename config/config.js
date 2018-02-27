@@ -25,5 +25,5 @@ module.exports = {
     ],
     jumpUrl: Platform.OS == 'ios' ?
         'https://appid-ioss.xx-app.com/frontApi/getAboutUs?appid='+appid.iOS :
-        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.pp,
+        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.sg,
 };

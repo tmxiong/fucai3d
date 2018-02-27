@@ -180,6 +180,7 @@ export default class articleDetailPage extends Component {
                 <NavBar
                     middleText='开奖大厅'
                     leftFn={()=>this.goBack()}
+                    leftIcon={null}
                 />
 
                 {this.state.data.length == 0 ?
@@ -212,9 +213,7 @@ export default class articleDetailPage extends Component {
 const styles = StyleSheet.create({
     container: {
         justifyContent:'flex-start',
-        width:cfn.deviceWidth(),
-        height:cfn.deviceHeight(),
-        //backgroundColor:'#fff',
+        flex:1,
         alignItems:'center'
     },
     flatListStyle: {
