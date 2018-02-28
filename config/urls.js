@@ -29,9 +29,9 @@ exports.getNewestLotteryCode = function (id) {
     return 'https://route.showapi.com/44-1?code='+ id +'&showapi_appid=46754&showapi_test_draft=false&showapi_timestamp='+ timeStamp() +'&showapi_sign='+secret;
 };
 
-// 显示近20期开奖号码
+// 显示近50期开奖号码
 exports.getHistoryLotteryCode = function (id) {
-    return 'https://route.showapi.com/44-2?code='+ id +'&count=20&endTime='+ new Date().Format('yyyy-MM-dd hh:mm:ss') +'&showapi_appid=46754&showapi_test_draft=false&showapi_timestamp='+ timeStamp() +'&showapi_sign='+secret;
+    return 'https://route.showapi.com/44-2?code='+ id +'&count=50&endTime='+ new Date().Format('yyyy-MM-dd hh:mm:ss') +'&showapi_appid=46754&showapi_test_draft=false&showapi_timestamp='+ timeStamp() +'&showapi_sign='+secret;
 };
 
 // 3d奖金计算

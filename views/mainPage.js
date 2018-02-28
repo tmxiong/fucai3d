@@ -79,7 +79,7 @@ const mainPage = TabNavigator({
             tabBarLabel: '赛事',
             tabBarIcon: ({ tintColor }) => (
                 <Image
-                    source={require('../imgs/mine_icon.png')}
+                    source={require('../imgs/game_icon.png')}
                     style={[styles.icon,{tintColor: tintColor} ]}
                 />
             ),
