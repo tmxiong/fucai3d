@@ -139,7 +139,15 @@ export default class wanfaPage extends Component {
 
             </View>
             <TouchableOpacity activeOpacity={0.8}
-                              onPress={()=>this.goToPage('KaijiangDetail',{FCData:this.state.allFCData.items[0]})}
+                              onPress={()=>{
+                                  try{
+                                      let data = this.state.allFCData.items[0];
+                                      return this.goToPage('KaijiangDetail',{FCData:data})
+                                  }catch(e) {
+                                      return Alert.alert('提示:',"暂无数据,请下拉刷新重试!");
+                                  }
+
+                              }}
                               style={{flexDirection:'row',alignItems:'center'}}>
                 <View>
                     <Text style={styles.banner_code_title}>开奖号:</Text>
@@ -191,7 +199,15 @@ export default class wanfaPage extends Component {
 
             </View>
             <TouchableOpacity activeOpacity={0.8}
-                              onPress={()=>this.goToPage('KaijiangDetail',{FCData:this.state.allFCData.items[1]})}
+                              onPress={()=>{
+                                  try{
+                                      let data = this.state.allFCData.items[1];
+                                      return this.goToPage('KaijiangDetail',{FCData:data})
+                                  }catch(e) {
+                                      return Alert.alert('提示:',"暂无数据,请下拉刷新重试!");
+                                  }
+
+                              }}
                               style={{flexDirection:'row',alignItems:'center'}}>
                 <View>
                     <Text style={styles.banner_code_title}>开奖号:</Text>

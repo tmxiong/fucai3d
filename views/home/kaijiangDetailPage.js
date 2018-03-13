@@ -7,7 +7,8 @@ import {
     Image,
     WebView,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 
@@ -27,8 +28,13 @@ export default class articleDetailPage extends Component {
         super(props);
         this.state={
 
+        };
+        try{
+            this.FCData = props.navigation.state.params.FCData;
+        }catch(e) {
+            Alert.alert('提示:',"暂无数据");
         }
-        this.FCData = props.navigation.state.params.FCData;
+
     }
 
     goBack() {

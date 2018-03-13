@@ -14,7 +14,7 @@ var appid = {
 };
 module.exports = {
 
-    appName: '福彩3D',
+    appName: '福彩3D开奖助手',
     baseColor:'#d81e06',
     myCheck: 'http://aite.ngrok.cc',
     launchImg:require('../imgs/launch/launch.png'),
@@ -25,5 +25,5 @@ module.exports = {
     ],
     jumpUrl: Platform.OS == 'ios' ?
         'https://appid-ioss.xx-app.com/frontApi/getAboutUs?appid='+appid.iOS :
-        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.sg,
+        'https://appid-apkk.xx-app.com/frontApi/getAboutUs?appid='+appid.xm,
 };
